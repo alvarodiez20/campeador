@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>El Cid — Crónicas de la Reconquista</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Estrategia en tiempo real ambientada en la Hispania del siglo XI: la vida del Cid Campeador.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232b1d12'/><path d='M16 4l9 3v9c0 6-4 10-9 12-5-2-9-6-9-12V7z' fill='%23b3312a'/><path d='M16 8.5v13M11.2 13.5h9.6' stroke='%23f0e0bb' stroke-width='2.6' stroke-linecap='round'/></svg>">
+<meta name="theme-color" content="#2b1d12">
+<meta property="og:type" content="website">
+<meta property="og:title" content="El Cid — Crónicas de la Reconquista">
+<meta property="og:description" content="Estrategia en tiempo real isométrica en la Hispania del siglo XI. Seis reinos, campaña histórica y escaramuzas. Sin instalación: juega en el navegador.">
+<meta property="og:url" content="https://alvarodiez20.github.io/campeador/">
+<meta property="og:image" content="https://alvarodiez20.github.io/campeador/assets/captura-partida.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="game"></canvas>
+<div id="ui">
+  <div id="top">
+    <div class="res food" title="Comida (aldeanos recolectando)"><i></i><span id="rFood">0</span><small id="wFood"></small></div>
+    <div class="res wood" title="Madera"><i></i><span id="rWood">0</span><small id="wWood"></small></div>
+    <div class="res stone" title="Piedra"><i></i><span id="rStone">0</span><small id="wStone"></small></div>
+    <div class="res gold" title="Oro"><i></i><span id="rGold">0</span><small id="wGold"></small></div>
+    <div id="pop" title="Población / límite">0 / 0</div>
+    <span id="civTag"></span>
+    <div id="age">Época de las Aldeas</div>
+    <div id="clock">00:00</div>
+    <button class="tbtn" id="btnBell" title="Campana del pueblo: guarnece a todos los aldeanos (Ctrl+B)">Campana</button>
+    <button class="tbtn" id="btnSpeed" title="Velocidad (F)">1×</button>
+    <button class="tbtn" id="btnPause" title="Pausa (P)">Pausa</button>
+    <button class="tbtn" id="btnMenu" title="Menú (Esc)">Menú</button>
+  </div>
+  <div id="players"></div>
+  <div id="hint"></div>
+  <div id="wonderBar"></div>
+  <div id="objectives"><h4><span>Objetivos</span><span id="objToggle">–</span></h4><div id="objList"></div></div>
+  <div id="log"></div>
+  <div id="tip"></div>
+  <div id="bottom">
+    <div id="minimapWrap">
+      <canvas id="minimap" width="188" height="140"></canvas>
+      <div class="mmbtns">
+        <button class="tbtn" id="btnIdle" title="Aldeano ocioso (.)">Ocioso</button>
+        <button class="tbtn" id="btnHome" title="Centro urbano (H)">Centro</button>
+        <button class="tbtn" id="btnArmy" title="Seleccionar ejército (Ctrl+A)">Ejército</button>
+      </div>
+    </div>
+    <div id="selinfo"></div>
+    <div id="cmds"></div>
+  </div>
+</div>
+
+<!-- Menú principal -->
+<div class="overlay show" id="mainOv">
+  <div class="card narrow">
+    <h1>El Cid <small>Crónicas de la Reconquista · Estrategia en tiempo real</small></h1>
+    <p>Hispania, siglo XI. Cinco reinos cristianos y una docena de taifas se disputan la península mientras los almorávides cruzan el Estrecho. Funda tu villa, recolecta, avanza por cuatro épocas y levanta una hueste. Seis reinos jugables, una campaña con la vida de Rodrigo Díaz de Vivar y escaramuzas contra hasta tres rivales.</p>
+    <div class="menu">
+      <button id="mCampaign">Campaña: la vida del Cid<small>Seis misiones históricas, de Graus (1063) a Cuarte (1094), con la historia real de España entre ellas</small></button>
+      <button id="mSkirmish">Escaramuza<small>Partida libre: elige reino, mapa, rivales y equipos</small></button>
+      <button id="mContinue" class="hidden">Continuar partida guardada<small id="mContinueInfo"></small></button>
+      <button id="mOptions">Opciones y controles<small>Sonido, desplazamiento, barras de vida, atajos de teclado</small></button>
+      <button id="mCodex">Códice<small>Reinos, unidades, edificios, tecnologías y un poco de historia</small></button>
+    </div>
+    <p id="recordLine" style="font-size:12px;margin-top:14px"></p>
+  </div>
+</div>
+
+<!-- Escaramuza -->
+<div class="overlay" id="skirmOv">
+  <div class="card">
+    <h1>Escaramuza <small>Configura la partida</small></h1>
+    <h2>Tu reino</h2>
+    <div class="civcard" id="civOpts"></div>
+    <h2>Rivales</h2>
+    <div class="opts" id="rivOpts"><div class="opt on" data-v="1">1 rival</div><div class="opt" data-v="2">2 rivales</div><div class="opt" data-v="3">3 rivales</div><div class="opt" data-v="2v2">2 contra 2 <small>con un aliado IA</small></div></div>
+    <h2>Dificultad de la IA</h2>
+    <div class="opts" id="diffOpts"><div class="opt" data-v="0">Fácil</div><div class="opt on" data-v="1">Normal</div><div class="opt" data-v="2">Difícil</div><div class="opt" data-v="3">Brutal</div></div>
+    <h2>Mapa</h2>
+    <div class="opts" id="mapOpts"><div class="opt on" data-v="praderas">Praderas<small>Abierto y equilibrado</small></div><div class="opt" data-v="bosque">Bosque negro<small>Densos bosques y pasos estrechos</small></div><div class="opt" data-v="oasis">Oasis<small>Lago central rico en oro</small></div><div class="opt" data-v="rios">Ríos<small>Ríos con vados</small></div><div class="opt" data-v="fortaleza">Fortaleza<small>Empiezas amurallado</small></div></div>
+    <div class="opts" id="sizeOpts" style="margin-top:6px"><div class="opt" data-v="60">Pequeño</div><div class="opt on" data-v="80">Mediano</div><div class="opt" data-v="104">Grande</div></div>
+    <h2>Inicio</h2>
+    <div class="opts" id="startOpts"><div class="opt on" data-v="0">Normal<small>Época de las Aldeas, recursos básicos</small></div><div class="opt" data-v="1">Rico<small>Época de los Condados, muchos recursos</small></div><div class="opt" data-v="2">Reinos<small>Todo desbloqueado</small></div></div>
+    <button class="big" id="btnStartSkirm">Empezar</button><button class="big sec" id="btnBackSkirm">Volver</button>
+  </div>
+</div>
+
+<!-- Campaña -->
+<div class="overlay" id="campOv">
+  <div class="card">
+    <h1>La vida del Cid <small>Campaña histórica · 1063–1094</small></h1>
+    <p>Rodrigo Díaz nació hacia 1045 en Vivar, cerca de Burgos, y murió en Valencia en 1099. Fue alférez del rey Sancho II, desterrado por Alfonso VI, capitán al servicio de la taifa de Zaragoza, vencedor de condes y emires y, al final, señor de Valencia. Los musulmanes lo llamaron <i>sidi</i>, «mi señor»; los cristianos, Campeador, «el que vence en el campo». Seis misiones siguen sus pasos, y cada una explica la Hispania de su tiempo.</p>
+    <div class="missions" id="missionList"></div>
+    <button class="big sec" id="btnBackCamp" style="margin-left:0">Volver</button>
+    <button class="big sec" id="btnResetCamp" title="Borra el progreso de la campaña">Reiniciar progreso</button>
+  </div>
+</div>
+
+<!-- Briefing -->
+<div class="overlay" id="briefOv">
+  <div class="card">
+    <h1 id="briefTitle">Misión</h1>
+    <div class="brief" id="briefText"></div>
+    <h2>Lo que cuentan las crónicas</h2>
+    <p id="briefHistory" style="font-size:13px"></p>
+    <h2>Objetivos</h2>
+    <ul class="oblist" id="briefObj"></ul>
+    <button class="big" id="btnStartMission">Comenzar</button><button class="big sec" id="btnBackBrief">Volver</button>
+  </div>
+</div>
+
+<!-- Opciones -->
+<div class="overlay" id="optOv">
+  <div class="card">
+    <h1>Opciones <small>y controles</small></h1>
+    <div class="slider">Volumen de efectos <input type="range" id="optVol" min="0" max="100" value="60"><span id="optVolV">60%</span></div>
+    <div class="slider">Música ambiental <input type="range" id="optMusic" min="0" max="100" value="35"><span id="optMusicV">35%</span></div>
+    <div class="opts" style="margin-top:8px"><div class="opt on" data-k="edge">Desplazar con el borde de la pantalla</div><div class="opt" data-k="hp">Mostrar siempre las barras de vida</div><div class="opt on" data-k="flee">Los aldeanos huyen al ser atacados</div><div class="opt" data-k="grid">Mostrar cuadrícula</div></div>
+    <h2>Controles</h2>
+    <div class="keys">
+      <b>Clic izq.</b><span>Seleccionar · arrastrar para seleccionar en grupo · doble clic selecciona todos del mismo tipo en pantalla</span>
+      <b>Clic der.</b><span>Mover / recolectar / construir / atacar / reparar / guarnecer / curar / convertir según el objetivo</span>
+      <b>Shift</b><span>Añadir a la selección · encolar órdenes · encolar 5 unidades · colocar varios edificios</span>
+      <b>Flechas / borde / botón central</b><span>Desplazar la cámara · rueda del ratón para zoom · minimapa para saltar</span>
+      <b>A · S · Supr</b><span>Atacar-mover · detener · eliminar unidad</span>
+      <b>Z · X</b><span>Patrullar · vigilar (seguir y proteger a una unidad o edificio)</span>
+      <b>G · V</b><span>Guarnecer en el edificio bajo el cursor · desalojar el edificio seleccionado</span>
+      <b>Q · W · E</b><span>Postura agresiva · defensiva · no moverse</span>
+      <b>H · . · Ctrl+A</b><span>Centrar en el Centro urbano · aldeano ocioso · seleccionar todo el ejército</span>
+      <b>Ctrl+1..9 / 1..9</b><span>Crear grupo de control / seleccionar grupo (dos veces: centrar)</span>
+      <b>Ctrl+B · Espacio</b><span>Campana del pueblo · ir al último aviso</span>
+      <b>P · F · M · F1 · Esc</b><span>Pausa · velocidad · silencio · ayuda · cancelar / menú</span>
+    </div>
+    <button class="big" id="btnBackOpt">Volver</button>
+  </div>
+</div>
+
+<!-- Códice -->
+<div class="overlay" id="codexOv">
+  <div class="card">
+    <h1>Códice <small>Referencia</small></h1>
+    <div id="codexBody"></div>
+    <button class="big" id="btnBackCodex">Volver</button>
+  </div>
+</div>
+
+<!-- Pausa -->
+<div class="overlay" id="pauseOv">
+  <div class="card narrow">
+    <h1>Pausa</h1>
+    <p id="pauseInfo"></p>
+    <div class="menu">
+      <button id="btnResume">Continuar</button>
+      <button id="btnSave2">Guardar partida</button>
+      <button id="btnOpt2">Opciones y controles</button>
+      <button id="btnQuit">Abandonar la partida</button>
+    </div>
+  </div>
+</div>
+
+<!-- Final -->
+<div class="overlay" id="endOv">
+  <div class="card">
+    <h1 id="endTitle">Victoria</h1>
+    <p id="endText"></p>
+    <div class="statgrid" id="endStats"></div>
+    <canvas class="chart" id="endChart" width="760" height="180"></canvas>
+    <div class="legend" id="endLegend"></div>
+    <button class="big" id="btnAgain">Volver al menú</button>
+    <button class="big sec hidden" id="btnNextMission">Siguiente misión</button>
+  </div>
+</div>
+
+
+<script src="js/data.js"></script>
+<script src="js/map.js"></script>
+<script src="js/entities.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/sprites.js"></script>
+<script src="js/render.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/campaign.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
