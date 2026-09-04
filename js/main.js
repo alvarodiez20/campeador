@@ -12,7 +12,9 @@ function frame(t) {
     while (acc >= step && n++ < 6) { simulate(step); acc -= step; }
     if (acc > step * 6) acc = 0;
   }
-  render();
+  const t0 = performance.now(); render(); const work = performance.now() - t0;
+  if (!G.paused && !G.over) { WARM.t -= dtReal; warmSprites(Math.max(0.4, 6 - work)); } // solo con el margen que sobre
+  adaptRes(work, dtReal * 1000);
   hudT -= dtReal; if (hudT <= 0) { hudT = 0.2; updateHud(); }
 }
 function showOverlay(id, keepPause) { $('#' + id).classList.add('show'); }
@@ -153,7 +155,7 @@ function showMain() {
   $('#mContinue').classList.toggle('hidden', !has);
   if (has) { try { const d = JSON.parse(has); $('#mContinueInfo').textContent = `${d.mission !== null && d.mission !== undefined ? MISSIONS[d.mission.index].title : 'Escaramuza'} · ${fmtTime(d.time)} · ${AGES[d.players[0].age]}`; } catch (e) {} }
   try { const rec = JSON.parse(localStorage.getItem('edad-reinos-record') || '{"wins":0,"games":0,"best":0}'); const prog = campaignProgress(); $('#recordLine').textContent = `Partidas: ${rec.games} · Victorias: ${rec.wins} · Mejor puntuación: ${rec.best} · Misiones completadas: ${prog.done.length}/${MISSIONS.length}`; } catch (e) {}
-  ctx.fillStyle = '#0f1418'; ctx.fillRect(0, 0, cv.width, cv.height);
+  ctx.fillStyle = '#0f1418'; ctx.fillRect(0, 0, VW, VH);
 }
 function renderCodex() {
   const el = $('#codexBody');

@@ -131,32 +131,56 @@ function constructionSprite(type, civ, stage) {
 }
 // ------------------------------------------------------------ unidades
 const RES_COL = {food: '#e07a4f', wood: '#8fbf5a', stone: '#b8b8c0', gold: '#f0c94a'};
-// El arte pintado tiene vista frontal y de perfil; la animación (paso, golpe) la aplica render.js
-// como desplazamiento al dibujar, para no regenerar un sprite por fotograma.
+// ------------------------------------------------------------ poses de animación
+// El arte no trae fotogramas: se le pasa una pose y genera ese instante. Los fotogramas se
+// canonizan (en un ciclo de paso, el 0 y el 2 son la misma pose) para no llenar la caché.
+const RANGED = {bow: 1, crossbow: 1}, THRUST = {spear: 1, lance: 1, halberd: 1};
+function poseOf(anim, frame, type) {
+  const w = (ART.USTYLE[type] || {}).weapon;
+  if (anim === 'walk') {
+    const ph = [0, 1, 0, 2][frame & 3], d = ph === 0 ? 0 : ph === 1 ? 4.2 : -4.2;
+    return {k: 'w' + ph, leg: [d, -d], lift: ph ? 1.6 : 0, bob: ph ? 0 : -1.8, sw: d * 0.05, h: d, hb: ph ? 0 : -1.6};
+  }
+  // Signo del giro (medido, no deducido): negativo lleva el arma al frente, positivo la carga atrás.
+  if (anim === 'work') { // recolectar, construir, reparar: alza la herramienta y descarga el golpe
+    const ph = [0, 1, 2, 1][frame & 3], sw = [1.3, 0.2, -1.3][ph];
+    return {k: 'k' + ph, leg: [-1.2, 1.2], sw, bob: [-0.9, 0, 1.3][ph], wx: [-0.5, 0, 1.2][ph], lean: [-0.8, 0, 2.4][ph]};
+  }
+  if (anim === 'attack') { // el fotograma 0 es el impacto; el 2, el arma ya cargada para el siguiente
+    const ph = frame % 3;
+    // de tajo gira sobre el hombro; de asta va calada y estoca; a distancia tensa y suelta
+    const sw = THRUST[w] ? [-1.55, -1.3, -1.05][ph] : RANGED[w] ? [-0.2, 0, 0.25][ph] : [-1.4, 0, 1.2][ph];
+    const wx = THRUST[w] ? [3, 0.5, -1.5][ph] : RANGED[w] ? [2.5, 0.5, -2][ph] : [1, 0, -0.5][ph];
+    return {k: 'a' + ph, leg: [-1.6, 1.6], sw, wx, bob: [0.9, 0, -0.8][ph], lean: [3, 1, -1.5][ph], h: [2, 0, -2][ph], hb: [0.6, 0, -0.8][ph]};
+  }
+  return {k: 'i'};
+}
+
+// El arte pintado tiene vista frontal y de perfil; la pose de cada fotograma se genera aparte
 function unitSprite(u, civStyle, facing, anim, frame, carry) {
   const colIdx = P(u.owner).id, civ = civKeyOf(u.owner);
-  const side = facing === 1 || facing === 3, mirror = facing === 3;
-  const res = carry || '';
-  const key = 'u' + u.type + ':' + civ + ':' + colIdx + ':' + (anim === 'dead' ? 'd' : side ? 's' : 'f') + (mirror ? 'm' : '') + ':' + res + (u.relic ? ':r' : '');
+  // El oeste es el este espejado: se espeja al dibujar (render.js), no se guarda otro lienzo.
+  const side = facing === 1 || facing === 3;
+  const res = carry || '', pose = anim === 'dead' ? {k: 'd'} : poseOf(anim, frame, u.type);
+  const key = 'u' + u.type + ':' + civ + ':' + colIdx + ':' + (anim === 'dead' ? 'd' : side ? 's' : 'f') + ':' + pose.k + ':' + res + (u.relic ? ':r' : '');
   if (SPR.cache.has(key)) return SPR.cache.get(key);
-  const base = ART.unitSprite(u.type, civ, colIdx, anim === 'dead' ? true : side);
+  const base = ART.unitSprite(u.type, civ, colIdx, anim === 'dead' ? true : side, anim === 'dead' ? null : pose);
   let sp;
   if (anim === 'dead') { // el caído se tumba sobre el sprite de perfil
     const [c, x] = mkCanvas(64, 80);
     x.translate(30, 73); x.rotate(-1.28); x.globalAlpha = 0.92; x.drawImage(base.c, -32, -76, 64, 80);
     sp = {c, ax: 32, ay: 76};
-  } else if (!mirror && !res && !u.relic) { sp = base; }
+  } else if (!res && !u.relic) { sp = base; }
   else {
     const [c, x] = mkCanvas(64, 80);
-    if (mirror) { x.translate(64, 0); x.scale(-1, 1); }
     x.drawImage(base.c, 0, 0, 64, 80);
-    if (mirror) { x.scale(-1, 1); x.translate(-64, 0); }
     const mounted = !!(ART.USTYLE[u.type] || {}).mounted;
-    if (res && !mounted) { const px = side ? (mirror ? 21 : 37) : 38, py = 54; // fardo al hombro
+    if (res && !mounted) { const px = side ? 37 : 38, py = 54 + (pose.bob || 0); // fardo al hombro
       x.fillStyle = RES_COL[res]; x.fillRect(px, py, 7, 6); x.strokeStyle = 'rgba(30,15,5,.7)'; x.lineWidth = 0.8; x.strokeRect(px, py, 7, 6); x.fillStyle = 'rgba(255,255,255,.25)'; x.fillRect(px + 0.8, py + 0.8, 5.4, 1.6); }
     if (u.relic) { x.fillStyle = '#c9a23a'; x.fillRect(24, 46, 7, 10); x.fillStyle = '#f0d060'; x.fillRect(25.2, 47.2, 4.6, 7.6); x.fillStyle = '#fff'; x.fillRect(27.2, 48.4, 1.2, 6); x.fillRect(25.6, 50.6, 4.4, 1.2); }
     sp = {c, ax: 32, ay: 76};
   }
+  sp.lean = pose.lean || 0;
   SPR.cache.set(key, sp); return sp;
 }
 function iconCanvas(kind, id, colIdx, size = 40) {
@@ -182,3 +206,44 @@ function iconCanvas(kind, id, colIdx, size = 40) {
   x.strokeStyle = 'rgba(0,0,0,.4)'; x.lineWidth = 1; x.strokeRect(2.5, 2.5, size - 5, size - 5);
   SPR.cache.set(key, c); return c;
 }
+
+// ------------------------------------------------------------ marco de panel (nine-slice)
+// Un borde de piedra con clavos de latón: las esquinas quedan fijas y los lados se repiten,
+// así el marco no se deforma por grande o pequeño que sea el panel. Se genera una vez y se
+// entrega a la hoja de estilos como variable CSS.
+function panelFrameUri(S = 96, cut = 30) {
+  const [c, x] = ART.mk(S, S); const band = cut; // la banda de piedra ocupa justo el trozo que se recorta
+  const r = srng(91), STONE = '#4a4038';
+  const bands = [[0, 0, S, band], [0, S - band, S, band], [0, 0, band, S], [S - band, 0, band, S]];
+  for (let i = 0; i < 4; i++) { const [bx, by, bw, bh] = bands[i];
+    const vert = i > 1;
+    const g = x.createLinearGradient(bx, by, bx + (vert ? bw : 0), by + (vert ? 0 : bh));
+    g.addColorStop(0, ART.shade(STONE, 0.32)); g.addColorStop(0.55, STONE); g.addColorStop(1, ART.shade(STONE, -0.34));
+    x.fillStyle = g; x.fillRect(bx, by, bw, bh);
+    for (let k = 0; k < 320; k++) { x.globalAlpha = 0.28 + r() * 0.32; x.fillStyle = ART.shade(STONE, (r() - 0.5) * 0.5); x.fillRect(bx + r() * bw, by + r() * bh, 1 + r() * 3, 1); }
+    x.globalAlpha = 1;
+  }
+  // despiece de sillares: solo en el tramo que se repite, para que las esquinas queden limpias
+  x.strokeStyle = 'rgba(16,10,4,.55)'; x.lineWidth = 1.2;
+  for (let d = cut + 6; d < S - cut; d += 12) { x.beginPath(); x.moveTo(d, 0); x.lineTo(d, band); x.moveTo(d, S - band); x.lineTo(d, S); x.moveTo(0, d); x.lineTo(band, d); x.moveTo(S - band, d); x.lineTo(S, d); x.stroke(); }
+  x.strokeStyle = 'rgba(255,246,225,.14)'; x.lineWidth = 0.8;
+  for (let d = cut + 6; d < S - cut; d += 12) { x.beginPath(); x.moveTo(d + 1.2, 0); x.lineTo(d + 1.2, band); x.moveTo(d + 1.2, S - band); x.lineTo(d + 1.2, S); x.moveTo(0, d + 1.2); x.lineTo(band, d + 1.2); x.moveTo(S - band, d + 1.2); x.lineTo(S, d + 1.2); x.stroke(); }
+  // filetes: negro fuera, latón dentro
+  x.strokeStyle = '#0a0806'; x.lineWidth = 3.5; x.strokeRect(1.75, 1.75, S - 3.5, S - 3.5);
+  x.strokeStyle = 'rgba(255,246,225,.18)'; x.lineWidth = 1; x.strokeRect(4, 4, S - 8, S - 8);
+  x.strokeStyle = '#c8a24a'; x.lineWidth = 3; x.strokeRect(band - 2.5, band - 2.5, S - band * 2 + 5, S - band * 2 + 5);
+  x.strokeStyle = 'rgba(0,0,0,.6)'; x.lineWidth = 1.6; x.strokeRect(band - 0.2, band - 0.2, S - band * 2 + 0.4, S - band * 2 + 0.4);
+  // clavos de latón en las cuatro esquinas
+  const nail = (px, py) => { const bg = x.createRadialGradient(px - 1.6, py - 1.6, 0.4, px, py, 6);
+    bg.addColorStop(0, '#f8e8b8'); bg.addColorStop(0.5, '#c8a24a'); bg.addColorStop(1, '#4f3a12');
+    x.fillStyle = bg; x.beginPath(); x.arc(px, py, 5.4, 0, 7); x.fill();
+    x.strokeStyle = 'rgba(8,6,3,.8)'; x.lineWidth = 1.2; x.stroke(); ART.dab(x, px - 1.6, py - 1.8, 1.1, '#fff6dc', 0.55); };
+  const m = cut / 2;
+  nail(m, m); nail(S - m, m); nail(m, S - m); nail(S - m, S - m);
+  x.clearRect(band, band, S - band * 2, S - band * 2); // el centro lo pone el propio panel
+  return c.toDataURL();
+}
+try { const CUT = 30, root = document.documentElement;
+  root.style.setProperty('--frame', `url(${panelFrameUri(96, CUT)})`);
+  root.style.setProperty('--frame-cut', String(CUT * ART.S)); // el lienzo va supermuestreado: el corte va en px de imagen
+} catch (e) {}

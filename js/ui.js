@@ -234,14 +234,14 @@ cv.addEventListener('mousemove', e => {
   const M = UI.mouse; M.x = e.clientX; M.y = e.clientY; M.in = true;
   if (M.down && !M.drag && Math.hypot(M.x - M.sx, M.y - M.sy) > 5) M.drag = true;
   if (M.down && M.btn === 1 && M.pan) { UI.cam.x = M.pan.x - (M.x - M.sx) / UI.cam.z; UI.cam.y = M.pan.y - (M.y - M.sy) / UI.cam.z; clampCam(); }
-  if (G && !G.over) { const w = screenToWorld(M.x, M.y); UI.hover = M.y > TOP_H && M.y < cv.height - PANEL_H ? entityAt(w.x, w.y) : null; }
+  if (G && !G.over) { const w = screenToWorld(M.x, M.y); UI.hover = M.y > TOP_H && M.y < VH - PANEL_H ? entityAt(w.x, w.y) : null; }
 });
 cv.addEventListener('mouseleave', () => { UI.mouse.in = false; });
 addEventListener('mouseup', e => {
   const M = UI.mouse; if (!M.down) return; M.down = false;
   if (!G || G.over) return;
   if (M.btn === 1) { M.pan = null; return; }
-  if (e.clientY < TOP_H || e.clientY > cv.height - PANEL_H) { M.drag = false; return; }
+  if (e.clientY < TOP_H || e.clientY > VH - PANEL_H) { M.drag = false; return; }
   const w = screenToWorld(e.clientX, e.clientY);
   if (M.btn === 2) { if (UI.placing || UI.mode) { UI.placing = null; UI.mode = null; UI.wallDrag = null; hint(''); refreshPanel(); return; } contextOrder(w.x, w.y, e.shiftKey); return; }
   if (UI.placing) { placeBuilding(e.shiftKey); return; }
@@ -312,7 +312,7 @@ function updateCamera(dt) {
   const spd = 800 / UI.cam.z * dt; const K = UI.keys; const M = UI.mouse;
   let dx = 0, dy = 0;
   if (K['arrowleft']) dx -= 1; if (K['arrowright']) dx += 1; if (K['arrowup']) dy -= 1; if (K['arrowdown']) dy += 1;
-  if (OPTS.edge && M.in && document.hasFocus() && !M.down && !anyOverlay()) { const E = 14; if (M.x < E) dx -= 1; if (M.x > cv.width - E) dx += 1; if (M.y < TOP_H + E && M.y > TOP_H) dy -= 1; if (M.y > cv.height - PANEL_H - E && M.y < cv.height - PANEL_H) dy += 1; }
+  if (OPTS.edge && M.in && document.hasFocus() && !M.down && !anyOverlay()) { const E = 14; if (M.x < E) dx -= 1; if (M.x > VW - E) dx += 1; if (M.y < TOP_H + E && M.y > TOP_H) dy -= 1; if (M.y > VH - PANEL_H - E && M.y < VH - PANEL_H) dy += 1; }
   if (dx || dy) { UI.cam.x += dx * spd; UI.cam.y += dy * spd * 0.6; clampCam(); }
 }
 // ------------------------------------------------------------ HUD
