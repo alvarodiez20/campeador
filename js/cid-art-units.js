@@ -30,8 +30,8 @@ function shield(x, kind, cx, cy, pcol, s, side) {
   else if (kind === 'pavise') { x.fillStyle = g; x.fillRect(cx - 4.5, cy - 7, 9, 15); x.strokeStyle = 'rgba(30,15,5,.75)'; x.lineWidth = 1; x.strokeRect(cx - 4.5, cy - 7, 9, 15); x.fillStyle = s.trim; x.fillRect(cx - 1, cy - 7, 2, 15); }
   else { x.fillStyle = g; x.beginPath(); x.ellipse(cx, cy, 5.5, 6.5, 0, 0, 7); x.fill(); x.strokeStyle = 'rgba(30,15,5,.75)'; x.lineWidth = 1; x.stroke(); x.strokeStyle = '#6a6a72'; x.lineWidth = 1.1; x.beginPath(); x.ellipse(cx, cy, 4.6, 5.6, 0, 0, 7); x.stroke(); for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2; dab(x, cx + Math.cos(a) * 4.6, cy + Math.sin(a) * 5.6, 0.5, '#d8dce4'); } shieldDevice(x, cx, cy, 4, s.device, s.trim); const bg = x.createRadialGradient(cx - 0.5, cy - 0.5, 0, cx, cy, 2); bg.addColorStop(0, '#f0f0f4'); bg.addColorStop(1, '#5a5a62'); x.fillStyle = bg; x.beginPath(); x.arc(cx, cy, 1.8, 0, 7); x.fill(); }
 }
-function weapon(x, w, px, py, side, pcol, s) {
-  x.save(); x.translate(px, py); x.rotate(side ? -0.2 : 0);
+function weapon(x, w, px, py, side, pcol, s, rot) {
+  x.save(); x.translate(px, py); x.rotate((side ? -0.2 : 0) + (rot || 0));
   const steel = (a, b, wd) => { line(x, a, b, 'rgba(20,20,30,.8)', wd + 1.2); line(x, a, b, '#c9cdd6', wd); line(x, [a[0] - 0.4, a[1]], [b[0] - 0.4, b[1]], '#f4f6fa', wd * 0.3); };
   const wood = (a, b, wd) => { line(x, a, b, 'rgba(30,15,5,.8)', wd + 1.2); line(x, a, b, '#8a6a3a', wd); line(x, [a[0] - 0.3, a[1]], [b[0] - 0.3, b[1]], '#c9a66a', wd * 0.3); };
   switch (w) {
@@ -46,18 +46,19 @@ function weapon(x, w, px, py, side, pcol, s) {
   }
   x.restore();
 }
-function horse(x, st, pcol, side, s) {
+function horse(x, st, pcol, side, s, an) {
+  const A = an || {}, gt = A.h || 0, hb = A.hb || 0; // gt: galope, hb: vaivén del lomo
   const col = st.horse, dark = shade(col, -0.35), lit = shade(col, 0.18); const tack = st.hero ? '#c8a24a' : '#4a2e18';
   if (side) {
     // patas traseras
-    limb(x, [-9, -9], [-12, -1], 3.2, dark); limb(x, [-5, -9], [-3, -1], 3.2, col); for (const [hx, hy] of [[-12, 0], [-3, 0]]) { x.fillStyle = '#1a1410'; x.beginPath(); x.ellipse(hx, hy, 2.2, 1.2, 0, 0, 7); x.fill(); }
+    limb(x, [-9, -9 + hb], [-12 + gt, -1], 3.2, dark); limb(x, [-5, -9 + hb], [-3 - gt, -1], 3.2, col); for (const [hx, hy] of [[-12 + gt, 0], [-3 - gt, 0]]) { x.fillStyle = '#1a1410'; x.beginPath(); x.ellipse(hx, hy, 2.2, 1.2, 0, 0, 7); x.fill(); }
     // cuerpo
-    const g = x.createRadialGradient(-2, -18, 2, 0, -14, 16); g.addColorStop(0, lit); g.addColorStop(0.65, col); g.addColorStop(1, dark); x.fillStyle = g; x.beginPath(); x.ellipse(0, -14, 15.5, 7.5, 0, 0, 7); x.fill(); x.strokeStyle = 'rgba(30,15,5,.75)'; x.lineWidth = 1; x.stroke();
+    const g = x.createRadialGradient(-2, -18, 2, 0, -14, 16); g.addColorStop(0, lit); g.addColorStop(0.65, col); g.addColorStop(1, dark); x.fillStyle = g; x.beginPath(); x.ellipse(0, -14 + hb, 15.5, 7.5, 0, 0, 7); x.fill(); x.strokeStyle = 'rgba(30,15,5,.75)'; x.lineWidth = 1; x.stroke();
     x.fillStyle = 'rgba(0,0,0,.18)'; x.beginPath(); x.ellipse(0, -10, 13, 3.5, 0, 0, Math.PI); x.fill();
     // cola
     x.strokeStyle = dark; x.lineWidth = 2.6; x.beginPath(); x.moveTo(-14, -16); x.quadraticCurveTo(-20, -10, -18, -1); x.stroke(); x.strokeStyle = shade(col, -0.1); x.lineWidth = 0.8; x.beginPath(); x.moveTo(-14.5, -15); x.quadraticCurveTo(-19, -10, -17.5, -3); x.moveTo(-15, -14); x.quadraticCurveTo(-21, -8, -19, -1); x.stroke();
     // patas delanteras
-    limb(x, [7, -9], [5, -1], 3.2, dark); limb(x, [11, -9], [13, -1], 3.2, col); for (const [hx, hy] of [[5, 0], [13, 0]]) { x.fillStyle = '#1a1410'; x.beginPath(); x.ellipse(hx, hy, 2.2, 1.2, 0, 0, 7); x.fill(); }
+    limb(x, [7, -9 + hb], [5 - gt, -1], 3.2, dark); limb(x, [11, -9 + hb], [13 + gt, -1], 3.2, col); for (const [hx, hy] of [[5 - gt, 0], [13 + gt, 0]]) { x.fillStyle = '#1a1410'; x.beginPath(); x.ellipse(hx, hy, 2.2, 1.2, 0, 0, 7); x.fill(); }
     // cuello y cabeza
     x.fillStyle = col; path(x, [[9, -18], [18, -28], [23, -21], [17, -11]]); x.fill(); outline(x, [[9, -18], [18, -28], [23, -21], [17, -11]], 0.7); x.fillStyle = shade(col, -0.15); path(x, [[13, -20], [18, -27], [21, -22], [17, -14]]); x.fill();
     const hg = x.createLinearGradient(18, -28, 26, -20); hg.addColorStop(0, lit); hg.addColorStop(1, dark); x.fillStyle = hg; x.beginPath(); x.ellipse(23, -24, 6.5, 4, 0.45, 0, 7); x.fill(); x.strokeStyle = 'rgba(30,15,5,.75)'; x.lineWidth = 0.9; x.stroke();
@@ -72,7 +73,7 @@ function horse(x, st, pcol, side, s) {
     x.fillStyle = '#4a2e18'; path(x, [[-6, -21], [5, -21], [5, -17], [-6, -17]]); x.fill(); outline(x, [[-6, -21], [5, -21], [5, -17], [-6, -17]], 0.6); line(x, [-6, -22.5], [-6, -19], '#3a2010', 2);
     line(x, [4, -17], [5.5, -8], tack, 0.8); x.fillStyle = '#6a6a72'; x.fillRect(4, -8.5, 3, 1.6);
   } else {
-    limb(x, [-6, -9], [-7, -1], 3.2, dark); limb(x, [6, -9], [7, -1], 3.2, col); for (const hx of [-7, 7]) { x.fillStyle = '#1a1410'; x.beginPath(); x.ellipse(hx, 0, 2.2, 1.1, 0, 0, 7); x.fill(); }
+    limb(x, [-6, -9 + hb], [-7, -1 + Math.abs(gt) * 0.2], 3.2, dark); limb(x, [6, -9 + hb], [7, -1 - Math.abs(gt) * 0.2], 3.2, col); for (const hx of [-7, 7]) { x.fillStyle = '#1a1410'; x.beginPath(); x.ellipse(hx, 0, 2.2, 1.1, 0, 0, 7); x.fill(); }
     const g = x.createRadialGradient(-2, -18, 2, 0, -14, 12); g.addColorStop(0, lit); g.addColorStop(0.6, col); g.addColorStop(1, dark); x.fillStyle = g; x.beginPath(); x.ellipse(0, -14, 9.5, 10, 0, 0, 7); x.fill(); x.strokeStyle = 'rgba(30,15,5,.75)'; x.lineWidth = 1; x.stroke();
     limb(x, [-3.5, -11], [-3.5, -3], 2.8, dark); limb(x, [3.5, -11], [3.5, -3], 2.8, col); for (const hx of [-3.5, 3.5]) { x.fillStyle = '#1a1410'; x.beginPath(); x.ellipse(hx, -2, 2, 1, 0, 0, 7); x.fill(); }
     if (st.barding) { x.fillStyle = shade(pcol, -0.1); path(x, [[-9.5, -14], [-4, -21], [4, -21], [9.5, -14], [8.5, -6], [-8.5, -6]]); x.fill(); outline(x, [[-9.5, -14], [-4, -21], [4, -21], [9.5, -14], [8.5, -6], [-8.5, -6]], 0.7); line(x, [-8.5, -9], [8.5, -9], s.trim, 1); }
@@ -90,13 +91,23 @@ function horseHeadFront(x, st, s) {
   x.fillStyle = shade(col, 0.35); x.beginPath(); x.ellipse(0, -9, 2.2, 3.8, 0, 0, 7); x.fill(); dab(x, -2.8, -14, 1, '#111'); dab(x, 2.8, -14, 1, '#111'); dab(x, -2.4, -14.3, 0.35, '#fff', 0.8); dab(x, 3.2, -14.3, 0.35, '#fff', 0.8); dab(x, -1.2, -6, 0.7, '#2a1a10'); dab(x, 1.2, -6, 0.7, '#2a1a10');
   line(x, [-4.6, -10.5], [4.6, -10.5], tack, 1); line(x, [-4.8, -14.5], [-4.2, -8], tack, 0.8); line(x, [4.8, -14.5], [4.2, -8], tack, 0.8); line(x, [-4.6, -10.5], [-8, -16], tack, 0.8); line(x, [4.6, -10.5], [8, -16], tack, 0.8);
 }
-function figure(x, st, pcol, side, hy, s, civ) {
+// an: pose del fotograma — leg [dx trasera, dx delantera], lift (pie que se despega),
+// bob (el tronco sube y baja sobre las caderas), sw (giro del brazo del arma, en radianes)
+function figure(x, st, pcol, side, hy0, s, civ, an) {
+  const A = an || {}; const leg = A.leg || [0, 0], lift = A.lift || 0, sw = A.sw || 0;
+  const hy = hy0 + (A.bob || 0); // los pies quedan en el suelo (hy0); de cintura arriba se mece
+  const wx = A.wx || 0; // la mano armada se adelanta o retrasa (estocada, tensar el arco)
+  const swing = (sx, sy, hx2, hy2) => { const dx = hx2 - sx, dy = hy2 - sy, c = Math.cos(sw), si = Math.sin(sw); return [sx + dx * c - dy * si + wx, sy + dx * si + dy * c]; };
   const pdark = shade(pcol, -0.4); const mail = st.armor >= 2, scale = st.armor === 1; const christian = ['castilla', 'leon', 'aragon'].includes(civ);
   const skin = st.veil ? '#8d5a3a' : civ === 'almoravide' ? '#9a6a48' : '#e6c39a'; const hair = christian ? '#4a2e18' : '#1e1410';
   const tunic = mail ? '#aeb2bb' : pcol, tunicD = mail ? '#7a7e88' : pdark;
   // piernas y botas
-  if (!st.mounted) { const hose = st.robe ? '#e6dfd0' : '#5a4636'; if (side) { limb(x, [-1.5, hy - 9], [-3.5, hy - 1], 3.4, shade(hose, -0.15)); limb(x, [2.5, hy - 9], [3.5, hy - 1], 3.4, hose); } else { limb(x, [-3, hy - 9], [-3.5, hy - 1], 3.4, shade(hose, -0.12)); limb(x, [3, hy - 9], [3.5, hy - 1], 3.4, hose); }
-    for (const bx of side ? [-3.5, 3.5] : [-3.5, 3.5]) { x.fillStyle = '#2e1e10'; x.beginPath(); x.ellipse(bx + (side ? 1 : 0.5), hy - 0.5, 2.8, 1.7, 0, 0, 7); x.fill(); x.fillStyle = '#3f2c18'; x.fillRect(bx - 2, hy - 4, 4, 3.5); x.strokeStyle = 'rgba(30,15,5,.7)'; x.lineWidth = 0.6; x.strokeRect(bx - 2, hy - 4, 4, 3.5); } }
+  if (!st.mounted) { const hose = st.robe ? '#e6dfd0' : '#5a4636';
+    const f0 = hy0 - 1 - (leg[0] > 0 ? lift : 0), f1 = hy0 - 1 - (leg[1] > 0 ? lift : 0); // el pie que avanza se despega
+    if (side) { limb(x, [-1.5, hy - 9], [-3.5 + leg[0], f0], 3.4, shade(hose, -0.15)); limb(x, [2.5, hy - 9], [3.5 + leg[1], f1], 3.4, hose); }
+    else { limb(x, [-3, hy - 9], [-3.5 + leg[0] * 0.35, f0], 3.4, shade(hose, -0.12)); limb(x, [3, hy - 9], [3.5 + leg[1] * 0.35, f1], 3.4, hose); }
+    const bs = side ? [[-3.5 + leg[0], f0], [3.5 + leg[1], f1]] : [[-3.5 + leg[0] * 0.35, f0], [3.5 + leg[1] * 0.35, f1]];
+    for (const [bx, by] of bs) { x.fillStyle = '#2e1e10'; x.beginPath(); x.ellipse(bx + (side ? 1 : 0.5), by + 0.5, 2.8, 1.7, 0, 0, 7); x.fill(); x.fillStyle = '#3f2c18'; x.fillRect(bx - 2, by - 3, 4, 3.5); x.strokeStyle = 'rgba(30,15,5,.7)'; x.lineWidth = 0.6; x.strokeRect(bx - 2, by - 3, 4, 3.5); } }
   else { const legCol = mail ? '#9a9ea8' : '#5a4636'; if (!side) limb(x, [-4.5, hy - 6], [-7, hy + 5], 3, legCol); limb(x, [4.5, hy - 6], [7, hy + 5], 3, legCol); for (const bx of side ? [7] : [-7, 7]) { x.fillStyle = '#2e1e10'; x.beginPath(); x.ellipse(bx, hy + 5.5, 2.4, 1.6, 0, 0, 7); x.fill(); } }
   // capa
   if (st.cape) { const cg = x.createLinearGradient(-8, 0, 8, 0); cg.addColorStop(0, shade(pcol, -0.15)); cg.addColorStop(1, shade(pcol, -0.5)); x.fillStyle = cg; x.beginPath(); x.moveTo(-6.5, hy - 22); x.lineTo(6.5, hy - 22); x.quadraticCurveTo(9.5, hy - 10, 10, hy - 1); x.quadraticCurveTo(6, hy - 3, 2, hy - 1); x.quadraticCurveTo(-3, hy - 3, -9.5, hy - 1); x.quadraticCurveTo(-9, hy - 10, -6.5, hy - 22); x.closePath(); x.fill(); x.strokeStyle = 'rgba(30,15,5,.7)'; x.lineWidth = 0.9; x.stroke(); line(x, [-4, hy - 20], [-6.5, hy - 4], 'rgba(0,0,0,.25)', 1.2); line(x, [3, hy - 20], [5.5, hy - 4], 'rgba(0,0,0,.25)', 1.2); }
@@ -115,8 +126,9 @@ function figure(x, st, pcol, side, hy, s, civ) {
   // brazos
   const armCol = mail ? '#8f939d' : st.robe ? (st.lady ? shade(pcol, 0.5) : '#e9e2d3') : tunic;
   const arm = (a, b) => { limb(x, a, b, 3, armCol); dab(x, b[0], b[1] + 0.5, 1.7, skin); x.strokeStyle = 'rgba(30,15,5,.6)'; x.lineWidth = 0.6; x.beginPath(); x.arc(b[0], b[1] + 0.5, 1.7, 0, 7); x.stroke(); };
-  if (side) { arm([-2, hy - 19], [-4.5, hy - 10]); if (st.shield) shield(x, st.shield, -4, hy - 13, pcol, s, true); arm([5, hy - 19], [8, hy - 10]); if (st.weapon) weapon(x, st.weapon, 8, hy - 10, side, pcol, s); }
-  else { arm([-5.5, hy - 19], [-8, hy - 10]); if (st.shield) shield(x, st.shield, -8.5, hy - 13, pcol, s, false); if (st.quiver) { x.fillStyle = '#6b4a2e'; x.save(); x.translate(6, hy - 20); x.rotate(0.35); x.fillRect(-1.6, -8, 3.2, 12); x.restore(); for (let i = 0; i < 3; i++) line(x, [7.5 + i * 1.2, hy - 26], [7.5 + i * 1.2, hy - 29], '#8a6a3a', 0.8); } arm([5.5, hy - 19], [8, hy - 10]); if (st.weapon) weapon(x, st.weapon, 8, hy - 10, side, pcol, s); }
+  const wh = swing(5, hy - 19, 8, hy - 10); // mano armada, girada sobre el hombro
+  if (side) { arm([-2, hy - 19], [-4.5 - leg[1] * 0.25, hy - 10]); if (st.shield) shield(x, st.shield, -4 - leg[1] * 0.25, hy - 13, pcol, s, true); arm([5, hy - 19], wh); if (st.weapon) weapon(x, st.weapon, wh[0], wh[1], side, pcol, s, sw); }
+  else { arm([-5.5, hy - 19], [-8 - leg[1] * 0.25, hy - 10]); if (st.shield) shield(x, st.shield, -8.5 - leg[1] * 0.25, hy - 13, pcol, s, false); if (st.quiver) { x.fillStyle = '#6b4a2e'; x.save(); x.translate(6, hy - 20); x.rotate(0.35); x.fillRect(-1.6, -8, 3.2, 12); x.restore(); for (let i = 0; i < 3; i++) line(x, [7.5 + i * 1.2, hy - 26], [7.5 + i * 1.2, hy - 29], '#8a6a3a', 0.8); } arm([5.5, hy - 19], wh); if (st.weapon) weapon(x, st.weapon, wh[0], wh[1], side, pcol, s, sw); }
   // cabeza
   const hy2 = hy - 28;
   const sg = x.createRadialGradient(-1.5, hy2 - 1.5, 0.5, 0, hy2, 6); sg.addColorStop(0, shade(skin, 0.15)); sg.addColorStop(1, shade(skin, -0.3)); x.fillStyle = sg; x.beginPath(); x.arc(0, hy2, 5.2, 0, 7); x.fill(); x.strokeStyle = 'rgba(30,15,5,.75)'; x.lineWidth = 0.9; x.stroke();
@@ -163,18 +175,18 @@ function siege(x, type, side, pcol) {
     x.fillStyle = pcol; path(x, [[-7, -11], [7, -11], [7, -7], [-7, -7]]); x.fill(); outline(x, [[-7, -11], [7, -11], [7, -7], [-7, -7]], 0.6);
   }
 }
-function unitSprite(type, civ = 'castilla', colIdx = 0, side = false) {
+function unitSprite(type, civ = 'castilla', colIdx = 0, side = false, an = null) {
   const st = Object.assign({}, USTYLE[type] || {}); const s = CIV_STYLE[civ] || CIV_STYLE.castilla;
   if ((civ === 'zaragoza' || civ === 'sevilla') && !st.hero && st.turban === undefined && st.helmet !== 'full') st.turban = !['nasal', 'crown'].includes(st.helmet) ? 1 : 0; if (civ === 'almoravide' && !st.hero && st.veil === undefined) st.veil = 1;
   const pcol = PCOLORS[colIdx]; const [c, x] = mk(64, 80); x.translate(32, 76);
   if (st.siege) { siege(x, st.siege, side, pcol); return {c, ax: 32, ay: 76}; }
   shadowBlob(x, 0, 0, st.mounted ? 17 : 9.5, st.mounted ? 7 : 4.2, 0.55);
   if (st.hero) { x.strokeStyle = 'rgba(240,201,74,.9)'; x.lineWidth = 1.4; x.beginPath(); x.ellipse(0, 0, st.mounted ? 19 : 12.5, st.mounted ? 8 : 5.4, 0, 0, 7); x.stroke(); x.strokeStyle = 'rgba(255,230,140,.35)'; x.lineWidth = 3.5; x.stroke(); }
-  let hy = 0; if (st.mounted) { horse(x, st, pcol, side, s); hy = -18; }
-  figure(x, st, pcol, side, hy, s, civ);
-  if (st.mounted && !side) horseHeadFront(x, st, s);
+  let hy = 0; if (st.mounted) { horse(x, st, pcol, side, s, an); hy = -18 + ((an && an.hb) || 0); }
+  figure(x, st, pcol, side, hy, s, civ, st.mounted ? Object.assign({}, an, {leg: [0, 0], bob: 0}) : an);
+  if (st.mounted && !side) { x.save(); x.translate(0, (an && an.hb) || 0); horseHeadFront(x, st, s); x.restore(); }
   return {c, ax: 32, ay: 76};
 }
-const unitSvg = (type, civ, colIdx, side) => unitSprite(type, civ, colIdx, side).c;
+const unitSvg = (type, civ, colIdx, side, an) => unitSprite(type, civ, colIdx, side, an).c;
 Object.assign(A, {USTYLE, UNAME, unitSprite, unitSvg, shield, weapon, horse, figure});
 })();

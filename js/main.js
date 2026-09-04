@@ -153,7 +153,7 @@ function showMain() {
   $('#mContinue').classList.toggle('hidden', !has);
   if (has) { try { const d = JSON.parse(has); $('#mContinueInfo').textContent = `${d.mission !== null && d.mission !== undefined ? MISSIONS[d.mission.index].title : 'Escaramuza'} · ${fmtTime(d.time)} · ${AGES[d.players[0].age]}`; } catch (e) {} }
   try { const rec = JSON.parse(localStorage.getItem('edad-reinos-record') || '{"wins":0,"games":0,"best":0}'); const prog = campaignProgress(); $('#recordLine').textContent = `Partidas: ${rec.games} · Victorias: ${rec.wins} · Mejor puntuación: ${rec.best} · Misiones completadas: ${prog.done.length}/${MISSIONS.length}`; } catch (e) {}
-  ctx.fillStyle = '#0f1418'; ctx.fillRect(0, 0, cv.width, cv.height);
+  ctx.fillStyle = '#0f1418'; ctx.fillRect(0, 0, VW, VH);
 }
 function renderCodex() {
   const el = $('#codexBody');

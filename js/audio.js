@@ -34,7 +34,7 @@ function sfx(name, x, y) {
   if (AUDIO.last[name] && now - AUDIO.last[name] < minGap) return;
   let vol = 1;
   if (x !== undefined) {
-    const cx = UI.cam.x + cv.width / 2 / UI.cam.z, cy = UI.cam.y + viewH() / 2 / UI.cam.z;
+    const cx = UI.cam.x + VW / 2 / UI.cam.z, cy = UI.cam.y + viewH() / 2 / UI.cam.z;
     const d = Math.hypot(x - cx, y - cy); const maxD = 900 / UI.cam.z;
     if (d > maxD) return; vol = 1 - d / maxD * 0.7;
   }
