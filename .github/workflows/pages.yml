@@ -19,17 +19,59 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: engine/package-lock.json
+
+      - name: Comprobar el motor
+        working-directory: engine
+        run: |
+          npm ci
+          npm run typecheck
+          npm test
+
+      - name: Construir el motor
+        working-directory: engine
+        run: npm run build
+
       - name: Configurar Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
+
+      - name: Preparar el sitio
+        run: |
+          mkdir -p _site
+          find . -mindepth 1 -maxdepth 1 \
+            ! -name '_site' ! -name '.git' ! -name 'engine' \
+            -exec cp -a {} _site/ \;
+          mkdir -p _site/motor
+          cp -a engine/dist/. _site/motor/
+          # El juego de la raiz y el motor tienen que estar los dos. Sin esta
+          # comprobacion, un fallo al copiar publica un sitio a medias sin que
+          # nadie se entere hasta abrirlo.
+          test -f _site/index.html
+          test -f _site/.nojekyll
+          test -d _site/fonts
+          test -f _site/motor/index.html
+          ls -la _site _site/motor
+
       - name: Empaquetar el sitio
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
+  # El entorno github-pages solo admite despliegues desde la rama por defecto.
+  # En las ramas de trabajo el flujo hace de integracion continua (typecheck,
+  # pruebas y empaquetado) y se queda ahi, en vez de terminar en rojo por una
+  # restriccion que no tiene nada que ver con el codigo.
   deploy:
     needs: build
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
