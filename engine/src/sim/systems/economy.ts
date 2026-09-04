@@ -1,8 +1,8 @@
 import { FP_ONE, FP_SHIFT, isqrt } from '../../core/fixed';
 import { GatherState, MoveState, ResourceKind, UnitClass } from '../../ecs/components';
-import { World, NULL_ENTITY, entityIndex, type Entity } from '../../ecs/world';
+import { NULL_ENTITY, entityIndex, type Entity } from '../../ecs/world';
 import { BUILDINGS, UNITS, type UnitId } from '../../game/data';
-import type { Simulation } from '../sim';
+import { HZ, type Simulation } from '../sim';
 import { orderMove } from './movement';
 
 /**
@@ -222,7 +222,10 @@ export function trainSystem(sim: Simulation): void {
     }
     const p = sim.players[C.player[bi]];
     if (p.pop + def.pop > Math.min(p.popMax, p.popCap)) {
-      sim.emit({ t: 'sinPoblacion', player: p.id });
+      // Un aviso cada cinco segundos, no uno por edificio y por tick: el
+      // banco de partidas contaba mas de tres mil por partida, que en el HUD
+      // serian tres mil lineas para decir siempre lo mismo.
+      if (sim.tick % (HZ * 5) === 0) sim.emit({ t: 'sinPoblacion', player: p.id });
       continue; // la cola espera; no se pierde el progreso
     }
     sim.trainProgress.set(b, 0);
@@ -258,10 +261,8 @@ function spawnPoint(sim: Simulation, bi: number): { x: number; y: number } {
 export function countUnits(sim: Simulation, player: number, cls?: UnitClass): number {
   const C = sim.C;
   let n = 0;
-  const mask = World.maskOf(C.transform, C.owner, C.kind, C.health);
-  sim.world.each(mask, (i) => {
+  sim.eachUnit((i) => {
     if (C.player[i] !== player) return;
-    if (sim.world.has(sim.world.entityAt(i), C.building)) return;
     if (cls !== undefined && C.unitClass[i] !== cls) return;
     n++;
   });

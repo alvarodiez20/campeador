@@ -104,7 +104,7 @@ export class Benchmark {
     for (const player of [0, 1]) {
       const units: number[] = [];
       const C = this.sim.C;
-      this.sim.world.each(this.sim.mUnit, (i) => {
+      this.sim.eachUnit((i) => {
         if (C.player[i] === player) units.push(i);
       });
       if (units.length === 0) continue;

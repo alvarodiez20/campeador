@@ -184,7 +184,7 @@ describe('economia', () => {
     correr(sim, 60, [{ t: 'train', player: 0, building: centro, unit: UnitId.Aldeano }]);
     expect(sim.players[0].resources[ResourceKind.Food]).toBe(450);
     let aldeanos = 0;
-    sim.world.each(sim.mUnit, (i) => {
+    sim.eachUnit((i) => {
       if (sim.C.unitClass[i] === UnitClass.Villager) aldeanos++;
     });
     expect(aldeanos).toBe(1);
@@ -217,8 +217,7 @@ describe('determinismo', () => {
       if (t !== 10) return [];
       const a: number[] = [];
       const b: number[] = [];
-      sim.world.each(sim.mUnit, (i) => {
-        if (sim.world.has(sim.world.entityAt(i), sim.C.building)) return;
+      sim.eachUnit((i) => {
         (sim.C.player[i] === 0 ? a : b).push(i);
       });
       return [

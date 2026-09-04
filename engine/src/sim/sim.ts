@@ -344,6 +344,16 @@ export class Simulation implements DiplomacyHost {
 
   // ---- utilidades espaciales --------------------------------------------
 
+  /**
+   * Recorre solo las unidades: la mascara `mUnit` tambien casa con los
+   * edificios, que tienen transform, owner, kind y health como cualquier
+   * unidad. Cada sitio que queria "las unidades" repetia el filtro a mano y
+   * bastaba olvidarlo una vez para barrer la ciudad entera sin enterarse.
+   */
+  eachUnit(fn: (index: number) => void): void {
+    this.world.eachExcept(this.mUnit, 1 << this.C.building.bit, fn);
+  }
+
   /** Rellena `scratchIdx` con los indices vivos que cumplen la mascara. */
   collect(mask: number): { idx: Int32Array; count: number } {
     if (this.scratchIdx.length < this.world.highWater) this.scratchIdx = new Int32Array(this.world.highWater * 2);

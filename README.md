@@ -113,7 +113,7 @@ engine/           motor nuevo: PixiJS v8 + TypeScript + ECS + Vite
   src/path        campos de flujo y A* jerárquico, en Web Worker
   src/render      render isométrico, atlas, niebla de guerra
   src/game        facciones, datos, escenario de Cuarte 1094, IA
-  test            68 pruebas, todas en Node
+  test            75 pruebas, todas en Node
   tools/blender   horneado de sprites isométricos desde Blender
 docs/             decisiones, deuda técnica, balance, fuentes, tratamiento
 ```
@@ -143,7 +143,7 @@ El motor de `engine/` sí se compila, y va por su cuenta:
 cd engine
 npm install
 npm run dev     # http://localhost:5173/
-npm test        # 68 pruebas, todas en Node
+npm test        # 75 pruebas, todas en Node
 ```
 
 ## 🚀 Despliegue

@@ -20,8 +20,11 @@ npm run dev
   de aceptación técnico. Parámetros: `n`, `mapa`, `combate=1`, `obstaculos=0`.
 
 ```bash
-npm test        # 68 pruebas, todas en Node, sin navegador
+npm test        # 75 pruebas, todas en Node, sin navegador
 npm run build   # typecheck + producción
+
+# treinta partidas completas de Cuarte 1094 y su informe de ritmo
+npm run playtest -- --partidas=30
 ```
 
 ## Controles
@@ -66,6 +69,7 @@ Sin soporte táctil, y es una decisión cerrada: ver ADR-004 en
 | [`PLAN.md`](../docs/PLAN.md) | estado de los nueve hitos y qué falta medir |
 | [`BALANCE.md`](../docs/BALANCE.md) | el triángulo y la tabla de números |
 | [`TRATAMIENTO-HISTORICO.md`](../docs/TRATAMIENTO-HISTORICO.md) | requisito de diseño, no sensibilidad opcional |
+| [`BANCO-DE-PARTIDAS.md`](../docs/BANCO-DE-PARTIDAS.md) | método y hallazgos de las tandas de partidas |
 | [`FUENTES.md`](../docs/FUENTES.md) | bibliografía y misiones candidatas |
 
 ## Pipeline de arte

@@ -199,9 +199,8 @@ export function presionMilitar(sim: Simulation, receiver: number, payer: number)
   if (centros.length === 0) return 100;
   let cerca = 0;
   const RADIO = FP_ONE * 20;
-  w.each(sim.mUnit, (i) => {
+  sim.eachUnit((i) => {
     if (C.player[i] !== receiver) return;
-    if (w.has(w.entityAt(i), C.building)) return;
     if (C.unitClass[i] === 0) return; // aldeanos no amenazan a nadie
     for (const b of centros) {
       const dx = C.tx[b] - C.tx[i];

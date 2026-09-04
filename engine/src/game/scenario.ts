@@ -1,5 +1,5 @@
 import { FP_ONE, fx } from '../core/fixed';
-import { ResourceKind } from '../ecs/components';
+import { ResourceKind, UnitClass } from '../ecs/components';
 import type { Entity } from '../ecs/world';
 import { entityIndex } from '../ecs/world';
 import { BuildingId, FactionId, UnitId } from './data';
@@ -50,6 +50,14 @@ const MAP_H = 96;
 
 /** Ticks que hay que aguantar antes de poder salir: 8 minutos de juego. */
 const TICKS_ASEDIO = 15 * 60 * 8;
+/** A partir del minuto 15 el cerco puede levantarse solo por desgaste. */
+const TICKS_DESGASTE = 15 * 60 * 15;
+/** Limite duro de la partida: 22 minutos. Una partida tiene que acabar. */
+const TICKS_LIMITE = 15 * 60 * 22;
+/** Militares almoravides por debajo de los cuales el cerco no se sostiene. */
+const CERCO_MINIMO = 5;
+/** Segundos seguidos sin fuerza antes de levantar el campamento. */
+const TICKS_SIN_FUERZA = 15 * 60;
 
 export const PLAYER_CID = 0;
 export const PLAYER_ALMORAVIDES = 1;
@@ -93,13 +101,19 @@ export function createValencia1094(seed = 0x1094): Scenario {
   const alcazar = sim.spawnBuilding(PLAYER_CID, BuildingId.CentroUrbano, 60, 52, true);
   sim.spawnBuilding(PLAYER_CID, BuildingId.Almacen, 56, 58, true);
   sim.spawnBuilding(PLAYER_CID, BuildingId.Cuartel, 66, 56, true);
+  // Valencia tenia muralla y torres; el escenario le da fortificacion frente
+  // al numero del sitiador. Es el reparto historico de ventajas y ademas es
+  // el unico que hace el asedio jugable: sin torres el banco daba 100% de
+  // derrota, con hueste almoravide igual.
   const torreNorte = sim.spawnBuilding(PLAYER_CID, BuildingId.Torre, 58, 46, true);
   const torreOeste = sim.spawnBuilding(PLAYER_CID, BuildingId.Torre, 53, 55, true);
+  sim.spawnBuilding(PLAYER_CID, BuildingId.Torre, 53, 49, true);
+  sim.spawnBuilding(PLAYER_CID, BuildingId.Torre, 55, 62, true);
   for (let i = 0; i < 4; i++) sim.spawnBuilding(PLAYER_CID, BuildingId.Casa, 66 + (i % 2) * 3, 48 + Math.floor(i / 2) * 3, true);
 
   const campeador = sim.spawnUnit(PLAYER_CID, UnitId.Campeador, fx(62), fx(57));
   for (let i = 0; i < 8; i++) sim.spawnUnit(PLAYER_CID, UnitId.Aldeano, fx(57 + (i % 4)), fx(60 + Math.floor(i / 4)));
-  for (let i = 0; i < 6; i++) sim.spawnUnit(PLAYER_CID, UnitId.Lancero, fx(55 + (i % 3)), fx(57 + Math.floor(i / 3)));
+  for (let i = 0; i < 8; i++) sim.spawnUnit(PLAYER_CID, UnitId.Lancero, fx(55 + (i % 4)), fx(57 + Math.floor(i / 4)));
   for (let i = 0; i < 4; i++) sim.spawnUnit(PLAYER_CID, UnitId.Ballestero, fx(58 + i), fx(48));
   for (let i = 0; i < 4; i++) sim.spawnUnit(PLAYER_CID, UnitId.Caballero, fx(64 + i), fx(60));
 
@@ -107,15 +121,21 @@ export function createValencia1094(seed = 0x1094): Scenario {
   sim.players[PLAYER_CID].popMax = 90;
 
   // --- campamento almoravide, al oeste, en Cuarte ------------------------
-  sim.spawnBuilding(PLAYER_ALMORAVIDES, BuildingId.CentroUrbano, 20, 50, true);
+  const campamento = sim.spawnBuilding(PLAYER_ALMORAVIDES, BuildingId.CentroUrbano, 20, 50, true);
   sim.spawnBuilding(PLAYER_ALMORAVIDES, BuildingId.Cuartel, 25, 46, true);
   sim.spawnBuilding(PLAYER_ALMORAVIDES, BuildingId.Caballerizas, 25, 55, true);
-  for (let i = 0; i < 6; i++) sim.spawnBuilding(PLAYER_ALMORAVIDES, BuildingId.Casa, 16 + (i % 3) * 3, 58 + Math.floor(i / 3) * 3, true);
-  for (let i = 0; i < 6; i++) sim.spawnUnit(PLAYER_ALMORAVIDES, UnitId.Aldeano, fx(18 + (i % 3)), fx(54 + Math.floor(i / 3)));
-  for (let i = 0; i < 8; i++) sim.spawnUnit(PLAYER_ALMORAVIDES, UnitId.Infante, fx(27 + (i % 4)), fx(48 + Math.floor(i / 4)));
-  for (let i = 0; i < 4; i++) sim.spawnUnit(PLAYER_ALMORAVIDES, UnitId.Caballero, fx(27 + (i % 4)), fx(53));
-  sim.players[PLAYER_ALMORAVIDES].resources.set([600, 600, 400, 250]);
-  sim.players[PLAYER_ALMORAVIDES].popMax = 110;
+  for (let i = 0; i < 8; i++) sim.spawnBuilding(PLAYER_ALMORAVIDES, BuildingId.Casa, 16 + (i % 4) * 3, 58 + Math.floor(i / 4) * 3, true);
+  // Superioridad numerica clara, que es lo que hubo: el cerco de Cuarte era
+  // muy superior a la guarnicion, y la gracia del escenario es romperlo, no
+  // ganar una batalla igualada. Con la hueste anterior el banco de partidas
+  // daba 92% de victoria y ni una sola derrota: eso no es un asedio.
+  for (let i = 0; i < 8; i++) sim.spawnUnit(PLAYER_ALMORAVIDES, UnitId.Aldeano, fx(18 + (i % 4)), fx(54 + Math.floor(i / 4)));
+  for (let i = 0; i < 10; i++) sim.spawnUnit(PLAYER_ALMORAVIDES, UnitId.Infante, fx(27 + (i % 4)), fx(46 + Math.floor(i / 4)));
+  for (let i = 0; i < 4; i++) sim.spawnUnit(PLAYER_ALMORAVIDES, UnitId.Lancero, fx(24 + (i % 2)), fx(51 + Math.floor(i / 2)));
+  for (let i = 0; i < 7; i++) sim.spawnUnit(PLAYER_ALMORAVIDES, UnitId.Caballero, fx(27 + (i % 3)), fx(53 + Math.floor(i / 3)));
+  for (let i = 0; i < 3; i++) sim.spawnUnit(PLAYER_ALMORAVIDES, UnitId.Ballestero, fx(24 + i), fx(57));
+  sim.players[PLAYER_ALMORAVIDES].resources.set([700, 700, 500, 300]);
+  sim.players[PLAYER_ALMORAVIDES].popMax = 120;
 
   // --- Albarracin: la taifa que paga parias al Cid ------------------------
   // Historico: Rodrigo cobraba tributo de Albarracin y Alpuente. Es la pieza
@@ -151,8 +171,8 @@ export function createValencia1094(seed = 0x1094): Scenario {
     },
     {
       id: 'salida',
-      text: 'Destruir el campamento almoravide de Cuarte',
-      hint: 'Como en 1094: se gana saliendo, no aguantando.',
+      text: 'Derribar la tienda del emir en el campamento de Cuarte',
+      hint: 'Como en 1094: se gana saliendo, no aguantando. Basta con descabezar el cerco.',
       done: false,
       failed: false,
     },
@@ -192,6 +212,7 @@ export function createValencia1094(seed = 0x1094): Scenario {
     },
   };
 
+  let sinFuerzaDesde = Number.MAX_SAFE_INTEGER;
   sim.onCheckVictory = (s) => {
     if (scenario.outcome !== 'jugando') return;
     if (!s.world.isAlive(alcazar)) {
@@ -203,12 +224,40 @@ export function createValencia1094(seed = 0x1094): Scenario {
       objectives[0].done = true;
       s.emit({ t: 'objetivo', id: 'aguantar', texto: 'Valencia ha resistido el cerco.' });
     }
-    // El campamento cae cuando no queda ningun edificio almoravide en pie.
-    let edificios = 0;
-    s.world.each(s.mBuilding, (i) => {
-      if (s.C.player[i] === PLAYER_ALMORAVIDES) edificios++;
+
+    // Un cerco se levanta tambien por desgaste, que es como acababan casi
+    // todos. Sin esto la partida podia quedarse en tablas indefinidamente con
+    // los dos bandos desangrados: en el banco, una de cada seis llegaba a los
+    // veinte minutos sin desenlace.
+    let militaresAlmoravides = 0;
+    s.eachUnit((i) => {
+      if (s.C.player[i] !== PLAYER_ALMORAVIDES) return;
+      if (s.C.unitClass[i] !== UnitClass.Villager) militaresAlmoravides++;
     });
-    if (edificios === 0) {
+    if (militaresAlmoravides < CERCO_MINIMO) sinFuerzaDesde = Math.min(sinFuerzaDesde, s.tick);
+    else sinFuerzaDesde = Number.MAX_SAFE_INTEGER;
+
+    if (s.tick >= TICKS_DESGASTE && s.tick - sinFuerzaDesde >= TICKS_SIN_FUERZA) {
+      objectives[1].done = true;
+      s.players[PLAYER_ALMORAVIDES].defeated = true;
+      scenario.outcome = 'victoria';
+      s.emit({ t: 'objetivo', id: 'desgaste', texto: 'Los almoravides levantan el campamento y se retiran.' });
+      return;
+    }
+
+    // Toda partida tiene que acabar. Si a los veintidos minutos Valencia
+    // sigue en pie, el cerco ha fracasado.
+    if (s.tick >= TICKS_LIMITE) {
+      scenario.outcome = 'victoria';
+      objectives[0].done = true;
+      s.emit({ t: 'objetivo', id: 'limite', texto: 'El cerco se ha roto por agotamiento.' });
+      return;
+    }
+    // El cerco se levanta cuando cae la tienda del emir, no cuando no queda
+    // en pie ni una choza. Exigir el arrasamiento total alargaba la partida
+    // seis minutos de demolicion sin decision alguna, y ademas es falso: en
+    // Cuarte los almoravides levantaron el campamento y se fueron.
+    if (!s.world.isAlive(campamento)) {
       objectives[1].done = true;
       s.players[PLAYER_ALMORAVIDES].defeated = true;
       if (objectives[0].done || s.tick > 15 * 60) {
@@ -220,6 +269,7 @@ export function createValencia1094(seed = 0x1094): Scenario {
   // Referencias que la IA y el HUD quieren tener a mano.
   (scenario as unknown as { anchors: Record<string, Entity> }).anchors = {
     alcazar,
+    campamento,
     torreNorte,
     torreOeste,
     campeador,

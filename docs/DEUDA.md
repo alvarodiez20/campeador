@@ -89,14 +89,33 @@ se empujan hasta que la detección de atasco las da por llegadas.
 
 ### DEUDA-007 · La IA no reacciona a la composición del rival
 
-`SimpleAI` entrena una mezcla fija que respeta el triángulo pero no mira lo
-que tiene delante. Si el jugador va todo caballería, la IA no saca lanceros.
+`SimpleAI` entrena por cuota fija (30% lancero, 25% infante, 25% arquero, 20%
+jinete). Cubre los cuatro vértices del triángulo, pero no mira lo que tiene
+delante: si el jugador va todo caballería, la IA no saca más lanceros.
 
-- **Coste hoy:** el oponente es previsible. Suficiente para probar el
-  escenario de principio a fin, que es para lo que existe.
-- **Disparador:** cuando el escenario sea jugable entero y se pase a afinar el
-  balance. Una IA que no reacciona invalida cualquier medición de balance.
-- **Arreglo:** contar clases enemigas vistas y elegir el contador del triángulo.
+- **Coste hoy:** el oponente es previsible. Ya no es *inofensivo* —el banco de
+  partidas da 33% de derrotas—, pero es leíble.
+- **Disparador:** al pasar a afinar el balance en serio. Una IA que no
+  reacciona invalida cualquier medición de balance.
+- **Arreglo:** contar clases enemigas vistas y desviar la cuota hacia su
+  contador. El sitio es `trainStuff`, que ya ordena por déficit: basta con que
+  la cuota deje de ser constante.
+
+### DEUDA-011 · La taifa de Albarracín apenas crece
+
+En el banco de partidas Albarracín termina con dos o tres lanceros y dos
+casas, partida tras partida. Recolecta y paga sus parias, que es su papel en
+el escenario, pero no se desarrolla.
+
+- **Coste hoy:** bajo. Está en el mapa para ser la parte tributaria, no un
+  tercer contendiente, y esa función la cumple en el 100% de las partidas.
+- **Riesgo:** si el jugador decide romper la paria y atacarla, encuentra un
+  rival de cartón. La mecánica de parias pierde la mitad de su tensión si
+  traicionar no cuesta nada.
+- **Disparador:** cuando romper la paria sea una jugada que el diseño quiera
+  premiar o castigar de verdad.
+- **Arreglo:** revisar la guarda de economía de `trainStuff` para una base
+  pequeña, y darle un objetivo de aldeanos acorde a su mapa.
 
 ### DEUDA-008 · Sin multijugador, pero con la puerta abierta
 
@@ -119,9 +138,10 @@ No hay ni efectos ni música.
 ### DEUDA-010 · Números de balance provisionales
 
 Las estadísticas de `src/game/data.ts` cumplen el triángulo (comprobado en
-`test/sim.test.ts`) pero no están afinadas. Los tiempos de recolección y de
-construcción son a ojo.
+`test/sim.test.ts`) y el escenario está medido (67/33 en treinta partidas,
+ver [`BANCO-DE-PARTIDAS.md`](BANCO-DE-PARTIDAS.md)). Lo que sigue sin afinar
+son los ritmos finos: tiempos de recolección, de construcción y de recarga
+están puestos a ojo y ninguno se ha barrido buscando el mejor valor.
 
-- **Disparador:** cuando Cuarte 1094 se juegue entero de principio a fin
-  varias veces. Afinar balance antes de eso es afinar sobre un juego que
-  todavía cambia de forma.
+- **Disparador:** después de resolver DEUDA-007. Afinar números contra una IA
+  que no reacciona es afinar contra un maniquí.

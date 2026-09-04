@@ -9,7 +9,7 @@ El orden es el del brief. Nada de lo de abajo se adelanta a lo de arriba.
 | 3 | Recolección de recursos y construcción, con marcadores | **hecho** |
 | 4 | Combate y el triángulo de unidades | **hecho** |
 | 5 | Niebla de guerra | **hecho** (con DEUDA-002) |
-| 6 | Escenario de Valencia 1094 jugable de principio a fin | **hecho** |
+| 6 | Escenario de Valencia 1094 jugable de principio a fin | **hecho y medido** |
 | 7 | Pipeline de arte definitivo | herramientas listas, arte sin hacer |
 | 8 | Parias y diplomacia | **hecho** |
 | 9 | Multijugador | no empezado (DEUDA-008) |
@@ -63,14 +63,28 @@ probar.
 
 ## Lo siguiente, en orden
 
-1. Comprobar el criterio de aceptación en hardware real (arriba).
-2. Jugar Cuarte 1094 entero varias veces y anotar dónde se rompe el ritmo.
-3. Solo entonces: pipeline de arte (hito 7). Las herramientas están en
-   `engine/tools/blender/` y el cargador de atlas real en
+1. **Comprobar el criterio de aceptación en hardware real** (arriba). Sigue
+   siendo lo único que bloquea el pipeline de arte.
+2. ~~Jugar Cuarte 1094 entero varias veces y anotar dónde se rompe el
+   ritmo.~~ **Hecho.** Ver [`BANCO-DE-PARTIDAS.md`](BANCO-DE-PARTIDAS.md):
+   treinta partidas por tanda, siete fallos de ritmo encontrados y corregidos,
+   todos con prueba de regresión. El escenario se resuelve ahora en el 100% de
+   las partidas, con reparto 67/33 y mediana de 7 minutos.
+3. Pipeline de arte (hito 7), en cuanto pase el punto 1. Las herramientas
+   están en `engine/tools/blender/` y el cargador de atlas real en
    `src/render/atlasLoader.ts`; falta el arte.
-4. IA que reaccione a la composición del rival (DEUDA-007), sin lo cual medir
-   balance no significa nada.
+4. IA que reaccione a la composición del rival (DEUDA-007). La mezcla militar
+   ya cubre los cuatro vértices, pero sigue siendo fija: no mira lo que trae
+   el rival.
 5. Multijugador lockstep, si todo lo anterior funciona.
+
+## Cómo se comprueba que el escenario sigue teniendo pulso
+
+```bash
+cd engine
+npm test                      # 75 pruebas, incluidas las regresiones de ritmo
+npm run playtest -- --partidas=30   # treinta partidas completas y su informe
+```
 
 ## Legal
 
