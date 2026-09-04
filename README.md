@@ -113,7 +113,7 @@ engine/           motor nuevo: PixiJS v8 + TypeScript + ECS + Vite
   src/path        campos de flujo y A* jerárquico, en Web Worker
   src/render      render isométrico, atlas, niebla de guerra
   src/game        facciones, datos, escenario de Cuarte 1094, IA
-  test            75 pruebas en dos tandas, todas en Node
+  test            81 pruebas en dos tandas, todas en Node
   tools/playtest.ts  banco de partidas: mide el ritmo del escenario
   tools/blender   horneado de sprites isométricos desde Blender
 docs/             decisiones, deuda técnica, balance, fuentes, tratamiento
