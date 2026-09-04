@@ -73,17 +73,22 @@ probar.
 3. Pipeline de arte (hito 7), en cuanto pase el punto 1. Las herramientas
    están en `engine/tools/blender/` y el cargador de atlas real en
    `src/render/atlasLoader.ts`; falta el arte.
-4. IA que reaccione a la composición del rival (DEUDA-007). La mezcla militar
-   ya cubre los cuatro vértices, pero sigue siendo fija: no mira lo que trae
-   el rival.
+4. ~~IA que reaccione a la composición del rival (DEUDA-007).~~ **Hecha y
+   medida.** Observa lo que ve —respetando la niebla—, recuerda con olvido y
+   desplaza la mezcla hacia el contrario del triángulo. El hallazgo es que
+   **no cambia el desenlace**: la composición pesa poco frente a las torres,
+   la economía y el número. Eso pasa la pelota al balance (DEUDA-010): los
+   bonos del triángulo son demasiado tímidos.
 5. Multijugador lockstep, si todo lo anterior funciona.
 
 ## Cómo se comprueba que el escenario sigue teniendo pulso
 
 ```bash
 cd engine
-npm test                      # 75 pruebas, incluidas las regresiones de ritmo
-npm run playtest -- --partidas=30   # treinta partidas completas y su informe
+npm test              # 61 pruebas rápidas (2 s)
+npm run test:lento    # 20 pruebas que simulan partidas enteras
+npm run playtest -- --partidas=30            # informe de ritmo
+npm run playtest -- --duelo=25 --rival=soloJinetes   # ¿sirve adaptarse?
 ```
 
 ## Legal

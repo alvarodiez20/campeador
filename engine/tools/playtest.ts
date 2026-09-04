@@ -286,6 +286,73 @@ function informe(partidas: Partida[]): void {
   console.log('');
 }
 
+/**
+ * Duelo controlado: mide si adaptarse a lo que trae el rival sirve de algo.
+ *
+ * Cada semilla se juega dos veces contra el MISMO rival: una con el Cid
+ * adaptandose y otra con el Cid de cuota fija. Las dos personalidades del Cid
+ * son identicas salvo el interruptor `reactiva`, asi que la diferencia de
+ * victorias es la adaptacion y nada mas: no la ventaja del escenario, que es
+ * grande y favorece al defensor.
+ *
+ *     npm run playtest -- --duelo=25 --rival=soloJinetes
+ */
+function duelo(partidas: number, base: number, rivalNombre: string): void {
+  const reactiva = PERSONALIDADES.equilibrado;
+  const fija = PERSONALIDADES.cuotaFija;
+  const rival = PERSONALIDADES[rivalNombre] ?? PERSONALIDADES.cuotaFija;
+  let ganaReactiva = 0;
+  let ganaFija = 0;
+  let sinResolver = 0;
+  const bajasReactiva: number[] = [];
+  const bajasFija: number[] = [];
+  const bajasRivalA: number[] = [];
+  const bajasRivalB: number[] = [];
+  const compA: number[][] = [];
+  const compB: number[][] = [];
+
+  for (let i = 0; i < partidas; i++) {
+    const semilla = base + i * 7919;
+    // Mano A: el Cid se adapta, el almoravide es el rival de referencia.
+    const a = jugar(semilla, [reactiva, rival, PERSONALIDADES.economico]);
+    if (a.desenlace === 'victoria') ganaReactiva++;
+    else if (a.desenlace !== 'derrota') sinResolver++;
+    bajasReactiva.push(a.bajas[0]);
+    bajasRivalA.push(a.bajas[1]);
+    const ua = a.muestras[a.muestras.length - 1];
+    if (ua) compA.push(ua.unidades[0]);
+    // Mano B: el mismo rival y la misma semilla, pero el Cid no se adapta.
+    // Lo unico que cambia entre las dos manos es el interruptor.
+    const b = jugar(semilla, [fija, rival, PERSONALIDADES.economico]);
+    if (b.desenlace === 'victoria') ganaFija++;
+    else if (b.desenlace !== 'derrota') sinResolver++;
+    bajasFija.push(b.bajas[0]);
+    bajasRivalB.push(b.bajas[1]);
+    const ub = b.muestras[b.muestras.length - 1];
+    if (ub) compB.push(ub.unidades[0]);
+    process.stdout.write(`\r  duelo ${i + 1}/${partidas}...`);
+  }
+  process.stdout.write('\r                          \r');
+
+  console.log(`\n=== duelo contra "${rival.name}" · ${partidas} partidas por mano ===\n`);
+  console.log(`  el Cid que se adapta   gana ${String(ganaReactiva).padStart(3)} de ${partidas}  (${Math.round((ganaReactiva / partidas) * 100)}%)`);
+  console.log(`  el Cid de cuota fija   gana ${String(ganaFija).padStart(3)} de ${partidas}  (${Math.round((ganaFija / partidas) * 100)}%)`);
+  console.log(`  diferencia             ${(((ganaReactiva - ganaFija) / partidas) * 100).toFixed(0)} puntos a favor de adaptarse`);
+  console.log('');
+  console.log(`  bajas propias   se adapta ${media(bajasReactiva).toFixed(1)} · cuota fija ${media(bajasFija).toFixed(1)}`);
+  console.log(`  bajas al rival  se adapta ${media(bajasRivalA).toFixed(1)} · cuota fija ${media(bajasRivalB).toFixed(1)}`);
+  const cambioA = media(bajasRivalA) / Math.max(1, media(bajasReactiva));
+  const cambioB = media(bajasRivalB) / Math.max(1, media(bajasFija));
+  console.log(`  intercambio     se adapta ${cambioA.toFixed(2)} · cuota fija ${cambioB.toFixed(2)} (bajas causadas por baja propia)`);
+  const comp = (xs: number[][], c: UnitClass): string => media(xs.map((x) => x[c])).toFixed(1);
+  console.log('');
+  console.log('  composicion final del Cid   infante lancero jinete arquero');
+  console.log(`    se adapta                  ${comp(compA, UnitClass.Infantry).padStart(6)} ${comp(compA, UnitClass.Spear).padStart(7)} ${comp(compA, UnitClass.Cavalry).padStart(6)} ${comp(compA, UnitClass.Archer).padStart(7)}`);
+  console.log(`    cuota fija                 ${comp(compB, UnitClass.Infantry).padStart(6)} ${comp(compB, UnitClass.Spear).padStart(7)} ${comp(compB, UnitClass.Cavalry).padStart(6)} ${comp(compB, UnitClass.Archer).padStart(7)}`);
+  if (sinResolver > 0) console.log(`  sin resolver ${sinResolver}`);
+  console.log('');
+}
+
 function main(): void {
   const args = process.argv.slice(2);
   const leer = (k: string, def: number): number => {
@@ -294,6 +361,14 @@ function main(): void {
   };
   const partidas = leer('partidas', 12);
   const base = leer('semilla', 0x1094);
+  const enDuelo = leer('duelo', 0);
+  if (enDuelo > 0) {
+    const t = Date.now();
+    const rival = args.find((x) => x.startsWith('--rival='))?.slice(8) ?? 'cuotaFija';
+    duelo(enDuelo, base, rival);
+    console.log(`(${enDuelo * 2} partidas en ${((Date.now() - t) / 1000).toFixed(1)} s)\n`);
+    return;
+  }
 
   const mezclas: AiPersonality[][] = [
     [PERSONALIDADES.equilibrado, PERSONALIDADES.agresivo, PERSONALIDADES.economico],

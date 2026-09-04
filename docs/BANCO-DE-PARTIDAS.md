@@ -92,6 +92,54 @@ Dos iteraciones fallidas antes de acertar, las dos medidas:
 - Reparto histórico de ventajas —número para el sitiador, fortificación para
   el sitiado— → 67/33.
 
+## Duelo: ¿sirve de algo que la IA se adapte?
+
+```bash
+npm run playtest -- --duelo=60 --rival=soloJinetes
+```
+
+La segunda pregunta que sabe contestar el banco. Cada semilla se juega dos
+veces contra el **mismo** rival: una con el Cid adaptando su mezcla militar a
+lo que ve y otra con el Cid de cuota fija. Las dos personalidades son
+idénticas salvo un interruptor, así que la diferencia de victorias es la
+adaptación y nada más.
+
+**El resultado, contra un rival 85% caballería, en 120 partidas:**
+
+| | Se adapta | Cuota fija |
+|---|---|---|
+| Victorias | 72% | 68% |
+| Bajas causadas por baja propia | 1,41 | 1,39 |
+
+**Tres puntos de diferencia: ruido.** Y no por estar apagada — la reacción se
+activa en el 42% de los ciclos de una partida, con picos de diecisiete
+unidades enemigas a la vista, y desplaza la cuota de lanceros de 30 a 60
+cuando lo que ve es caballería.
+
+La conclusión no es que la adaptación esté mal hecha, sino algo más útil para
+el diseño: **en este escenario la composición del ejército pesa mucho menos
+que las torres, la economía y el número**. El triángulo funciona en un duelo
+limpio de seis contra seis —hay una prueba por arista que lo comprueba— pero
+se diluye en una partida completa. Eso apunta a los números de
+[`BALANCE.md`](BALANCE.md), no a la IA: los bonos del triángulo son
+demasiado tímidos frente a todo lo demás. Anotado en DEUDA-010.
+
+Se deja implementada porque es correcta, barata y el caso real no es este:
+un jugador humano se sesga mucho más que un 85%, y sobre todo lo hace a
+propósito.
+
+## La IA no hace trampas
+
+`observarAlRival` solo cuenta enemigos en casillas que el jugador tiene
+**visibles ahora mismo** (`visibleTo(...) === 2`), y lo guarda como media
+móvil con olvido de unos siete segundos de semivida. Hay una prueba dedicada
+a ello: un ejército enemigo de veinte jinetes en la otra punta del mapa no
+mueve la cuota ni un punto.
+
+No es una sutileza. Una IA que lee el estado completo del mundo es más fácil
+de escribir, y además invalida cualquier medición de balance: se estaría
+midiendo contra un rival que juega a otro juego.
+
 ## Regresiones que quedan protegidas
 
 Cada hallazgo tiene ahora su prueba en `engine/test/ia.test.ts` y

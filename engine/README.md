@@ -21,12 +21,15 @@ npm run dev
 
 ```bash
 npm test         # 61 pruebas rápidas (2 s): es la red de cada cambio
-npm run test:lento   # 14 pruebas que simulan partidas enteras (15 s)
+npm run test:lento   # 20 pruebas que simulan partidas enteras (18 s)
 npm run test:todo    # las dos tandas
 npm run build    # typecheck + producción
 
 # treinta partidas completas de Cuarte 1094 y su informe de ritmo
 npm run playtest -- --partidas=30
+
+# ¿sirve de algo que la IA se adapte? duelo controlado, mismo rival
+npm run playtest -- --duelo=25 --rival=soloJinetes
 ```
 
 Las pruebas van en dos tandas a propósito. Las de escenario y de IA simulan

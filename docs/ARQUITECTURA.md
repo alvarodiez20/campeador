@@ -116,7 +116,7 @@ objetivo real es quedarse por debajo de 8 ms para dejarle el hilo al render.
 ```bash
 npm test          # 61 pruebas rápidas (2 s): punto fijo, RNG, rutas,
                   # simulación, parias y presupuesto de CPU
-npm run test:lento  # 14 pruebas que simulan partidas enteras (15 s)
+npm run test:lento  # 20 pruebas que simulan partidas enteras (18 s)
 npm run playtest    # treinta partidas completas y su informe de ritmo
 npm run typecheck # TypeScript estricto, sin any implícitos
 npm run build     # typecheck + build de producción
@@ -132,8 +132,11 @@ Lo que vigilan las pruebas, en orden de importancia:
    tres IAs y se comprueba que se recolecta, se construye y se entrena.
 4. **Presupuesto de CPU.** Umbrales generosos a propósito: vigilan regresiones
    de un orden de magnitud, no el último milisegundo.
-5. **Ritmo de la IA.** Las regresiones de `test/ia.test.ts` salieron todas del
+5. **Ritmo de la IA.** Las regresiones de `test/ia.lento.test.ts` salieron del
    banco de partidas: reparto de aldeanos a los cuatro recursos, los cuatro
    vértices del triángulo entrenados, remate del rival deshecho y parias
    exigidas. Ninguna rompía nada visible —la partida corría igual, solo que
    mal—, así que sin prueba volverían en silencio.
+6. **Que la IA no haga trampas.** `test/ia-reactiva.lento.test.ts` comprueba
+   que solo cuenta enemigos dentro de la niebla descubierta: veinte jinetes en
+   la otra punta del mapa no mueven su mezcla militar ni un punto.

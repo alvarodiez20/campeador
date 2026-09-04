@@ -87,19 +87,20 @@ se empujan hasta que la detección de atasco las da por llegadas.
   quad texturizado; no hay shaders propios que portar (ver DEUDA-002, que
   habría que resolver con programas GLSL **y** WGSL).
 
-### DEUDA-007 · La IA no reacciona a la composición del rival
+### ~~DEUDA-007~~ · La IA reacciona a la composición del rival — **pagada**
 
-`SimpleAI` entrena por cuota fija (30% lancero, 25% infante, 25% arquero, 20%
-jinete). Cubre los cuatro vértices del triángulo, pero no mira lo que tiene
-delante: si el jugador va todo caballería, la IA no saca más lanceros.
+`SimpleAI` ya no entrena una cuota fija: observa qué clases enemigas tiene a
+la vista, lo recuerda con olvido de unos siete segundos y desplaza la mezcla
+hacia el contrario del triángulo. Solo cuenta lo que está dentro de la niebla
+descubierta: no lee el estado del mundo.
 
-- **Coste hoy:** el oponente es previsible. Ya no es *inofensivo* —el banco de
-  partidas da 33% de derrotas—, pero es leíble.
-- **Disparador:** al pasar a afinar el balance en serio. Una IA que no
-  reacciona invalida cualquier medición de balance.
-- **Arreglo:** contar clases enemigas vistas y desviar la cuota hacia su
-  contador. El sitio es `trainStuff`, que ya ordena por déficit: basta con que
-  la cuota deje de ser constante.
+**Lo medido, que es lo interesante:** adaptarse **no cambia el desenlace de
+forma medible** (tres puntos en 120 partidas contra un rival 85% caballería,
+dentro del ruido), y no por estar apagada — se activa en el 42% de los ciclos.
+Ver [`BANCO-DE-PARTIDAS.md`](BANCO-DE-PARTIDAS.md).
+
+Eso mueve el problema de sitio: no es la IA, es que la composición pesa poco
+frente a las torres, la economía y el número. Sigue en DEUDA-010.
 
 ### DEUDA-011 · La taifa de Albarracín apenas crece
 
@@ -143,5 +144,8 @@ ver [`BANCO-DE-PARTIDAS.md`](BANCO-DE-PARTIDAS.md)). Lo que sigue sin afinar
 son los ritmos finos: tiempos de recolección, de construcción y de recarga
 están puestos a ojo y ninguno se ha barrido buscando el mejor valor.
 
-- **Disparador:** después de resolver DEUDA-007. Afinar números contra una IA
-  que no reacciona es afinar contra un maniquí.
+- **Disparador:** ya. Con DEUDA-007 pagada hay con qué medir, y la primera
+  medición dice algo concreto: **los bonos del triángulo son demasiado
+  tímidos**. Funcionan en un duelo de seis contra seis, pero en una partida
+  completa la composición no decide, y una IA que la optimiza no gana más
+  partidas. Ese es el número que hay que tocar primero.

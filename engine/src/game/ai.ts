@@ -1,4 +1,4 @@
-import { FP_ONE, fx } from '../core/fixed';
+import { FP_ONE, FP_SHIFT, fx } from '../core/fixed';
 import { GatherState, MoveState, ResourceKind, UnitClass } from '../ecs/components';
 import { NULL_ENTITY, entityIndex } from '../ecs/world';
 import type { CommandQueue } from '../sim/commands';
@@ -41,14 +41,88 @@ export interface AiPersonality {
   waveEvery: number;
   /** Reparto de aldeanos por recurso (comida, madera, oro, piedra). */
   gatherMix: [number, number, number, number];
+  /**
+   * Si adapta la mezcla militar a lo que ve del rival. En falso entrena
+   * siempre la cuota fija, que es como se comportaba antes de DEUDA-007 y lo
+   * que permite enfrentarlas en el banco de partidas para ver si adaptarse
+   * sirve de algo.
+   */
+  reactiva: boolean;
+  /**
+   * Mezcla militar propia, si no se quiere la del triangulo. Sirve para
+   * fabricar rivales sesgados con los que probar la adaptacion: contra un
+   * rival equilibrado no hay a que adaptarse.
+   */
+  mezclaBase?: Partial<Record<UnitClass, number>>;
   name: string;
 }
 
 export const PERSONALIDADES: Record<string, AiPersonality> = {
-  agresivo: { villagers: 14, waveSize: 7, waveEvery: 15 * 55, gatherMix: [4, 4, 3, 1], name: 'agresivo' },
-  equilibrado: { villagers: 16, waveSize: 12, waveEvery: 15 * 100, gatherMix: [5, 5, 4, 2], name: 'equilibrado' },
-  economico: { villagers: 22, waveSize: 16, waveEvery: 15 * 140, gatherMix: [7, 7, 5, 3], name: 'economico' },
+  agresivo: { villagers: 14, waveSize: 7, waveEvery: 15 * 55, gatherMix: [4, 4, 3, 1], reactiva: true, name: 'agresivo' },
+  equilibrado: { villagers: 16, waveSize: 12, waveEvery: 15 * 100, gatherMix: [5, 5, 4, 2], reactiva: true, name: 'equilibrado' },
+  economico: { villagers: 22, waveSize: 16, waveEvery: 15 * 140, gatherMix: [7, 7, 5, 3], reactiva: true, name: 'economico' },
+  /** La de antes de DEUDA-007: cuota fija pase lo que pase. Para comparar. */
+  cuotaFija: { villagers: 16, waveSize: 12, waveEvery: 15 * 100, gatherMix: [5, 5, 4, 2], reactiva: false, name: 'cuota fija' },
+  /** Rival sesgado a caballeria. El caso que DEUDA-007 describia. */
+  soloJinetes: {
+    villagers: 16,
+    waveSize: 12,
+    waveEvery: 15 * 100,
+    gatherMix: [5, 5, 5, 1],
+    reactiva: false,
+    mezclaBase: { [UnitClass.Cavalry]: 85, [UnitClass.Spear]: 5, [UnitClass.Infantry]: 5, [UnitClass.Archer]: 5 },
+    name: 'solo jinetes',
+  },
+  /** Rival sesgado a arqueros. */
+  soloArqueros: {
+    villagers: 16,
+    waveSize: 12,
+    waveEvery: 15 * 100,
+    gatherMix: [5, 5, 4, 2],
+    reactiva: false,
+    mezclaBase: { [UnitClass.Archer]: 85, [UnitClass.Spear]: 5, [UnitClass.Infantry]: 5, [UnitClass.Cavalry]: 5 },
+    name: 'solo arqueros',
+  },
 };
+
+/**
+ * Quien contesta a quien. Es el triangulo de `game/data.ts` leido al reves:
+ * si enfrente hay caballeria, la respuesta son lanceros.
+ */
+const CONTRARIO: Partial<Record<UnitClass, UnitClass>> = {
+  [UnitClass.Cavalry]: UnitClass.Spear,
+  [UnitClass.Spear]: UnitClass.Infantry,
+  [UnitClass.Archer]: UnitClass.Cavalry,
+  [UnitClass.Infantry]: UnitClass.Archer,
+};
+
+/**
+ * Cuanto pesa lo que se ve frente a la cuota base, sobre 100.
+ *
+ * La primera version usaba 60 con memoria corta y el resultado fue una IA que
+ * perseguia instantaneas: la cuota de arqueros saltaba de 25 a 57, a 10 y a
+ * 63 en minuto y medio, y un unico lancero avistado disparaba la de infantes
+ * al 70%. Entrenar sesenta por ciento de arqueros durante treinta segundos y
+ * despues sesenta de jinetes da el mismo ejercito mezclado que la cuota fija,
+ * pero llegando tarde a todo. En el duelo empataba: 48% contra 52%.
+ */
+const PESO_REACCION = 70;
+/**
+ * Olvido por ciclo de IA (un segundo), con media movil exponencial.
+ *
+ * `visto` es una media suavizada de lo que hay delante ahora, no la suma de
+ * todo lo visto: sumar hacia que el valor creciera sin techo mientras el
+ * enemigo estuviera a la vista, y despues tardara tres minutos en bajar del
+ * umbral aunque no quedara un solo jinete en el mapa. Con 0,9 la semivida es
+ * de unos siete segundos: suficiente para no perseguir fotogramas, corto para
+ * enterarse de que el rival ha cambiado de unidad.
+ */
+const OLVIDO = 0.9;
+/** Por debajo de esto la muestra no dice nada y no se reacciona. */
+const MUESTRA_MINIMA = 3;
+/** Ninguna clase baja ni sube de aqui: un ejercito de una sola cosa pierde. */
+const CUOTA_MIN = 12;
+const CUOTA_MAX = 60;
 
 export class SimpleAI {
   private nextWave = 15 * 60;
@@ -56,6 +130,13 @@ export class SimpleAI {
   private rally = { x: 0, y: 0 };
   /** Antirrebote de la diplomacia: no exigir tributo cada quince ticks. */
   private proximaGestion = 15 * 40;
+  /**
+   * Lo que se ha visto del rival, por clase, con olvido. Es memoria, no
+   * omnisciencia: solo entra lo que esta dentro de la niebla descubierta del
+   * jugador. Una IA que lee el estado completo del mundo no es dificil, es
+   * tramposa, y ademas invalida cualquier medicion de balance.
+   */
+  private readonly visto = new Float64Array(8);
 
   constructor(
     private readonly sim: Simulation,
@@ -67,6 +148,10 @@ export class SimpleAI {
   tick(): void {
     if (this.sim.players[this.player].defeated) return;
     if (this.counter++ % PERIOD !== 0) return;
+    // Mirar no depende de poder entrenar. Colgado de `trainStuff`, que sale
+    // antes si la poblacion esta topada, la IA dejaba de observar justo
+    // cuando mas falta hace saber que viene.
+    this.observarAlRival();
     this.manageEconomy();
     this.trainStuff();
     this.buildStuff();
@@ -259,9 +344,10 @@ export class SimpleAI {
     // Deficit respecto a la cuota. Con el ejercito vacio, todos empatan a
     // cero y decide el orden de MEZCLA, que es estable y por tanto
     // determinista.
+    const cuotas = this.cuotaEfectiva();
     const candidatos = MEZCLA.map((m) => ({
       ...m,
-      deficit: (militares * m.cuota) / 100 - (tengo.get(m.cls) ?? 0),
+      deficit: (militares * cuotas[m.cls]) / 100 - (tengo.get(m.cls) ?? 0),
     })).sort((a, b) => b.deficit - a.deficit);
 
     for (const c of candidatos) {
@@ -286,6 +372,65 @@ export class SimpleAI {
         return;
       }
     }
+  }
+
+  /**
+   * Anota que clases enemigas hay a la vista. Solo cuentan las casillas que
+   * el jugador tiene descubiertas ahora mismo: si no lo has visto, no lo
+   * sabes.
+   */
+  private observarAlRival(): void {
+    const sim = this.sim;
+    const C = sim.C;
+    const ahora = new Float64Array(this.visto.length);
+    sim.eachUnit((i) => {
+      if (!sim.enemies(this.player, C.player[i])) return;
+      const cls = C.unitClass[i] as UnitClass;
+      if (cls === UnitClass.Villager) return;
+      const tx = C.tx[i] >> FP_SHIFT;
+      const ty = C.ty[i] >> FP_SHIFT;
+      if (sim.visibleTo(this.player, tx, ty) !== 2) return;
+      ahora[cls] += 1;
+    });
+    for (let k = 0; k < this.visto.length; k++) {
+      this.visto[k] = this.visto[k] * OLVIDO + ahora[k] * (1 - OLVIDO);
+    }
+  }
+
+  /**
+   * Cuota militar corregida por lo que se ha visto del rival. La base sigue
+   * pesando: volcarse del todo en el contador de lo ultimo visto es la forma
+   * mas rapida de que te ganen cambiando de unidad.
+   */
+  cuotaEfectiva(): Record<UnitClass, number> {
+    const base: Record<number, number> = {};
+    for (const m of MEZCLA) base[m.cls] = this.p.mezclaBase?.[m.cls] ?? m.cuota;
+    if (!this.p.reactiva) return base as Record<UnitClass, number>;
+
+    let total = 0;
+    for (const m of MEZCLA) total += this.visto[m.cls];
+    if (total < MUESTRA_MINIMA) return base as Record<UnitClass, number>;
+
+    // Cada clase enemiga vista empuja hacia su contrario.
+    const reaccion: Record<number, number> = {};
+    for (const m of MEZCLA) reaccion[m.cls] = 0;
+    for (const m of MEZCLA) {
+      const contra = CONTRARIO[m.cls];
+      if (contra === undefined) continue;
+      reaccion[contra] += (this.visto[m.cls] * 100) / total;
+    }
+
+    const out: Record<number, number> = {};
+    for (const m of MEZCLA) {
+      const mezclada = (base[m.cls] * (100 - PESO_REACCION) + reaccion[m.cls] * PESO_REACCION) / 100;
+      out[m.cls] = Math.max(CUOTA_MIN, Math.min(CUOTA_MAX, Math.round(mezclada)));
+    }
+    return out as Record<UnitClass, number>;
+  }
+
+  /** Lo que la IA cree que tiene enfrente. Solo para pruebas y depuracion. */
+  vistoDelRival(): Float64Array {
+    return this.visto;
   }
 
   /**
