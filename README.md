@@ -21,11 +21,11 @@
 ## 🏰 Qué es esto
 
 Un RTS completo al estilo *Age of Empires*, escrito en **HTML + CSS + JavaScript puro**.
-Cero dependencias, cero build, cero assets: **todo el arte —terreno, edificios, unidades animadas e iconos— se genera por código** al cargar la página, y la música y los efectos se sintetizan con WebAudio.
+Cero dependencias, cero build, cero assets: **todo el arte —terreno pintado, 19 edificios en seis estilos arquitectónicos, 32 unidades e iconos grabados— se genera por código** al cargar la página, y la música y los efectos se sintetizan con WebAudio.
 
 | | |
 |---|---|
-| 🛡️ **6 reinos jugables** | Castilla, León, Aragón y Navarra, Taifa de Zaragoza, Taifa de Sevilla y Almorávides, cada uno con bonificaciones y unidad única |
+| 🛡️ **6 reinos jugables** | Castilla, León, Aragón y Navarra, Taifa de Zaragoza, Taifa de Sevilla y Almorávides, cada uno con bonificaciones, unidad única y **arquitectura propia**: sillería y teja roja en Castilla, granito y pizarra en León, arenisca y tablilla en Aragón, ladrillo y teja vidriada verde en Zaragoza, cal y azulejo en Sevilla, adobe y merlones escalonados entre los almorávides |
 | 📜 **Campaña histórica** | Seis misiones sobre la vida de Rodrigo Díaz: Graus (1063), Zamora (1072), el Destierro (1081), Almenar (1082), Valencia (1094) y Cuarte (1094) |
 | ⚔️ **Escaramuza** | Contra 1–3 rivales o en 2 contra 2, cuatro dificultades, cinco mapas, tres tipos de inicio |
 | 🌾 **Economía** | Cuatro recursos, cuatro épocas, 17 edificios, 20 unidades con líneas de mejora y 30 tecnologías |
@@ -62,11 +62,14 @@ La partida guardada, el progreso de campaña y las opciones viven en el `localSt
 ```
 index.html        página y marcado de la interfaz
 css/style.css     interfaz (paneles de madera y piedra, menús)
+js/cid-art.js     núcleo del arte pintado: terreno, naturaleza, iconos, estilos por reino
+js/cid-art-buildings.js  los 19 edificios en los seis estilos arquitectónicos
+js/cid-art-units.js      las 32 unidades, de frente y de perfil
 js/data.js        reinos, unidades, edificios, tecnologías, épocas
 js/map.js         generación de mapas (5 tipos), A* y niebla de guerra
 js/entities.js    jugadores, órdenes, combate, guarnición, mercado, catedral, clérigos
 js/ai.js          IA con personalidades
-js/sprites.js     generador de sprites isométricos por código
+js/sprites.js     puente con el arte: caché, obras en curso, mezcla de bordes del terreno
 js/render.js      render isométrico 2:1 por trozos, orden de profundidad, minimapa
 js/ui.js          selección, órdenes, panel de mandos, atajos, HUD
 js/audio.js       efectos y música sintetizados con WebAudio

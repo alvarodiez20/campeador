@@ -116,7 +116,7 @@ $('#btnBackCamp').onclick = () => { closeOverlays(); showMain(); };
 $('#btnResetCamp').onclick = () => { if (confirm('¿Borrar el progreso de la campaña?')) { saveCampaignProgress({unlocked: 1, done: []}); renderMissionList(); } };
 function renderMissionList() {
   const prog = campaignProgress(); const el = $('#missionList'); el.innerHTML = '';
-  MISSIONS.forEach((m, i) => { const locked = i >= prog.unlocked; const d = document.createElement('div'); d.className = 'mission' + (locked ? ' locked' : ''); d.innerHTML = `<div class="n">${i + 1}</div><div><b>${m.title}</b><small>${m.subtitle}</small></div>${prog.done.includes(i) ? '<span class="done">✔ Completada</span>' : locked ? '<span class="done" style="color:var(--muted)">Bloqueada</span>' : ''}`; if (!locked) d.onclick = () => showBriefing(i); el.appendChild(d); });
+  MISSIONS.forEach((m, i) => { const locked = i >= prog.unlocked; const d = document.createElement('div'); d.className = 'mission' + (locked ? ' locked' : ''); d.innerHTML = `<div class="n" data-n="${i + 1}"></div><div><b>${m.title}</b><small>${m.subtitle}</small></div>${prog.done.includes(i) ? '<span class="done">✔ Completada</span>' : locked ? '<span class="done" style="color:var(--muted)">Bloqueada</span>' : ''}`; if (!locked) d.onclick = () => showBriefing(i); el.appendChild(d); });
 }
 let briefIndex = 0;
 function showBriefing(i) { briefIndex = i; const m = MISSIONS[i]; $('#briefTitle').textContent = m.title; $('#briefText').textContent = m.brief; $('#briefHistory').textContent = m.history || ''; $('#briefObj').innerHTML = m.objectives.map(o => `<li>${o.text}</li>`).join(''); closeOverlays(); showOverlay('briefOv'); }

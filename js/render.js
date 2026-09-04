@@ -71,7 +71,12 @@ function drawUnit(u) {
   const sp = unitSprite(u, civOf(u.owner).style, facing, st.anim, st.frame, u.carry && u.carry.amt > 0 ? u.carry.type : null);
   const sel = UI.selected.includes(u);
   if (sel) { ctx.strokeStyle = allied(u.owner, HUMAN) ? '#c6f5c9' : '#ffb4ae'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(s.x, s.y, (u.def.cls === 'cab' || u.def.cls === 'sit' ? 16 : 11) * z, (u.def.cls === 'cab' || u.def.cls === 'sit' ? 7 : 5) * z, 0, 0, 7); ctx.stroke(); }
-  ctx.drawImage(sp.c, s.x - sp.ax * z, s.y - sp.ay * z, 64 * z, 80 * z);
+  // el arte pintado no trae fotogramas: el paso, el trabajo y el golpe se animan desplazando el sprite
+  let ax = 0, ay = 0;
+  if (st.anim === 'walk') ay = -[0, 1.3, 0, 1.3][st.frame];
+  else if (st.anim === 'work') { const d = [0, 1.6, 2.4, 1.6][st.frame]; ax = facing === 3 ? -d : facing === 1 ? d : 0; ay = facing === 0 ? d * 0.5 : facing === 2 ? -d * 0.5 : -d * 0.3; }
+  else if (st.anim === 'attack') { const d = [1.6, 4.2, 1][st.frame]; ax = facing === 3 ? -d : facing === 1 ? d : 0; ay = facing === 0 ? d * 0.5 : facing === 2 ? -d * 0.5 : -1; }
+  ctx.drawImage(sp.c, s.x - sp.ax * z + ax * z, s.y - sp.ay * z + ay * z, 64 * z, 80 * z);
   const top = s.y - (u.def.cls === 'cab' ? 44 : u.def.cls === 'sit' ? 30 : 36) * z;
   if (u.hp < u.maxHp || sel || OPTS.hp) drawHpBar(s.x, top, 22 * z, u.hp / u.maxHp);
   if (sel && u.stance && u.owner === HUMAN) { ctx.fillStyle = '#fff'; ctx.font = `${9 * z}px system-ui`; ctx.fillText(u.stance === 1 ? 'D' : 'H', s.x + 12 * z, top - 2); }
@@ -87,13 +92,12 @@ function wallMask(b) {
 function drawBuilding(b, vis) {
   const z = UI.cam.z, s = worldToScreen(b.tx * TILE, b.ty * TILE);
   const stage = b.built >= 1 ? 3 : b.built < 0.33 ? 0 : b.built < 0.66 ? 1 : 2;
-  const sp = buildingSprite(b.type, b.owner, stage, (b.def.wall || b.def.gate) ? wallMask(b) : 0, b.def.gate && b.closed ? 'closed' : '');
+  const extra = (b.def.gate && b.closed ? 'closed' : '') + (b.type === 'molino' && b.built >= 1 ? 's' + (Math.floor(G.time * 6) % 8) : '');
+  const sp = buildingSprite(b.type, b.owner, stage, (b.def.wall || b.def.gate) ? wallMask(b) : 0, extra);
   const sel = UI.selected.includes(b);
   if (sel) drawFootprint(b.tx, b.ty, b.w, b.h, allied(b.owner, HUMAN) ? '#c6f5c9' : '#ffb4ae', null);
   ctx.save(); if (!vis) ctx.globalAlpha = 0.6;
   ctx.drawImage(sp.c, s.x - sp.ax * z, s.y - sp.ay * z, sp.c.width / ISO.S * z, sp.c.height / ISO.S * z);
-  // aspas del molino
-  if (b.type === 'molino' && b.built >= 1) { const cx = s.x + 0 * z, cy = s.y - (BLD_HT.molino - 4) * z; ctx.strokeStyle = '#eee8dc'; ctx.lineWidth = 2 * z; ctx.beginPath(); const a = G.time * 1.5; for (let k = 0; k < 4; k++) { ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(a + k * Math.PI / 2) * 14 * z, cy + Math.sin(a + k * Math.PI / 2) * 14 * z); } ctx.stroke(); }
   ctx.restore();
   // humo si está dañado
   if (b.built >= 1 && b.hp < b.maxHp * 0.5 && vis) { const n = b.hp < b.maxHp * 0.25 ? 3 : 1; for (let k = 0; k < n; k++) { const t = (G.time * 0.7 + k * 0.37 + b.id * 0.13) % 1; const px = s.x + ((k - 1) * 10 + Math.sin(G.time * 2 + k) * 4) * z, py = s.y - (BLD_HT[b.type] * 0.5 + t * 30) * z; ctx.fillStyle = `rgba(60,55,50,${(1 - t) * 0.55})`; ctx.beginPath(); ctx.arc(px, py, (4 + t * 8) * z, 0, 7); ctx.fill(); } if (b.hp < b.maxHp * 0.25) { ctx.fillStyle = `rgba(255,${120 + Math.sin(G.time * 12) * 40},40,0.8)`; ctx.beginPath(); ctx.arc(s.x + 6 * z, s.y - 8 * z, (3 + Math.sin(G.time * 9) * 1) * z, 0, 7); ctx.fill(); } }
@@ -111,7 +115,8 @@ function drawFootprint(tx, ty, w, h, stroke, fill) {
 function drawTerrainObject(tx, ty, t, amount) {
   const z = UI.cam.z, s = worldToScreen((tx + .5) * TILE, (ty + .5) * TILE);
   const k = amount / (TILE_AMOUNT[t] || 1);
-  if (t === T_TREE) { const sp = treeSprite((tx * 7 + ty * 13) % 4, k); ctx.drawImage(sp, s.x - 32 * z, s.y - 72 * z, 64 * z, 80 * z); }
+  if (t === T_TREE) { const m = G.map; const palm = (m.t(tx + 1, ty) === T_SAND) + (m.t(tx - 1, ty) === T_SAND) + (m.t(tx, ty + 1) === T_SAND) + (m.t(tx, ty - 1) === T_SAND) >= 3; // solo en dunas y oasis, no en playas ni caminos
+    const sp = treeSprite((tx * 7 + ty * 13) % 4, k, palm); ctx.drawImage(sp, s.x - 32 * z, s.y - 72 * z, 64 * z, 80 * z); }
   else if (t === T_BERRY) { const sp = bushSprite(k); ctx.drawImage(sp, s.x - 32 * z, s.y - 40 * z, 64 * z, 48 * z); }
   else { const sp = rockSprite(t === T_GOLD, k); ctx.drawImage(sp, s.x - 32 * z, s.y - 40 * z, 64 * z, 48 * z); }
 }
