@@ -12,7 +12,9 @@ function frame(t) {
     while (acc >= step && n++ < 6) { simulate(step); acc -= step; }
     if (acc > step * 6) acc = 0;
   }
-  render();
+  const t0 = performance.now(); render(); const work = performance.now() - t0;
+  if (!G.paused && !G.over) { WARM.t -= dtReal; warmSprites(Math.max(0.4, 6 - work)); } // solo con el margen que sobre
+  adaptRes(work, dtReal * 1000);
   hudT -= dtReal; if (hudT <= 0) { hudT = 0.2; updateHud(); }
 }
 function showOverlay(id, keepPause) { $('#' + id).classList.add('show'); }

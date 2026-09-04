@@ -30,6 +30,7 @@ Cero dependencias, cero build, cero assets: **todo el arte —terreno pintado, 1
 | ⚔️ **Escaramuza** | Contra 1–3 rivales o en 2 contra 2, cuatro dificultades, cinco mapas, tres tipos de inicio |
 | 🌾 **Economía** | Cuatro recursos, cuatro épocas, 17 edificios, 20 unidades con líneas de mejora y 30 tecnologías |
 | 🧠 **IA con carácter** | Rivales económicos, agresivos, defensivos o equilibrados |
+| 🎬 **Todo se mueve** | Los aldeanos alzan y descargan la herramienta al recolectar, construir y reparar; la infantería tira el tajo, la caballería lleva la lanza calada, los caballos trotan. Saltan astillas, esquirlas y chispas, y la cámara acusa el derrumbe de un edificio |
 | ✝️ **Detalles de casa** | Guarnición, campana del pueblo, clérigos que curan, convierten y portan reliquias, mercado, catedral, posturas, patrulla, vigilancia y puertas |
 
 ## 🎮 Cómo se juega
@@ -69,13 +70,22 @@ js/data.js        reinos, unidades, edificios, tecnologías, épocas
 js/map.js         generación de mapas (5 tipos), A* y niebla de guerra
 js/entities.js    jugadores, órdenes, combate, guarnición, mercado, catedral, clérigos
 js/ai.js          IA con personalidades
-js/sprites.js     puente con el arte: caché, obras en curso, mezcla de bordes del terreno
+js/sprites.js     puente con el arte: poses de animación, caché, obras, marco de los paneles
+fonts/            Cinzel y Crimson Pro autoalojadas (subconjunto latino, woff2)
 js/render.js      render isométrico 2:1 por trozos, orden de profundidad, minimapa
 js/ui.js          selección, órdenes, panel de mandos, atajos, HUD
 js/audio.js       efectos y música sintetizados con WebAudio
 js/campaign.js    las seis misiones, con objetivos, guion e historia
 js/main.js        bucle principal, menús, guardado/carga, estadísticas
 ```
+
+## ⚙️ Detalles técnicos
+
+- **Se dibuja a la resolución real del monitor** (`devicePixelRatio`), con **resolución adaptativa**: si la máquina no sostiene 50 fps baja la escala sola, y la recupera cuando hay margen.
+- **Sin fotogramas pregenerados**: al generador de figuras se le pasa una pose —piernas, vaivén del tronco, giro y avance del brazo armado— y pinta ese instante. Se cachean diez poses por unidad y lado, y se **precalientan con presupuesto por fotograma** para que el primer golpe no dé un tirón.
+- El oeste es el este **espejado al dibujar**, no otro lienzo guardado: quitarlo bajó el render de 7,7 ms a 0,9 ms.
+- Los paneles llevan un **marco de piedra nine-slice** generado por código: las esquinas no se estiran.
+- Tipografías **autoalojadas**: ni terceros ni viaje extra bloqueando el render.
 
 ## 💻 Ejecutarlo en local
 

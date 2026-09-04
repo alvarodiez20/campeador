@@ -213,6 +213,20 @@ function alertPlayer(owner, x, y, msg) {
   if (G.time - pl.lastAlert > 12) { pl.lastAlert = G.time; log(msg || '¡Nos atacan!', 'warn'); sfx('horn'); }
   if (!G.events.length || dist(G.events[G.events.length - 1].x, G.events[G.events.length - 1].y, x, y) > TILE * 8 || G.time - G.events[G.events.length - 1].t > 10) G.events.push({x, y, t: G.time});
 }
+// ------------------------------------------------------------ partículas y avisos flotantes
+// Van en G.fx como todo lo demás; la posición se calcula por la edad del efecto, así que el
+// bucle de simulación no tiene que integrarlas una a una.
+const CHIP = {wood: '#a9793f', stone: '#b4bac2', gold: '#f0c94a', food: '#7fae4a', dust: '#9a8a6e', spark: '#ffd98a', blood: '#8e2b22'};
+function chips(x, y, n, col, o = {}) {
+  if (G.fx.length > 600) return; // en una batalla grande, antes el fotograma que la chispa
+  for (let i = 0; i < n; i++) { const a = Math.random() * Math.PI * 2, sp = (o.sp || 22) * (0.35 + Math.random());
+    G.fx.push({t: 'part', x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp * 0.55, vz: (o.up || 40) * (0.4 + Math.random()),
+      life: o.life || 0.6, max: o.life || 0.6, c: col, r: o.r || 1.8, g: o.g || 190}); }
+}
+function floatText(x, y, txt, col) { G.fx.push({t: 'float', x, y, txt, c: col, life: 1.1, max: 1.1}); }
+// avanza u.anim y avisa cuando el ciclo cruza el fotograma de golpe (el 2)
+function strikeTick(u, before) { return Math.floor(before) % 4 !== 2 && Math.floor(u.anim) % 4 === 2; }
+
 function dealDamage(src, target, amount, pierce) {
   if (!target || target.hp <= 0 || !G.byId[target.id]) return;
   const arm = target.kind === 'unit' ? unitArm(target, pierce) : bldArm(target, pierce);
@@ -249,6 +263,8 @@ function killEntity(target, src) {
   } else {
     if (src && !allied(src.owner, target.owner)) P(src.owner).stats.razed++;
     G.fx.push({t: 'ruin', x: target.x, y: target.y, w: target.w, life: 1.2});
+    chips(target.x, target.y, 14 + target.w * 4, CHIP.dust, {sp: 30 + target.w * 6, up: 55, r: 2.6, life: 1.1});
+    G.shake = Math.min(1.2, (G.shake || 0) + 0.35 + target.w * 0.12); // la cámara acusa el derrumbe
     if (P(target.owner).human) { log(`Hemos perdido: ${target.def.name}`, 'warn'); sfx('crumble'); } else if (src && P(src.owner).human) { log(`Destruido: ${target.def.name} de ${P(target.owner).name}`, 'good'); sfx('crumble'); }
     if (target.def.wonder) { log(`¡La Maravilla de ${P(target.owner).name} ha sido destruida!`, src && P(src.owner).human ? 'good' : 'warn'); }
   }
@@ -282,7 +298,8 @@ function attackTarget(u, t) {
   if (u.def.bonus && u.def.bonus[cls]) atk = Math.round(atk * u.def.bonus[cls]);
   else if (t.kind === 'bld' && u.def.cls !== 'sit') atk = Math.max(1, Math.round(atk * (u.def.cls === 'ald' ? 1 : 0.6)));
   if (u.def.rng > 0) { fireProjectile(u, t, atk, u.def.splash, u.def.cls === 'sit' ? 'rock' : 'arrow'); if (u.def.cls === 'arc') sfx('arrow', u.x, u.y); }
-  else { dealDamage(u, t, atk, false); G.fx.push({t: 'hit', x: t.x + rnd(-6, 6), y: t.y + rnd(-6, 6), life: 0.25}); sfx(t.kind === 'bld' ? 'thud' : 'clash', u.x, u.y); }
+  else { dealDamage(u, t, atk, false); G.fx.push({t: 'hit', x: t.x + rnd(-6, 6), y: t.y + rnd(-6, 6), life: 0.25});
+    chips(t.x, t.y - 2, t.kind === 'bld' ? 5 : 3, t.kind === 'bld' ? CHIP.dust : CHIP.spark, {sp: t.kind === 'bld' ? 16 : 24, up: 30, r: 1.5, life: 0.4}); sfx(t.kind === 'bld' ? 'thud' : 'clash', u.x, u.y); }
 }
 
 // ============================================================ UNIDADES
@@ -437,7 +454,9 @@ function updateUnit(u, dt) {
         const fx = civFx(u.owner); const gm = (fx.gather && fx.gather[o.res]) || 0;
         let base = {food: t === T_FARM ? 0.5 * (1 + techFx(u.owner, 'farm')) : 0.62, wood: 0.6 * (1 + techFx(u.owner, 'gatherWood')), stone: 0.55 * (1 + techFx(u.owner, 'gatherMine')), gold: 0.55 * (1 + techFx(u.owner, 'gatherMine'))}[o.res];
         base *= (1 + techFx(u.owner, 'gather') + gm) * (P(u.owner).ai ? P(u.owner).ai.eco : 1);
-        u.gatherT += dt * base; u.anim += dt * 6;
+        u.gatherT += dt * base; const an0 = u.anim; u.anim += dt * 6;
+        if (strikeTick(u, an0)) { const c = CHIP[o.res] || CHIP.dust; const tx2 = (o.tx + .5) * TILE, ty2 = (o.ty + .5) * TILE;
+          chips((u.x + tx2) / 2, (u.y + ty2) / 2, o.res === 'gold' ? 5 : 4, c, {sp: o.res === 'wood' ? 26 : 20, up: 34, r: o.res === 'stone' ? 2.2 : 1.8}); }
         if (u.gatherT >= 1) { const n = Math.floor(u.gatherT); u.gatherT -= n; const take = Math.min(n, m.amount[i]); u.carry.amt += take; if (t !== T_FARM) m.amount[i] -= take; if (t === T_TREE) m.dirty = true; if (m.amount[i] <= 0) { if (t !== T_FARM) m.terrain[i] = T_DIRT; m.dirty = true; } }
       } else {
         if (!u.path.length && u.repathT <= 0) setPath(u, o.tx, o.ty, (x, y) => Math.abs(x - o.tx) <= 1 && Math.abs(y - o.ty) <= 1);
@@ -449,7 +468,10 @@ function updateUnit(u, dt) {
     case 'return': {
       const b = G.byId[o.tid];
       if (!b || !u.carry) { nextOrder(u); break; }
-      if (distToEntity(u.x, u.y, b) < TILE * 0.95) { P(u.owner).res[u.carry.type] += u.carry.amt; P(u.owner).stats.gathered += u.carry.amt; u.carry = null; nextOrder(u); }
+      if (distToEntity(u.x, u.y, b) < TILE * 0.95) { const amt = Math.round(u.carry.amt), rt = u.carry.type;
+        P(u.owner).res[rt] += u.carry.amt; P(u.owner).stats.gathered += u.carry.amt;
+        if (P(u.owner).human && amt > 0) { floatText(b.x, b.y - 6, '+' + amt, CHIP[rt]); chips(b.x, b.y, 3, CHIP[rt], {sp: 12, up: 26, life: 0.5}); }
+        u.carry = null; nextOrder(u); }
       else { if (!u.path.length && u.repathT <= 0) startOrder(u, o); if (!u.path.length) approach(u, b, dt); moveAlong(u, dt); separate(u, dt); }
       break;
     }
@@ -463,7 +485,8 @@ function updateUnit(u, dt) {
         nextOrder(u); break;
       }
       if (distToEntity(u.x, u.y, b) < TILE * 0.95) {
-        u.path = []; u.anim += dt * 6; u.facing = b.x < u.x ? -1 : 1;
+        u.path = []; const an1 = u.anim; u.anim += dt * 6; u.facing = b.x < u.x ? -1 : 1;
+        if (strikeTick(u, an1)) chips((u.x + b.x) / 2, (u.y + b.y) / 2, 4, CHIP.dust, {sp: 18, up: 30, r: 2, life: 0.75});
         if (o.type === 'build') { const rate = 1 / b.def.time * (1 / (1 + 0.3 * Math.max(0, b.builders))); b.builders++; b.built = Math.min(1, b.built + rate * dt); b.hp = Math.min(b.maxHp, b.hp + b.maxHp * 0.92 * rate * dt); if (b.built >= 1) onBuilt(b); if (Math.random() < dt * 2) sfx('hammer', u.x, u.y); }
         else { const cost = bldCost(u.owner, b.type); const rate = 1 / b.def.time * 1.5; const heal = b.maxHp * rate * dt; let ok = true; for (const k in cost) { const c = cost[k] * 0.25 * rate * dt; if (P(u.owner).res[k] < c) ok = false; else P(u.owner).res[k] -= c; } if (ok) b.hp = Math.min(b.maxHp, b.hp + heal); else { if (P(u.owner).human) log('Sin recursos para reparar', 'warn'); nextOrder(u); } }
       } else { if (!u.path.length && u.repathT <= 0) startOrder(u, o); if (!u.path.length) { if (distToEntity(u.x, u.y, b) < TILE * 2) approach(u, b, dt); else { u.stuck += dt; if (u.stuck > 6) { nextOrder(u); break; } } } moveAlong(u, dt); separate(u, dt); }
@@ -590,6 +613,7 @@ function simulate(dt) {
   for (const b of G.buildings) updateBuilding(b, dt);
   updateProjectiles(dt); updateMarkets(dt);
   for (let i = G.fx.length - 1; i >= 0; i--) { G.fx[i].life -= dt; if (G.fx[i].life <= 0) G.fx.splice(i, 1); }
+  if (G.shake > 0) G.shake = Math.max(0, G.shake - dt * 2.6);
   for (const pl of G.players) if (pl.ai && pl.alive) pl.ai.update(dt);
   G.fogT = (G.fogT || 0) - dt; if (G.fogT <= 0) { G.fogT = 0.25; recomputeFog(); }
   if (G.sim % 300 === 0) recordHistory();

@@ -1,6 +1,10 @@
 /* El Cid — Crónicas de la Reconquista · interfaz estilo Definitive Edition (piedra, pergamino y latón)
    Sustituye a css/style.css. Misma estructura de ids/clases que index.html; solo cambia el aspecto. */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap');
+/* Tipografías autoalojadas (subconjunto latino, woff2). El @import a Google Fonts bloqueaba
+   el render con un viaje extra y ataba el juego a un tercero; así van con el resto del sitio. */
+@font-face{font-family:'Cinzel';font-style:normal;font-weight:500 700;font-display:swap;src:url(../fonts/Cinzel.woff2) format('woff2')}
+@font-face{font-family:'Crimson Pro';font-style:normal;font-weight:400 600;font-display:swap;src:url(../fonts/CrimsonPro.woff2) format('woff2')}
+@font-face{font-family:'Crimson Pro';font-style:italic;font-weight:400;font-display:swap;src:url(../fonts/CrimsonPro-italic.woff2) format('woff2')}
 :root{
   --bg:#0f0d0b; --stone:#3b3630; --stone2:#26221e; --stone3:#1a1714; --stone-lt:#6e6357; --edge:#4a423a;
   --brass:#8a7248; --gold:#c8a24a; --gold2:#e7c46a; --parch:#e9dcc0; --parch2:#d9c9a6; --ink:#2a1f14;
@@ -94,6 +98,9 @@ button{font-family:inherit}
 .overlay{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,#00000066,#0f0d0bf2 80%);display:none;align-items:center;justify-content:center;z-index:10}
 .overlay.show{display:flex}
 .card{width:min(1120px,94vw);max-height:94vh;overflow:auto;background:linear-gradient(#302b26,#1e1a16);border:3px solid var(--brass);box-shadow:inset 0 0 0 2px #000,inset 0 0 0 3px var(--edge),0 30px 80px #000;border-radius:0;padding:30px 36px 26px}
+/* marco de piedra con clavos: las esquinas no se estiran (nine-slice). --frame lo genera
+   js/sprites.js al cargar; si aún no está, queda el borde de latón de arriba. */
+.card{border:18px solid transparent;border-image:var(--frame) var(--frame-cut)/18px/0 round;padding:22px 28px 20px;box-shadow:0 30px 80px #000}
 .card.narrow{width:min(640px,94vw);padding:36px 44px 30px}
 .card h1{font-family:var(--serif);font-size:38px;color:#efe3c8;letter-spacing:1px;margin-bottom:14px;text-shadow:0 2px 0 #000;border-bottom:1px solid var(--edge);padding-bottom:14px}
 .card.narrow h1{text-align:center;font-size:56px;border:0;padding-bottom:0;margin-bottom:6px}
@@ -142,3 +149,21 @@ button{font-family:inherit}
 .oblist li{padding:4px 0;color:var(--muted);font-size:15px}
 .oblist li:before{content:"◆ ";color:var(--gold)}
 #mainOv .card{background:linear-gradient(#302b26ee,#1e1a16ee)}
+
+/* ------------------------------------------------------------ respuesta al puntero
+   Lo que se pulsa se hunde, lo que se puede pulsar se levanta. Sin esto la interfaz se
+   siente de cartón por buena que sea la textura. Se respeta a quien pide menos movimiento. */
+.tbtn,.cmd,.opt,.big,.menu button,.mission,.multi .u{transition:transform .08s ease,box-shadow .12s ease,filter .12s ease}
+.tbtn:hover,.menu button:hover,.mission:hover,.opt:hover{transform:translateY(-1px)}
+.cmd:not(.off):hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px var(--gold),0 4px 10px #0009}
+.big:hover{transform:translateY(-1px);box-shadow:0 5px 14px #000a}
+.tbtn:active,.cmd:not(.off):active,.opt:active,.big:active,.menu button:active,.mission:active{transform:translateY(1px);filter:brightness(.92);box-shadow:inset 0 2px 6px #000c}
+.cmd:not(.off){cursor:pointer}
+.cmd.off{filter:grayscale(.5) brightness(.75)}
+/* el foco de teclado tiene que verse: se juega mucho con atajos */
+.tbtn:focus-visible,.big:focus-visible,.menu button:focus-visible,.opt:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){
+  .tbtn,.cmd,.opt,.big,.menu button,.mission,.multi .u{transition:none}
+  .tbtn:hover,.menu button:hover,.mission:hover,.opt:hover,.cmd:not(.off):hover,.big:hover,
+  .tbtn:active,.cmd:not(.off):active,.opt:active,.big:active,.menu button:active,.mission:active{transform:none}
+}

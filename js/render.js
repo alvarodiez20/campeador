@@ -8,10 +8,13 @@ const PANEL_H = 176, TOP_H = 44;
 // El lienzo se dibuja a la resolución real del monitor: VW/VH son píxeles CSS (lo que mide la
 // ventana) y DPR el factor del dispositivo. Sin esto, en cualquier pantalla retina o con
 // escalado del sistema el navegador estira el lienzo y se pierde el detalle de los sprites.
-let VW = 0, VH = 0, DPR = 1;
+let VW = 0, VH = 0, DPR = 0, DPR_MAX = 1;
+let SHX = 0, SHY = 0; // sacudida de cámara (solo dibujo: no mueve la cámara real ni el ratón)
 const MM = {w: 228, h: 140}; // tamaño CSS del minimapa
 function resize() {
-  DPR = Math.min(devicePixelRatio || 1, 2); // por encima de 2 el coste no compensa
+  DPR_MAX = Math.min(devicePixelRatio || 1, 2); // por encima de 2 el coste no compensa
+  if (!DPR) DPR = DPR_MAX;                      // primer arranque: a la resolución del monitor
+  DPR = Math.min(DPR, DPR_MAX);                 // adaptRes puede haberla bajado
   VW = innerWidth; VH = innerHeight;
   cv.width = Math.round(VW * DPR); cv.height = Math.round(VH * DPR);
   cv.style.width = VW + 'px'; cv.style.height = VH + 'px';
@@ -20,10 +23,24 @@ function resize() {
   mm.width = Math.round(MM.w * DPR); mm.height = Math.round(MM.h * DPR);
 }
 addEventListener('resize', resize); resize();
-const viewH = () => VH - PANEL_H - TOP_H;
+// Resolución adaptativa. Dibujar a 2x cuadruplica los píxeles y hay máquinas que no lo
+// sostienen. Se mide en ventanas de 60 fotogramas: si no se sostienen 50 fps se baja la
+// escala, y solo se vuelve a subir cuando se va a ritmo de 60 y además el render va holgado
+// (el tiempo de render por sí solo no vale: no ve lo que cuesta componer el lienzo).
+const PERF = {n: 0, work: 0, sum: 0, cool: 0};
+function adaptRes(workMs, dtMs) {
+  PERF.n++; PERF.work += workMs; PERF.sum += dtMs;
+  if (PERF.n < 60) return;
+  const avg = PERF.sum / PERF.n, work = PERF.work / PERF.n;
+  PERF.n = 0; PERF.work = 0; PERF.sum = 0;
+  if (PERF.cool > 0) { PERF.cool--; return; }
+  if (avg > 20 && DPR > 1) { DPR = Math.max(1, DPR - 0.5); resize(); PERF.cool = 3; }
+  else if (avg < 17.5 && work < 5 && DPR < DPR_MAX) { DPR = Math.min(DPR_MAX, DPR + 0.5); resize(); PERF.cool = 3; }
+}
+const viewH = () => VH - PANEL_H - TOP_H; // alto del visor del mapa, entre la barra y el panel
 // proyección: mundo (px, 32 por tile) → iso
 const isoOf = (wx, wy) => ({x: wx - wy, y: (wx + wy) / 2});
-function worldToScreen(wx, wy) { const z = UI.cam.z; return {x: (wx - wy - UI.cam.x) * z + VW / 2, y: ((wx + wy) / 2 - UI.cam.y) * z + TOP_H + viewH() / 2}; }
+function worldToScreen(wx, wy) { const z = UI.cam.z; return {x: (wx - wy - UI.cam.x) * z + VW / 2 + SHX, y: ((wx + wy) / 2 - UI.cam.y) * z + TOP_H + viewH() / 2 + SHY}; }
 function screenToWorld(sx, sy) { const z = UI.cam.z; const ix = (sx - VW / 2) / z + UI.cam.x, iy = (sy - TOP_H - viewH() / 2) / z + UI.cam.y; return {x: iy + ix / 2, y: iy - ix / 2}; }
 function clampCam() { const m = G.map, W = m.w * TILE; UI.cam.x = clamp(UI.cam.x, -W + 64, W - 64); UI.cam.y = clamp(UI.cam.y, 32, W - 32); }
 function centerOn(wx, wy) { const i = isoOf(wx, wy); UI.cam.x = i.x; UI.cam.y = i.y; clampCam(); }
@@ -52,9 +69,13 @@ function drawTerrain() {
   const m = G.map, z = UI.cam.z;
   if (m.dirty) { UI.chunkT -= 1; if (UI.chunkT <= 0) { UI.chunks.clear(); m.dirty = false; UI.chunkT = 90; } }
   const nC = Math.ceil(m.w / CH);
-  for (let cy = 0; cy < nC; cy++) for (let cx = 0; cx < nC; cx++) {
+  // Los trozos se solapan (1088 px de lienzo cada 512 de paso) y las fichas llevan solapa
+  // inferior, así que hay que pintarlos de fondo a frente: en isométrico la profundidad es
+  // cx+cy. Recorrerlos por filas dejaba costuras donde un trozo lejano tapaba a uno cercano.
+  for (let d = 0; d <= (nC - 1) * 2; d++) for (let cx = Math.max(0, d - nC + 1); cx <= Math.min(nC - 1, d); cx++) {
+    const cy = d - cx;
     const ox = (cx * CH - cy * CH) * 32 - CH * 32 - 32, oy = (cx * CH + cy * CH) * 16 - 6;
-    const sx = (ox - UI.cam.x) * z + VW / 2, sy = (oy - UI.cam.y) * z + TOP_H + viewH() / 2;
+    const sx = (ox - UI.cam.x) * z + VW / 2 + SHX, sy = (oy - UI.cam.y) * z + TOP_H + viewH() / 2 + SHY;
     const W = (CH * 64 + 64) * z, H = (CH * 32 + 48) * z;
     if (sx + W < 0 || sy + H < TOP_H || sx > VW || sy > VH - PANEL_H) continue;
     const ch = chunkCanvas(cx, cy);
@@ -77,6 +98,23 @@ function unitFacing(u) {
   if (o && (o.type === 'build' || o.type === 'repair')) { const b = G.byId[o.tid]; if (b) return facingOf(b.x - u.x, b.y - u.y); }
   return u.lastFacing ?? 0;
 }
+// Precalentado: la primera vez que una unidad gira, golpea o recolecta hay que generar ese
+// sprite, y eso se nota como un tirón. Aquí se van generando por adelantado los que faltan,
+// con un presupuesto por fotograma para no robarle tiempo al dibujado.
+const WARM = {q: null, t: 0};
+const WARM_POSES = [['idle', 0], ['walk', 1], ['walk', 3], ['walk', 0], ['work', 0], ['work', 1], ['work', 2], ['attack', 0], ['attack', 1], ['attack', 2]];
+function warmSprites(ms) {
+  if ((!WARM.q || !WARM.q.length) && WARM.t <= 0) {
+    const seen = new Set(), q = [];
+    for (const u of G.units) { const k = u.type + ':' + u.owner; if (seen.has(k)) continue; seen.add(k);
+      const fake = {type: u.type, def: u.def, owner: u.owner, relic: false};
+      for (const side of [0, 1]) for (const [a, f] of WARM_POSES) q.push([fake, side, a, f]); }
+    WARM.q = q; WARM.t = 5; // se rehace cada cinco segundos por si aparecen tipos nuevos
+  }
+  if (!WARM.q || !WARM.q.length) return;
+  const t0 = performance.now();
+  while (WARM.q.length && performance.now() - t0 < ms) { const j = WARM.q.pop(); unitSprite(j[0], '', j[1] ? 1 : 0, j[2], j[3], null); }
+}
 function drawUnit(u) {
   const z = UI.cam.z, s = worldToScreen(u.x, u.y);
   const facing = unitFacing(u); u.lastFacing = facing;
@@ -85,9 +123,11 @@ function drawUnit(u) {
   const sel = UI.selected.includes(u);
   if (sel) { ctx.strokeStyle = allied(u.owner, HUMAN) ? '#c6f5c9' : '#ffb4ae'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(s.x, s.y, (u.def.cls === 'cab' || u.def.cls === 'sit' ? 16 : 11) * z, (u.def.cls === 'cab' || u.def.cls === 'sit' ? 7 : 5) * z, 0, 0, 7); ctx.stroke(); }
   // la pose ya mueve brazos y piernas dentro del sprite; aquí solo el empuje del cuerpo entero
-  const ln = sp.lean || 0;
-  const ax = facing === 3 ? -ln : facing === 1 ? ln : 0, ay = facing === 0 ? ln * 0.5 : facing === 2 ? -ln * 0.5 : 0;
+  const ln = sp.lean || 0, flip = facing === 3; // el oeste es el este espejado
+  const ax = (facing === 1 || flip) ? ln : 0, ay = facing === 0 ? ln * 0.5 : facing === 2 ? -ln * 0.5 : 0;
+  if (flip) { ctx.save(); ctx.translate(s.x * 2, 0); ctx.scale(-1, 1); }
   ctx.drawImage(sp.c, s.x - sp.ax * z + ax * z, s.y - sp.ay * z + ay * z, 64 * z, 80 * z);
+  if (flip) ctx.restore();
   const top = s.y - (u.def.cls === 'cab' ? 44 : u.def.cls === 'sit' ? 30 : 36) * z;
   if (u.hp < u.maxHp || sel || OPTS.hp) drawHpBar(s.x, top, 22 * z, u.hp / u.maxHp);
   if (sel && u.stance && u.owner === HUMAN) { ctx.fillStyle = '#fff'; ctx.font = `${9 * z}px system-ui`; ctx.fillText(u.stance === 1 ? 'D' : 'H', s.x + 12 * z, top - 2); }
@@ -137,6 +177,8 @@ function inView(wx, wy, pad) { const s = worldToScreen(wx, wy); return s.x > -pa
 function render() {
   const m = G.map, z = UI.cam.z;
   ctx.fillStyle = '#0b0f12'; ctx.fillRect(0, 0, VW, VH);
+  const sk = G.shake || 0;
+  SHX = sk > 0 ? (Math.random() - 0.5) * 11 * sk : 0; SHY = sk > 0 ? (Math.random() - 0.5) * 7 * sk : 0;
   ctx.save(); ctx.beginPath(); ctx.rect(0, TOP_H, VW, viewH()); ctx.clip();
   drawTerrain();
   // recoger entidades visibles
@@ -170,6 +212,20 @@ function render() {
     else if (f.t === 'ruin') { ctx.globalAlpha = Math.min(1, f.life / 1.2); for (let k = 0; k < 6; k++) { ctx.fillStyle = `rgba(80,70,60,${0.6})`; ctx.beginPath(); ctx.arc(s.x + Math.cos(k * 1.1) * f.w * 12 * z, s.y - 10 * z - (1.2 - f.life) * 25 * z, (6 + k * 2) * z, 0, 7); ctx.fill(); } ctx.globalAlpha = 1; }
     else if (f.t === 'ping') { ctx.strokeStyle = '#5fbf6a'; ctx.lineWidth = 2; ctx.globalAlpha = f.life; ctx.beginPath(); ctx.ellipse(s.x, s.y, 14 * z * (1 - f.life) + 4, 7 * z * (1 - f.life) + 2, 0, 0, 7); ctx.stroke(); ctx.globalAlpha = 1; }
     else if (f.t === 'heal') { ctx.fillStyle = '#b6f0bb'; ctx.globalAlpha = f.life; for (let k = 0; k < 3; k++) { const yy = s.y - 24 * z - (0.8 - f.life) * 20 * z; ctx.fillRect(s.x - 8 * z + k * 8 * z, yy, 2 * z, 6 * z); ctx.fillRect(s.x - 10 * z + k * 8 * z, yy + 2 * z, 6 * z, 2 * z); } ctx.globalAlpha = 1; }
+    else if (f.t === 'part') { // la posición sale de la edad: parábola con gravedad
+      const age = f.max - f.life, s2 = worldToScreen(f.x + f.vx * age, f.y + f.vy * age);
+      const h = Math.max(0, f.vz * age - f.g * age * age / 2), rr = Math.max(1, f.r * z);
+      ctx.globalAlpha = Math.min(1, f.life / f.max * 1.7); ctx.fillStyle = f.c;
+      ctx.fillRect(s2.x - rr / 2, s2.y - h * z - rr / 2, rr, rr); ctx.globalAlpha = 1;
+    }
+    else if (f.t === 'float') {
+      const age = f.max - f.life; ctx.globalAlpha = Math.min(1, f.life / f.max * 2.2);
+      ctx.font = `bold ${12 * z}px Cinzel, Georgia, serif`; ctx.textAlign = 'center';
+      const yy = s.y - (24 + age * 30) * z;
+      ctx.strokeStyle = 'rgba(0,0,0,.85)'; ctx.lineWidth = 3.5 * z; ctx.strokeText(f.txt, s.x, yy);
+      ctx.fillStyle = f.c; ctx.fillText(f.txt, s.x, yy);
+      ctx.globalAlpha = 1; ctx.textAlign = 'left';
+    }
     else if (f.t === 'conv') { ctx.strokeStyle = '#d9a441'; ctx.globalAlpha = f.life * 2; ctx.beginPath(); ctx.ellipse(s.x, s.y - 4 * z, 12 * z * (1 - f.life), 6 * z * (1 - f.life), 0, 0, 7); ctx.stroke(); ctx.globalAlpha = 1; }
   }
   drawFog();
