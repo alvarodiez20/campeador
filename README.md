@@ -68,7 +68,7 @@ económico y diplomático.
 
 | | |
 |---|---|
-| ▶️ **Jugar** | <https://alvarodiez20.github.io/campeador/motor/> |
+| ▶️ **Jugar** | <https://alvarodiez20.github.io/campeador/motor/> (publicado desde `main`) |
 | 🧱 **Banco de pruebas** | <https://alvarodiez20.github.io/campeador/motor/?modo=banco&n=500> |
 | 📖 **Documentación** | [`engine/README.md`](engine/README.md) · [`docs/`](docs/) |
 

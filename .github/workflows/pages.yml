@@ -55,8 +55,13 @@ jobs:
         with:
           path: _site
 
+  # El entorno github-pages solo admite despliegues desde la rama por defecto.
+  # En las ramas de trabajo el flujo hace de integracion continua (typecheck,
+  # pruebas y empaquetado) y se queda ahi, en vez de terminar en rojo por una
+  # restriccion que no tiene nada que ver con el codigo.
   deploy:
     needs: build
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
