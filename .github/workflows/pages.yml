@@ -46,9 +46,19 @@ jobs:
       - name: Preparar el sitio
         run: |
           mkdir -p _site
-          tar --exclude=./_site --exclude=./.git --exclude=./engine -cf - . | tar -xf - -C _site
+          find . -mindepth 1 -maxdepth 1 \
+            ! -name '_site' ! -name '.git' ! -name 'engine' \
+            -exec cp -a {} _site/ \;
           mkdir -p _site/motor
-          cp -r engine/dist/. _site/motor/
+          cp -a engine/dist/. _site/motor/
+          # El juego de la raiz y el motor tienen que estar los dos. Sin esta
+          # comprobacion, un fallo al copiar publica un sitio a medias sin que
+          # nadie se entere hasta abrirlo.
+          test -f _site/index.html
+          test -f _site/.nojekyll
+          test -d _site/fonts
+          test -f _site/motor/index.html
+          ls -la _site _site/motor
 
       - name: Empaquetar el sitio
         uses: actions/upload-pages-artifact@v3

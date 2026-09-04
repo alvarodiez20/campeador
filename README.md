@@ -137,11 +137,23 @@ python3 -m http.server 8000
 
 Basta con un servidor estático cualquiera; no hay nada que compilar.
 
+El motor de `engine/` sí se compila, y va por su cuenta:
+
+```bash
+cd engine
+npm install
+npm run dev     # http://localhost:5173/
+npm test        # 68 pruebas, todas en Node
+```
+
 ## 🚀 Despliegue
 
-Cada `push` publica el sitio automáticamente mediante GitHub Actions
-([`.github/workflows/pages.yml`](.github/workflows/pages.yml)) en
-👉 **<https://alvarodiez20.github.io/campeador/>**
+GitHub Actions ([`.github/workflows/pages.yml`](.github/workflows/pages.yml))
+comprueba el motor en cada `push` —typecheck, pruebas y compilación— y publica
+el sitio cuando el `push` llega a `main`:
+
+- 👉 **<https://alvarodiez20.github.io/campeador/>** — el juego
+- 👉 **<https://alvarodiez20.github.io/campeador/motor/>** — el motor nuevo
 
 ---
 
