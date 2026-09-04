@@ -62,6 +62,24 @@ consistentes, pero afinar el balance antes de que el escenario se juegue
 entero es afinar sobre un juego que todavía cambia de forma. Anotado como
 DEUDA-010.
 
+## El escenario, medido
+
+Treinta partidas completas con la IA en las tres partes
+([`BANCO-DE-PARTIDAS.md`](BANCO-DE-PARTIDAS.md)):
+
+| | |
+|---|---|
+| Victoria del Cid | 67% |
+| Derrota | 33% |
+| Sin resolver | 0% |
+| Duración mediana | 434 s (7 min) |
+| Composición final del Cid | 4,4 infantes · 6,3 lanceros · 3,5 jinetes · 5,5 arqueros |
+
+El reparto de ventajas es el histórico y es el único que funcionó: **número
+para el sitiador, fortificación para el sitiado**. Con la hueste almorávide
+original el Cid ganaba el 92% sin una sola derrota; reforzándola sin tocar las
+torres de Valencia, perdía el 100%.
+
 ## Regla de alcance
 
 **Cada unidad nueva multiplica las interacciones que hay que probar.** Con 5

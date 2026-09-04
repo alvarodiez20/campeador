@@ -71,6 +71,9 @@ src/
     mapgen.ts       brochas de terreno
     ai.ts           IA de escaramuza
     benchmark.ts    banco de pruebas del criterio de aceptación
+tools/
+  playtest.ts       banco de partidas: juega el escenario y mide el ritmo
+  blender/          horneado de sprites isométricos
 ```
 
 ## Las cuatro decisiones que sostienen todo lo demás
@@ -111,8 +114,9 @@ objetivo real es quedarse por debajo de 8 ms para dejarle el hilo al render.
 ## Cómo se prueba
 
 ```bash
-npm test          # 68 pruebas: punto fijo, RNG, rutas, simulación,
-                  # parias, escenario completo y presupuesto de CPU
+npm test          # 75 pruebas: punto fijo, RNG, rutas, simulación,
+                  # parias, escenario completo, IA y presupuesto de CPU
+npm run playtest  # treinta partidas completas y su informe de ritmo
 npm run typecheck # TypeScript estricto, sin any implícitos
 npm run build     # typecheck + build de producción
 ```
@@ -127,3 +131,8 @@ Lo que vigilan las pruebas, en orden de importancia:
    tres IAs y se comprueba que se recolecta, se construye y se entrena.
 4. **Presupuesto de CPU.** Umbrales generosos a propósito: vigilan regresiones
    de un orden de magnitud, no el último milisegundo.
+5. **Ritmo de la IA.** Las regresiones de `test/ia.test.ts` salieron todas del
+   banco de partidas: reparto de aldeanos a los cuatro recursos, los cuatro
+   vértices del triángulo entrenados, remate del rival deshecho y parias
+   exigidas. Ninguna rompía nada visible —la partida corría igual, solo que
+   mal—, así que sin prueba volverían en silencio.

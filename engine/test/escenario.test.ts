@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { ResourceKind, UnitClass } from '../src/ecs/components';
 import { PERSONALIDADES, SimpleAI } from '../src/game/ai';
+import { BuildingId } from '../src/game/data';
 import { createValencia1094, PLAYER_ALBARRACIN, PLAYER_ALMORAVIDES, PLAYER_CID } from '../src/game/scenario';
 import { InlinePathService } from '../src/path/service';
 import { CommandQueue } from '../src/sim/commands';
@@ -66,10 +67,50 @@ describe('escenario de Valencia 1094', () => {
     expect(despues).not.toBe(antes);
   }, 120_000);
 
-  it('cumple el objetivo de resistir al llegar al tiempo', () => {
+  it('cumple el objetivo de resistir si la partida sigue viva a los ocho minutos', () => {
     const { sc, correr } = montar();
     correr(15 * 60 * 8 + 20);
-    if (sc.outcome !== 'derrota') expect(sc.objectives[0].done).toBe(true);
+    // Tres salidas posibles: la partida sigue (y entonces se ha resistido),
+    // ya se gano antes derribando la tienda del emir, o ya se perdio.
+    if (sc.outcome === 'jugando') expect(sc.objectives[0].done).toBe(true);
+    else expect(['victoria', 'derrota']).toContain(sc.outcome);
+  }, 240_000);
+
+  it('la partida siempre acaba: ninguna llega al limite sin desenlace', () => {
+    // El limite del escenario son 22 minutos; se corre hasta 24 para
+    // comprobar que cierra solo. Antes de esta regla, una de cada seis
+    // partidas se quedaba en tablas con los dos bandos desangrados.
+    for (const semilla of [0x1094, 0x2094, 0x3094]) {
+      const { sc, correr } = montar(semilla);
+      correr(15 * 60 * 24);
+      expect(sc.outcome).not.toBe('jugando');
+    }
+  }, 240_000);
+
+  it('si el cerco se queda sin fuerza, se levanta y se gana', () => {
+    const { sc, correr } = montar();
+    // Se barre el campamento —tropas, aldeanos y los edificios que sacan
+    // tropa— y se adelanta el reloj a la ventana de desgaste. Hacen falta las
+    // tres cosas: con aldeanos vivos la IA se rehace en menos de un minuto, y
+    // con el cuartel en pie tambien. Que se rehaga es lo correcto; por eso el
+    // desgaste solo cuenta cuando de verdad no queda con que.
+    // La tienda del emir se deja en pie a proposito: si cayera, la victoria
+    // seria por el objetivo 2 y esto no estaria probando el desgaste.
+    const sim = sc.sim;
+    const bajas: number[] = [];
+    sim.eachUnit((i) => {
+      if (sim.C.player[i] === PLAYER_ALMORAVIDES) bajas.push(i);
+    });
+    sim.world.each(sim.mBuilding, (i) => {
+      if (sim.C.player[i] !== PLAYER_ALMORAVIDES) return;
+      const tipo = sim.C.typeId[i];
+      if (tipo === BuildingId.Cuartel || tipo === BuildingId.Caballerizas) bajas.push(i);
+    });
+    for (const i of bajas) sim.destroyEntity(sim.world.entityAt(i));
+    sim.tick = 15 * 60 * 15;
+    correr(15 * 62)
+    expect(sc.outcome).toBe('victoria');
+    expect(sc.objectives[1].done).toBe(true);
   }, 240_000);
 
   it('perder el alcazar es la derrota', () => {
@@ -88,7 +129,7 @@ describe('escenario de Valencia 1094', () => {
     const { sc, correr, queue } = montar();
     // Se manda la caballeria a Albarracin y se exige el tributo.
     const jinetes: number[] = [];
-    sc.sim.world.each(sc.sim.mUnit, (i) => {
+    sc.sim.eachUnit((i) => {
       if (sc.sim.C.player[i] === PLAYER_CID && sc.sim.C.unitClass[i] === UnitClass.Cavalry) jinetes.push(i);
     });
     expect(jinetes.length).toBeGreaterThan(0);
