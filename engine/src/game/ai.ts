@@ -1,6 +1,6 @@
 import { FP_ONE, fx } from '../core/fixed';
 import { GatherState, MoveState, ResourceKind, UnitClass } from '../ecs/components';
-import { World, entityIndex, type Entity } from '../ecs/world';
+import { World, entityIndex } from '../ecs/world';
 import type { CommandQueue } from '../sim/commands';
 import type { Simulation } from '../sim/sim';
 import { canPlace } from '../sim/step';
@@ -271,11 +271,4 @@ export class SimpleAI {
       }
     }
   }
-}
-
-/** Utilidad para el HUD: nombre legible de una entidad. */
-export function entityLabel(sim: Simulation, e: Entity): string {
-  const i = entityIndex(e);
-  if (sim.world.has(e, sim.C.building)) return BUILDINGS[sim.C.typeId[i]].key;
-  return UNITS[sim.C.typeId[i]].key;
 }

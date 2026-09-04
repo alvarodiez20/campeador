@@ -23,11 +23,6 @@ import type { GameRenderer } from '../render/renderer';
  * mas. Ver docs/DECISIONES.md, ADR-004.
  */
 
-export type Intent =
-  | { t: 'seleccion'; entities: number[] }
-  | { t: 'construir'; building: BuildingId }
-  | { t: 'cancelar' };
-
 export interface InputHooks {
   onSelectionChanged?: (indices: number[]) => void;
   onBuildModeChanged?: (b: BuildingId | null) => void;

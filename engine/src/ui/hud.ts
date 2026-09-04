@@ -1,6 +1,5 @@
 import { FP_ONE } from '../core/fixed';
 import { ResourceKind, UnitClass } from '../ecs/components';
-import { entityIndex } from '../ecs/world';
 import {
   BUILDINGS,
   BuildingId,
@@ -471,8 +470,4 @@ function notaHistorica(sim: Simulation, player: number): string {
     return 'No vienen a cobrar tributo sino a acabar con el. Con ellos la diplomacia de parias deja de existir.';
   }
   return '';
-}
-
-export function entidadEnPantalla(sim: Simulation, e: number): boolean {
-  return sim.world.alive[entityIndex(e)] === 1;
 }

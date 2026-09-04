@@ -1,6 +1,5 @@
 import { Application, Container, Graphics, Sprite, Text } from 'pixi.js';
 import { FP_SHIFT, toFloat } from '../core/fixed';
-import { UnitClass } from '../ecs/components';
 import { World } from '../ecs/world';
 import { BUILDINGS, UNITS } from '../game/data';
 import type { Simulation } from '../sim/sim';
@@ -358,9 +357,5 @@ export class GameRenderer {
     };
     this.app.ticker.add(tick);
     this.app.ticker.start();
-  }
-
-  classOf(i: number): UnitClass {
-    return this.sim.C.unitClass[i] as UnitClass;
   }
 }
