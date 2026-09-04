@@ -57,6 +57,34 @@ La partida guardada, el progreso de campaña y las opciones viven en el `localSt
   <img src="assets/captura-campana.png" alt="Campaña: la vida del Cid" width="49%">
 </p>
 
+## 🧪 El motor nuevo (`engine/`)
+
+Junto a este juego vive un **segundo proyecto**: el vertical slice de un motor
+RTS construido con otro planteamiento técnico —PixiJS v8, TypeScript estricto,
+ECS propio, simulación determinista en punto fijo y pathfinding en Web Worker—
+con la defensa de Valencia de 1094 como escenario jugable y las **parias**
+(los tributos que los reinos cristianos cobraban a las taifas) como eje
+económico y diplomático.
+
+| | |
+|---|---|
+| ▶️ **Jugar** | <https://alvarodiez20.github.io/campeador/motor/> |
+| 🧱 **Banco de pruebas** | <https://alvarodiez20.github.io/campeador/motor/?modo=banco&n=500> |
+| 📖 **Documentación** | [`engine/README.md`](engine/README.md) · [`docs/`](docs/) |
+
+```bash
+cd engine && npm install && npm run dev
+```
+
+Los dos proyectos conviven a propósito: el de la raíz es un juego terminado
+sin dependencias; el de `engine/` es la base sobre la que crecer, con la
+simulación separada del render y un criterio de rendimiento que se mide antes
+de producir arte. Las decisiones que lo sostienen están en
+[`docs/DECISIONES.md`](docs/DECISIONES.md) y lo que se ha dejado a medias, con
+su motivo, en [`docs/DEUDA.md`](docs/DEUDA.md).
+
+---
+
 ## 🧭 Estructura del proyecto
 
 ```
@@ -75,6 +103,17 @@ js/ui.js          selección, órdenes, panel de mandos, atajos, HUD
 js/audio.js       efectos y música sintetizados con WebAudio
 js/campaign.js    las seis misiones, con objetivos, guion e historia
 js/main.js        bucle principal, menús, guardado/carga, estadísticas
+
+engine/           motor nuevo: PixiJS v8 + TypeScript + ECS + Vite
+  src/core        punto fijo, RNG determinista, bucle de tick fijo
+  src/ecs         entidades y columnas de TypedArray
+  src/sim         simulación: movimiento, combate, economía, parias
+  src/path        campos de flujo y A* jerárquico, en Web Worker
+  src/render      render isométrico, atlas, niebla de guerra
+  src/game        facciones, datos, escenario de Cuarte 1094, IA
+  test            68 pruebas, todas en Node
+  tools/blender   horneado de sprites isométricos desde Blender
+docs/             decisiones, deuda técnica, balance, fuentes, tratamiento
 ```
 
 ## 💻 Ejecutarlo en local

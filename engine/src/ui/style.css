@@ -1,0 +1,136 @@
+:root {
+  --piedra: #1b1f26;
+  --piedra-claro: #252b34;
+  --borde: #3c4553;
+  --pergamino: #e8dcc0;
+  --oro: #d8b04a;
+  --sangre: #a5402f;
+  --verde: #6f9b4f;
+  --texto: #d8d2c4;
+  --tenue: #8b8577;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #0d1116;
+  color: var(--texto);
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  user-select: none;
+}
+
+#app { position: relative; width: 100vw; height: 100vh; }
+#viewport { position: absolute; inset: 0; }
+#viewport canvas { display: block; }
+
+#overlay-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.panel {
+  position: absolute;
+  background: linear-gradient(180deg, rgba(37,43,52,.96), rgba(21,25,31,.96));
+  border: 1px solid var(--borde);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 13px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.45);
+}
+
+#barra-recursos {
+  top: 8px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 18px; align-items: center;
+  font-variant-numeric: tabular-nums;
+}
+#barra-recursos .rec { display: flex; align-items: center; gap: 6px; }
+#barra-recursos .pip { width: 10px; height: 10px; border-radius: 2px; }
+#barra-recursos .val { color: var(--pergamino); font-weight: 600; min-width: 42px; text-align: right; }
+#barra-recursos .etq { color: var(--tenue); font-size: 11px; }
+
+#perf {
+  top: 8px; left: 8px;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 11px; line-height: 1.5; color: var(--tenue);
+  min-width: 178px;
+}
+#perf b { color: var(--pergamino); font-weight: 600; }
+#perf .ok { color: var(--verde); }
+#perf .mal { color: var(--sangre); }
+
+#objetivos { top: 106px; left: 8px; max-width: 290px; }
+#objetivos h3 { margin: 0 0 6px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--oro); }
+#objetivos li { list-style: none; margin: 0 0 5px; padding-left: 18px; position: relative; line-height: 1.35; }
+#objetivos li::before { content: "☐"; position: absolute; left: 0; color: var(--tenue); }
+#objetivos li.hecho::before { content: "☑"; color: var(--verde); }
+#objetivos li.fallo::before { content: "☒"; color: var(--sangre); }
+#objetivos li.hecho { color: var(--tenue); text-decoration: line-through; }
+#objetivos .pista { display: block; color: var(--tenue); font-size: 11px; font-style: italic; }
+
+#minimapa { top: 8px; right: 8px; padding: 6px; }
+#minimapa canvas { display: block; image-rendering: pixelated; cursor: crosshair; border: 1px solid var(--borde); }
+
+#diplomacia { top: 240px; right: 8px; width: 300px; max-height: 46vh; overflow-y: auto; }
+#diplomacia h3 { margin: 0 0 8px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--oro); }
+#diplomacia .fila { border-top: 1px solid var(--borde); padding: 7px 0; }
+#diplomacia .fila:first-of-type { border-top: none; }
+#diplomacia .nom { display: flex; align-items: center; gap: 6px; font-weight: 600; color: var(--pergamino); }
+#diplomacia .nom .pip { width: 9px; height: 9px; border-radius: 50%; }
+#diplomacia .est { font-size: 11px; color: var(--tenue); margin: 2px 0 5px; }
+#diplomacia .nota { font-size: 11px; color: var(--tenue); font-style: italic; margin-top: 4px; line-height: 1.35; }
+#diplomacia .medidor { height: 6px; background: #12161b; border: 1px solid var(--borde); border-radius: 3px; overflow: hidden; margin: 6px 0 2px; }
+#diplomacia .medidor > div { height: 100%; background: linear-gradient(90deg, var(--verde), var(--oro), var(--sangre)); }
+
+/* Los hijos de #mando son .panel, que es absoluto: dentro del flex tienen
+   que volver a fluir o el contenedor colapsa a altura cero. */
+#mando > .panel { position: relative; inset: auto; }
+#mando { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; align-items: flex-start; }
+#seleccion { min-width: 220px; }
+#seleccion .titulo { color: var(--pergamino); font-weight: 600; }
+#seleccion .detalle { color: var(--tenue); font-size: 11px; margin-top: 2px; }
+#botones { display: grid; grid-template-columns: repeat(5, 46px); gap: 5px; }
+
+button.cmd {
+  height: 46px; border: 1px solid var(--borde); border-radius: 3px;
+  background: linear-gradient(180deg, #333a45, #232830);
+  color: var(--texto); cursor: pointer; font-size: 10px; line-height: 1.15;
+  padding: 3px; font-family: inherit;
+}
+button.cmd:hover:not(:disabled) { border-color: var(--oro); color: var(--pergamino); }
+button.cmd:disabled { opacity: .38; cursor: default; }
+button.cmd.activo { border-color: var(--oro); background: linear-gradient(180deg, #4a4432, #2b2820); }
+button.cmd .coste { display: block; color: var(--oro); font-size: 9px; margin-top: 2px; }
+
+#avisos { position: absolute; bottom: 8px; left: 8px; width: 320px; max-height: 26vh; overflow: hidden; display: flex; flex-direction: column-reverse; gap: 3px; background: none; border: none; box-shadow: none; }
+#avisos .aviso { background: rgba(21,25,31,.9); border-left: 3px solid var(--borde); padding: 4px 8px; font-size: 12px; border-radius: 2px; }
+#avisos .aviso.oro { border-left-color: var(--oro); }
+#avisos .aviso.malo { border-left-color: var(--sangre); }
+#avisos .aviso.bueno { border-left-color: var(--verde); }
+
+.modal {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: rgba(8,10,13,.82); z-index: 50;
+}
+.modal .caja {
+  max-width: 640px; padding: 26px 30px;
+  background: linear-gradient(180deg, #262c35, #171b21);
+  border: 1px solid var(--borde); border-radius: 6px;
+}
+.modal h1 { margin: 0 0 4px; font-size: 26px; color: var(--pergamino); font-weight: 600; }
+.modal .anno { color: var(--oro); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 16px; }
+.modal p { line-height: 1.6; margin: 0 0 12px; }
+.modal .aparte { border-left: 2px solid var(--borde); padding-left: 12px; color: var(--tenue); font-size: 12px; font-style: italic; }
+.modal button {
+  margin-top: 18px; padding: 10px 22px; font-family: inherit; font-size: 15px;
+  background: linear-gradient(180deg, #4a4432, #2b2820); color: var(--pergamino);
+  border: 1px solid var(--oro); border-radius: 3px; cursor: pointer;
+}
+.modal button:hover { background: linear-gradient(180deg, #5c5440, #3a3527); }
+.oculto { display: none !important; }
+
+#ayuda { position: absolute; bottom: 8px; right: 8px; font-size: 11px; color: var(--tenue); text-align: right; line-height: 1.5; background: none; border: none; box-shadow: none; }
+kbd { background: #2b313a; border: 1px solid var(--borde); border-radius: 3px; padding: 0 4px; font-family: ui-monospace, monospace; font-size: 10px; }
