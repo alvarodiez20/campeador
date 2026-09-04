@@ -14,7 +14,7 @@
  * jugador. Para lo otro hay que sentarse a jugarlo.
  */
 
-import { ResourceKind, UnitClass, GatherState, MoveState } from '../src/ecs/components';
+import { UnitClass, GatherState, MoveState } from '../src/ecs/components';
 import { PERSONALIDADES, SimpleAI, type AiPersonality } from '../src/game/ai';
 import {
   createValencia1094,

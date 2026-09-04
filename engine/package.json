@@ -11,9 +11,12 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "playtest": "vite build --ssr tools/playtest.ts --outDir .playtest --emptyOutDir --logLevel error && node .playtest/playtest.js"
+    "playtest": "vite build --ssr tools/playtest.ts --outDir .playtest --emptyOutDir --logLevel error && node .playtest/playtest.js",
+    "test:lento": "vitest run --config vitest.lento.config.ts",
+    "test:todo": "npm run test && npm run test:lento"
   },
   "devDependencies": {
+    "@types/node": "^26.4.1",
     "typescript": "^5.9.2",
     "vite": "^7.0.0",
     "vitest": "^3.2.0"

@@ -114,9 +114,10 @@ objetivo real es quedarse por debajo de 8 ms para dejarle el hilo al render.
 ## Cómo se prueba
 
 ```bash
-npm test          # 75 pruebas: punto fijo, RNG, rutas, simulación,
-                  # parias, escenario completo, IA y presupuesto de CPU
-npm run playtest  # treinta partidas completas y su informe de ritmo
+npm test          # 61 pruebas rápidas (2 s): punto fijo, RNG, rutas,
+                  # simulación, parias y presupuesto de CPU
+npm run test:lento  # 14 pruebas que simulan partidas enteras (15 s)
+npm run playtest    # treinta partidas completas y su informe de ritmo
 npm run typecheck # TypeScript estricto, sin any implícitos
 npm run build     # typecheck + build de producción
 ```

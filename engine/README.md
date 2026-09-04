@@ -20,12 +20,19 @@ npm run dev
   de aceptación técnico. Parámetros: `n`, `mapa`, `combate=1`, `obstaculos=0`.
 
 ```bash
-npm test        # 75 pruebas, todas en Node, sin navegador
-npm run build   # typecheck + producción
+npm test         # 61 pruebas rápidas (2 s): es la red de cada cambio
+npm run test:lento   # 14 pruebas que simulan partidas enteras (15 s)
+npm run test:todo    # las dos tandas
+npm run build    # typecheck + producción
 
 # treinta partidas completas de Cuarte 1094 y su informe de ritmo
 npm run playtest -- --partidas=30
 ```
+
+Las pruebas van en dos tandas a propósito. Las de escenario y de IA simulan
+hasta veinticuatro minutos de juego cada una, y metidas con las demás pasaban
+el paso de integración de un minuto a siete y medio. Corren en su propio
+trabajo, en paralelo.
 
 ## Controles
 

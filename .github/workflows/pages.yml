@@ -15,6 +15,25 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Las pruebas que simulan partidas enteras van en su propio trabajo, en
+  # paralelo: metidas en el de construccion pasaban el paso de un minuto a
+  # siete y medio, y un despliegue no deberia esperar por ellas.
+  pruebas-largas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: engine/package-lock.json
+      - name: Partidas completas
+        working-directory: engine
+        run: |
+          npm ci
+          npm run test:lento
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -70,7 +89,7 @@ jobs:
   # pruebas y empaquetado) y se queda ahi, en vez de terminar en rojo por una
   # restriccion que no tiene nada que ver con el codigo.
   deploy:
-    needs: build
+    needs: [build, pruebas-largas]
     if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
