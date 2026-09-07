@@ -89,3 +89,16 @@ Cuando chocan, gana la jugabilidad, pero se anota. Ahora mismo:
   goteo continuo. El goteo existe porque un RTS necesita renta legible.
 - Albarracín está en el mapa por razones de juego. Históricamente pagaba
   parias al Cid, pero no estaba a media legua de Valencia.
+
+Y un caso en el que ganó la precisión, que también se anota:
+
+- **El ballestero es ahora un arquero.** La unidad de tiro se diseñó con
+  ballesta de mano temprana, defendible en Europa en esa década pero no
+  documentada en la península en 1094; lo documentado para esta hueste es el
+  arco y la honda. El coste fue de jugabilidad y es real: la ballesta daba la
+  silueta más distinta del roster, una barra horizontal que no tenía ninguna
+  otra figura, y el arco no la da. Se aceptó porque además una sola pieza de
+  arte tiene que servir a los cuatro bloques, y tres de los cuatro nombres ya
+  decían arquero: con ballesta hacía falta un segundo modelo o un nombre que
+  mintiera, y lo segundo es exactamente lo que prohíbe el punto 5. El
+  razonamiento entero está en [`ARTE.md`](ARTE.md).

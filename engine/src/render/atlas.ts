@@ -139,7 +139,7 @@ export function buildPlaceholderAtlas(): Atlas {
     { key: 'infante', w: 18, top: 11, body: 18 },
     { key: 'lancero', w: 18, top: 11, body: 20 },
     { key: 'caballero', w: 24, top: 14, body: 22 },
-    { key: 'ballestero', w: 17, top: 11, body: 17 },
+    { key: 'arquero', w: 17, top: 11, body: 17 },
     { key: 'campeador', w: 28, top: 16, body: 28 },
   ];
 

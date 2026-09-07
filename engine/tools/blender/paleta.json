@@ -1,5 +1,5 @@
 {
-  "nota": "Paleta por unidad. 'ten' = zona teñible con el color de jugador: se pinta en blanco puro en el pase de máscara y el motor la multiplica por el color del jugador. Nunca llevar degradado.",
+  "nota": "Paleta por unidad. 'ten' = zona teñible con el color de jugador: se pinta en blanco puro en el pase de máscara y el motor la multiplica por el color del jugador. Nunca llevar degradado. La unidad 'arquero' se llamaba 'ballestero' y llevaba ballesta; ver docs/ARTE.md.",
   "comun": {
     "contorno": "#241b12",
     "piel_media": "#b0805c",
@@ -31,18 +31,6 @@
     "mascara_px2": 121,
     "alto_px": 60
   },
-  "ballestero": {
-    "capacete": "#8d8779",
-    "caperuza_lana": "#c9b795",
-    "caja_ballesta": "#9a7a4a",
-    "arco_asta": "#8a6a48",
-    "cuerda_canamo": "#d8cbb0",
-    "hierro_virote": "#bcbfc3",
-    "costura_perpunte": "#241b12",
-    "ten_perpunte": "PLAYER",
-    "mascara_px2": 168,
-    "alto_px": 57
-  },
   "aldeano": {
     "caperuza": "#c9b795",
     "mimbre": "#b98d4e",
@@ -61,5 +49,16 @@
       "oro",
       "comida"
     ]
+  },
+  "arquero": {
+    "capacete": "#8d8779",
+    "caperuza_lana": "#c9b795",
+    "costura_perpunte": "#241b12",
+    "ten_perpunte": "PLAYER",
+    "mascara_px2": 168,
+    "alto_px": 57,
+    "arco_tejo": "#8a6a48",
+    "cuerda_canamo": "#d8cbb0",
+    "hierro_punta": "#bcbfc3"
   }
 }

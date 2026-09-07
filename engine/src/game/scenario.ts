@@ -114,7 +114,7 @@ export function createValencia1094(seed = 0x1094): Scenario {
   const campeador = sim.spawnUnit(PLAYER_CID, UnitId.Campeador, fx(62), fx(57));
   for (let i = 0; i < 8; i++) sim.spawnUnit(PLAYER_CID, UnitId.Aldeano, fx(57 + (i % 4)), fx(60 + Math.floor(i / 4)));
   for (let i = 0; i < 8; i++) sim.spawnUnit(PLAYER_CID, UnitId.Lancero, fx(55 + (i % 4)), fx(57 + Math.floor(i / 4)));
-  for (let i = 0; i < 4; i++) sim.spawnUnit(PLAYER_CID, UnitId.Ballestero, fx(58 + i), fx(48));
+  for (let i = 0; i < 4; i++) sim.spawnUnit(PLAYER_CID, UnitId.Arquero, fx(58 + i), fx(48));
   for (let i = 0; i < 4; i++) sim.spawnUnit(PLAYER_CID, UnitId.Caballero, fx(64 + i), fx(60));
 
   sim.players[PLAYER_CID].resources.set([350, 300, 250, 150]);
@@ -133,7 +133,7 @@ export function createValencia1094(seed = 0x1094): Scenario {
   for (let i = 0; i < 10; i++) sim.spawnUnit(PLAYER_ALMORAVIDES, UnitId.Infante, fx(27 + (i % 4)), fx(46 + Math.floor(i / 4)));
   for (let i = 0; i < 4; i++) sim.spawnUnit(PLAYER_ALMORAVIDES, UnitId.Lancero, fx(24 + (i % 2)), fx(51 + Math.floor(i / 2)));
   for (let i = 0; i < 7; i++) sim.spawnUnit(PLAYER_ALMORAVIDES, UnitId.Caballero, fx(27 + (i % 3)), fx(53 + Math.floor(i / 3)));
-  for (let i = 0; i < 3; i++) sim.spawnUnit(PLAYER_ALMORAVIDES, UnitId.Ballestero, fx(24 + i), fx(57));
+  for (let i = 0; i < 3; i++) sim.spawnUnit(PLAYER_ALMORAVIDES, UnitId.Arquero, fx(24 + i), fx(57));
   sim.players[PLAYER_ALMORAVIDES].resources.set([700, 700, 500, 300]);
   sim.players[PLAYER_ALMORAVIDES].popMax = 120;
 

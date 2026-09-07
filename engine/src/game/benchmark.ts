@@ -79,7 +79,7 @@ export class Benchmark {
     }
 
     const half = Math.floor(opts.units / 2);
-    const tipos = [UnitId.Infante, UnitId.Lancero, UnitId.Caballero, UnitId.Ballestero];
+    const tipos = [UnitId.Infante, UnitId.Lancero, UnitId.Caballero, UnitId.Arquero];
     for (let n = 0; n < opts.units; n++) {
       const azul = n < half;
       const player = azul ? 0 : 1;

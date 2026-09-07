@@ -11,13 +11,13 @@ se juegue entero de principio a fin:
       │                     vence a
    vence a                     │
       │                        ▼
-   infante  ◀──vence a──   ballestero
+   infante  ◀──vence a──   arquero
 ```
 
 - **Lancero** vence a **caballería** (bono +26).
-- **Caballería** vence a **ballestero** (bono +6, y la alcanza).
+- **Caballería** vence a **arquero** (bono +6, y la alcanza).
 - **Infante** vence a **lancero** (bono +4, más armadura).
-- **Ballestero** vence a **infante** (bono +12, y dispara a 5 casillas).
+- **Arquero** vence a **infante** (bono +12, y dispara a 5 casillas).
 - **Aldeano** no vence a nadie: es la economía.
 
 Hay una prueba por arista en `test/sim.test.ts`, y además una que las mide en
@@ -34,12 +34,12 @@ edificios ni terreno— apareció esto:
 | Arista | Con los números originales | Ahora |
 |---|---|---|
 | infante → lancero | gana hasta 12 contra 21 | igual, sin tocar |
-| caballería → ballestero | gana hasta 12 contra 30 | igual, sin tocar |
+| caballería → arquero | gana hasta 12 contra 30 | igual, sin tocar |
 | lancero → caballería | **perdía ya a 12 contra 12** | gana hasta 12 contra 15 |
-| ballestero → infante | **perdía 0-7 a 12 contra 12** | gana hasta 12 contra 15 |
+| arquero → infante | **perdía 0-7 a 12 contra 12** | gana hasta 12 contra 15 |
 
 No había triángulo: había una jerarquía con la infantería y la caballería
-arriba. La arista del ballestero llevaba documentada aquí desde el principio y
+arriba. La arista del arquero llevaba documentada aquí desde el principio y
 era la única de las cuatro sin prueba propia.
 
 Eso explica un resultado que parecía absurdo. La conclusión anterior era que
@@ -54,13 +54,13 @@ Los bonos nuevos no se eligieron a ojo, se barrieron:
 |---|---|---|---|---|
 | Remonta hasta | pierde 12v12 | 12v12 | **12v15** | 12v18 |
 
-| Bono del ballestero | +2 | +8 | +12 | +16 |
+| Bono del arquero | +2 | +8 | +12 | +16 |
 |---|---|---|---|---|
 | Remonta hasta | pierde 12v12 | 12v12 | **12v15** | 12v18 (satura) |
 
 Se escogen los valores mínimos que hacen la arista real: **+26 y +12**. Pasarse
 no sale gratis —con +34 y +16 el duelo controlado contra arqueros se degrada de
-forma reproducible— y el barrido dice que por encima de +16 el ballestero ya no
+forma reproducible— y el barrido dice que por encima de +16 el arquero ya no
 mejora.
 
 ## Fórmula de daño
@@ -82,7 +82,7 @@ dominio público, no una tabla concreta.
 | Peón de espada | 60 | 7 | +4 vs lancero | 0 | 15 | 3,4 | 60 C · 20 O |
 | Lancero | 55 | 5 | +26 vs caballería | 0 | 15 | 3,3 | 35 C · 25 M |
 | Caballero | 110 | 10 | +6 vs arquero | 0 | 18 | 5,4 | 80 C · 60 O |
-| Ballestero | 40 | 6 (perf.) | +12 vs infante | 5 | 26 | 3,1 | 30 C · 30 M · 30 O |
+| Arquero | 40 | 6 (perf.) | +12 vs infante | 5 | 26 | 3,1 | 30 C · 30 M · 30 O |
 | Campeador | 320 | 18 | +8 vs asedio | 0 | 16 | 5,6 | héroe |
 
 Recarga en ticks (la simulación va a 15 Hz), velocidad en casillas por
