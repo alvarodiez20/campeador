@@ -2,7 +2,7 @@ name: Desplegar en GitHub Pages
 
 on:
   push:
-    branches: [main, 'claude/**']
+    branches: ['**']
   workflow_dispatch:
 
 permissions:
@@ -10,8 +10,12 @@ permissions:
   pages: write
   id-token: write
 
+# Un grupo por rama: el despliegue solo ocurre en main (ver el job deploy),
+# asi que dos ramas de trabajo no tienen por que hacer cola una detras de
+# otra. Sin la coletilla del ref, cada push a una rama bloqueaba el CI de
+# todas las demas.
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
