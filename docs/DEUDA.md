@@ -83,6 +83,9 @@ se empujan hasta que la detección de atasco las da por llegadas.
 - **Motivo:** WebGL da el comportamiento más predecible hoy, y el criterio de
   aceptación se mide sobre una sola ruta.
 - **Disparador:** cuando el render pase de 8 ms por frame en hardware real.
+  **Medido y no disparado:** en un MacBook Air M4 el peor render es de 5,98 ms
+  con 500 unidades en combate y de 4,16 ms con 2.000, con WebGL vía ANGLE
+  sobre Metal (ver [`PLAN.md`](PLAN.md)). No hay motivo para tocarlo todavía.
 - **Arreglo:** quitar la preferencia. Todo lo que se dibuja son sprites y un
   quad texturizado; no hay shaders propios que portar (ver DEUDA-002, que
   habría que resolver con programas GLSL **y** WGSL).
