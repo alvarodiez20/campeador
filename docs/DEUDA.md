@@ -141,14 +141,67 @@ No hay ni efectos ni música.
 
 ### DEUDA-010 · Números de balance provisionales
 
-Las estadísticas de `src/game/data.ts` cumplen el triángulo (comprobado en
-`test/sim.test.ts`) y el escenario está medido (67/33 en treinta partidas,
-ver [`BANCO-DE-PARTIDAS.md`](BANCO-DE-PARTIDAS.md)). Lo que sigue sin afinar
-son los ritmos finos: tiempos de recolección, de construcción y de recarga
-están puestos a ojo y ninguno se ha barrido buscando el mejor valor.
+Las estadísticas de `src/game/data.ts` cumplen el triángulo y ahora lo cumplen
+también **en inferioridad numérica**, que es lo que hace que la composición
+pese (ver [`BALANCE.md`](BALANCE.md)). Lo que sigue sin afinar son los ritmos
+finos: tiempos de recolección, de construcción y de recarga están puestos a
+ojo y ninguno se ha barrido buscando el mejor valor.
 
-- **Disparador:** ya. Con DEUDA-007 pagada hay con qué medir, y la primera
-  medición dice algo concreto: **los bonos del triángulo son demasiado
-  tímidos**. Funcionan en un duelo de seis contra seis, pero en una partida
-  completa la composición no decide, y una IA que la optimiza no gana más
-  partidas. Ese es el número que hay que tocar primero.
+**Lo que se creía y era falso.** La entrada anterior decía que «los bonos del
+triángulo son demasiado tímidos» y que había que subirlos. Se midió: subirlos
+todos por igual **empeora**, de forma monótona (bonos ×2, ×3, ×4 y una bajada
+de vida del 23%, todos peor que el punto de partida). La causa real era otra y
+está corregida: dos de las cuatro aristas no existían.
+
+- **Disparador:** cuando el escenario se juegue con personas y el ritmo de una
+  fase concreta se note largo o corto. Los ritmos finos no se barren a ciegas.
+- **Aviso para quien lo intente:** el banco tiene 17 puntos de ruido de semilla
+  (ver DEUDA-013). Medir un ritmo con una sola semilla no vale.
+
+### DEUDA-012 · La IA para el cuartel esperando comida
+
+`SimpleAI.trainStuff` elige la clase más alejada de su cuota y, si no puede
+pagarla, **ahorra en vez de gastar en lo barato**. La regla se escribió para
+que el oro llegara a juntarse y la caballería existiera, y para eso funciona.
+
+El problema es que se aplica a todos los recursos por igual. Instrumentando el
+banco: de 603 ciclos de IA por partida en los que el Cid quiere entrenar, **429
+(el 71%) acaban ahorrando sin encolar nada**, y **el 93% de esas esperas son
+por comida**, no por oro. La comida vuelve sola cada pocos segundos; el oro hay
+que ir a buscarlo. Se está pagando el precio de la regla sin cobrar su
+beneficio: el cuartel pasa parado siete minutos de cada diez.
+
+- **Coste hoy:** un 13% menos de ritmo de producción, y más en la personalidad
+  que se adapta (429 ciclos parados frente a 310 la de cuota fija), porque al
+  desplazar la cuota hacia una clase concreta se queda esperándola.
+- **Lo que ya se probó y no vale.** Un tope de ciclos ahorrando (`AHORRO_MAX`)
+  rompe la prueba `cubre los cuatro vertices del triangulo`: sin espera por oro
+  no hay jinetes, que es exactamente el fallo que la regla evitaba. Afinarlo
+  para que el tope solo aplique a la comida **tampoco** la salva, y además el
+  reparto de victorias se fue al 50%. Está medido y revertido; no repetirlo sin
+  atacar antes de dónde sale el oro.
+- **Disparador:** cuando la IA tenga que sostener un ejército mayor, o cuando
+  se quiera que adaptarse rente (hoy no renta, y esta es la razón).
+- **Arreglo:** probablemente no está en `trainStuff` sino en el reparto de
+  aldeanos: si el oro llegara con regularidad, la espera no haría falta.
+
+### DEUDA-013 · El banco de partidas tiene 17 puntos de ruido
+
+Cinco semillas de treinta partidas, sin tocar una línea de código, dan un
+reparto de victorias de 57%, 50%, 53%, 60% y 67%. El duelo controlado es peor:
+con cuarenta semillas por mano, el error típico de la diferencia entre las dos
+manos ronda los diez puntos, y sin cambiar nada esa diferencia mide 0, -13 y 0
+según la semilla.
+
+- **Coste hoy:** alto y silencioso. Cualquier conclusión de balance sacada de
+  una sola ejecución puede ser ruido, y ya ha pasado: un «+15 puntos a favor de
+  adaptarse» que al repetirlo con otras semillas dio +13 y 0.
+- **Paliativo que ya se usa:** comparar siempre la misma semilla contra sí
+  misma, y calibrar lo que se pueda con el barrido determinista de doce contra
+  N (`test/sim.test.ts`), que no tiene ruido.
+- **Disparador:** cuando haya que decidir un cambio de balance cuyo efecto
+  esperado sea menor de quince puntos.
+- **Arreglo:** más semillas por ejecución y un estadístico de diferencia
+  pareada con su intervalo, en vez de dos porcentajes sueltos; el banco ya
+  empareja semillas entre manos, así que la información está, solo falta
+  resumirla bien.

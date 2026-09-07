@@ -74,17 +74,19 @@ describe('movimiento', () => {
 });
 
 describe('combate y el triangulo', () => {
-  /** Enfrenta dos grupos iguales y devuelve quien sobrevive. */
-  function duelo(a: UnitId, b: UnitId, n = 6): { a: number; b: number } {
-    const sim = llanura();
+  /**
+   * Enfrenta dos grupos y devuelve quien sobrevive. Los dos tamanos son
+   * independientes a proposito: con `nb > na` se mide lo unico que importa
+   * de un contador, que es cuanta inferioridad numerica compra.
+   */
+  function duelo(a: UnitId, b: UnitId, na = 6, nb = na): { a: number; b: number } {
+    const sim = llanura(64, 64);
     const as = [];
     const bs = [];
-    for (let k = 0; k < n; k++) {
-      as.push(sim.spawnUnit(0, a, fx(20 + (k % 3)), fx(20 + Math.floor(k / 3))));
-      bs.push(sim.spawnUnit(1, b, fx(26 + (k % 3)), fx(20 + Math.floor(k / 3))));
-    }
-    correr(sim, 900, [
-      { t: 'attackMove', player: 0, units: as, x: fx(26), y: fx(20) },
+    for (let k = 0; k < na; k++) as.push(sim.spawnUnit(0, a, fx(20 + (k % 4)), fx(20 + Math.floor(k / 4))));
+    for (let k = 0; k < nb; k++) bs.push(sim.spawnUnit(1, b, fx(32 + (k % 4)), fx(20 + Math.floor(k / 4))));
+    correr(sim, 1800, [
+      { t: 'attackMove', player: 0, units: as, x: fx(32), y: fx(20) },
       { t: 'attackMove', player: 1, units: bs, x: fx(20), y: fx(20) },
     ]);
     return {
@@ -106,6 +108,43 @@ describe('combate y el triangulo', () => {
   it('el infante gana al lancero', () => {
     const r = duelo(UnitId.Infante, UnitId.Lancero);
     expect(r.a).toBeGreaterThan(r.b);
+  });
+
+  it('el ballestero gana al infante', () => {
+    // La cuarta arista. Estaba en BALANCE.md desde el principio y era la
+    // unica sin prueba; cuando por fin se midio, resulto que no existia: el
+    // ballestero perdia 0-7 a igualdad de numero. Un triangulo con una
+    // arista de mentira no es un triangulo, es una jerarquia.
+    const r = duelo(UnitId.Ballestero, UnitId.Infante);
+    expect(r.a).toBeGreaterThan(r.b);
+  });
+
+  /**
+   * Las cuatro aristas, pero en inferioridad numerica.
+   *
+   * Ganar seis contra seis no dice casi nada: mide que el contador exista,
+   * no que pese. Y lo que decide una partida de verdad no es quien gana a
+   * igualdad de numero, sino **cuanta inferioridad numerica compra elegir
+   * bien**. Si la respuesta es "ninguna", optimizar la composicion no sirve
+   * para nada y el juego lo deciden la economia y el numero.
+   *
+   * Esta prueba es la que caza el fallo que las de arriba dejaban pasar. Con
+   * los numeros originales, dos de las cuatro aristas perdian ya a igualdad
+   * de numero: el lancero contra la caballeria por 0-1 y el ballestero
+   * contra el infante por 0-7. Las dos pasaban el 6 contra 6 y ninguna
+   * pasaba esto.
+   */
+  it('cada arista compra al menos un 25% de inferioridad numerica', () => {
+    const aristas: [string, UnitId, UnitId][] = [
+      ['lancero -> caballeria', UnitId.Lancero, UnitId.Caballero],
+      ['caballeria -> ballestero', UnitId.Caballero, UnitId.Ballestero],
+      ['infante -> lancero', UnitId.Infante, UnitId.Lancero],
+      ['ballestero -> infante', UnitId.Ballestero, UnitId.Infante],
+    ];
+    for (const [nombre, contador, contrario] of aristas) {
+      const r = duelo(contador, contrario, 12, 15);
+      expect(r.a, `${nombre} (12 contra 15): quedan ${r.a} y ${r.b}`).toBeGreaterThan(r.b);
+    }
   });
 
   it('no se ataca a quien no es enemigo', () => {
