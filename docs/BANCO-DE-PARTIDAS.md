@@ -118,11 +118,19 @@ cuando lo que ve es caballería.
 
 La conclusión no es que la adaptación esté mal hecha, sino algo más útil para
 el diseño: **en este escenario la composición del ejército pesa mucho menos
-que las torres, la economía y el número**. El triángulo funciona en un duelo
-limpio de seis contra seis —hay una prueba por arista que lo comprueba— pero
-se diluye en una partida completa. Eso apunta a los números de
-[`BALANCE.md`](BALANCE.md), no a la IA: los bonos del triángulo son
-demasiado tímidos frente a todo lo demás. Anotado en DEUDA-010.
+que la economía y el número**. El triángulo funciona en un duelo limpio de seis
+contra seis —hay una prueba por arista que lo comprueba— pero se diluye en una
+partida completa.
+
+De aquí salió la hipótesis de que los bonos eran «demasiado tímidos». **Era
+falsa**, y perseguirla es lo que cuenta la sección siguiente. Dos apuntes que
+conviene corregir ya, porque se han medido después:
+
+- Las torres **no atacan**. `spawnBuilding` nunca añade el componente de
+  combate, así que una torre es vida, visión y estorbo, nada más. Lo que compite
+  con la composición es el número y la economía.
+- Los tres puntos de esta tabla están dentro del ruido del propio banco, que es
+  mucho mayor de lo que se creía. Ver más abajo.
 
 Se deja implementada porque es correcta, barata y el caso real no es este:
 un jugador humano se sesga mucho más que un 85%, y sobre todo lo hace a
@@ -140,8 +148,49 @@ No es una sutileza. Una IA que lee el estado completo del mundo es más fácil
 de escribir, y además invalida cualquier medición de balance: se estaría
 midiendo contra un rival que juega a otro juego.
 
+## Lo que el banco no puede contestar, y costó descubrirlo
+
+La pregunta «¿sirve de algo que la IA se adapte?» se llevó al banco con la
+hipótesis de que los bonos del triángulo eran demasiado tímidos. Se barrieron
+cinco candidatos en paralelo —bonos ×2, ×3, ×4, vida −23%, y bonos ×2 con vida
+−23%— y **los cinco empeoraron**, cuanto más agresivos peor:
+
+| Candidato | Δ contra jinetes | Δ contra arqueros |
+|---|---|---|
+| sin tocar | 0 | -3 |
+| bonos ×2 | -20 | -8 |
+| bonos ×3 | -15 | -20 |
+| vida -23% | -15 | 0 |
+| ×2 y vida -23% | -5 | -8 |
+| bonos ×4 | **-33** | -18 |
+
+Un candidato asimétrico dio por fin el resultado buscado: **+15 puntos**, justo
+dentro de la banda de 10 a 20 que se pedía. Se repitió con otras dos semillas y
+dio **+13 y 0**.
+
+Ahí está la lección, y no es sobre balance: **el instrumento tiene más ruido
+que el efecto que se quería medir.** Sin cambiar una línea de código, treinta
+partidas dan entre 50% y 67% de victorias según la semilla, y la diferencia del
+duelo va de 0 a -13. Con cuarenta semillas por mano, el error típico de esa
+diferencia ronda los diez puntos. Pedirle al banco que distinga un +15 de un 0
+es pedirle algo que no puede dar.
+
+Queda anotado como DEUDA-013, con lo que haría falta para arreglarlo: más
+semillas y un estadístico de diferencia pareada con intervalo, en vez de dos
+porcentajes sueltos. La información ya está —el banco empareja semillas entre
+manos—, solo falta resumirla bien.
+
+Mientras tanto, lo que sí se pudo medir sin ruido fue el triángulo, con un
+barrido determinista de doce contra N. Y ahí apareció el fallo de verdad: **dos
+de las cuatro aristas no existían**. Ver [`BALANCE.md`](BALANCE.md).
+
 ## Regresiones que quedan protegidas
 
 Cada hallazgo tiene ahora su prueba en `engine/test/ia.test.ts` y
 `engine/test/escenario.test.ts`. Ninguno rompía nada visible, así que sin
 prueba volverían en silencio.
+
+Y las dos aristas de mentira tienen la suya en `engine/test/sim.test.ts`: una
+para la cuarta arista, que nunca había tenido prueba propia, y otra que exige
+que **las cuatro ganen con un 25% de inferioridad numérica**. Esa segunda es la
+que caza el fallo; la de seis contra seis lo dejaba pasar.

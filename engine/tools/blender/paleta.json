@@ -1,0 +1,65 @@
+{
+  "nota": "Paleta por unidad. 'ten' = zona teñible con el color de jugador: se pinta en blanco puro en el pase de máscara y el motor la multiplica por el color del jugador. Nunca llevar degradado.",
+  "comun": {
+    "contorno": "#241b12",
+    "piel_media": "#b0805c",
+    "lino": "#dfd4bb",
+    "cuero": "#5b4229",
+    "astil_fresno": "#9a7a4a"
+  },
+  "lancero": {
+    "malla_base": "#7c766c",
+    "malla_sombra": "#4b463e",
+    "malla_realce": "#a49a8b",
+    "capacete": "#8d8779",
+    "perpunte_lana": "#c9b795",
+    "hierro_arma": "#bcbfc3",
+    "ten_escudo": "PLAYER",
+    "ten_pendon": "PLAYER",
+    "mascara_px2": 152,
+    "alto_px": 60
+  },
+  "espada": {
+    "malla_base": "#7c766c",
+    "malla_sombra": "#4b463e",
+    "malla_realce": "#a49a8b",
+    "capacete": "#8d8779",
+    "perpunte_lana": "#c9b795",
+    "hoja_espada": "#c6c9ce",
+    "laton_guarnicion": "#8a7248",
+    "ten_escudo": "PLAYER",
+    "mascara_px2": 121,
+    "alto_px": 60
+  },
+  "ballestero": {
+    "capacete": "#8d8779",
+    "caperuza_lana": "#c9b795",
+    "caja_ballesta": "#9a7a4a",
+    "arco_asta": "#8a6a48",
+    "cuerda_canamo": "#d8cbb0",
+    "hierro_virote": "#bcbfc3",
+    "costura_perpunte": "#241b12",
+    "ten_perpunte": "PLAYER",
+    "mascara_px2": 168,
+    "alto_px": 57
+  },
+  "aldeano": {
+    "caperuza": "#c9b795",
+    "mimbre": "#b98d4e",
+    "lena": "#6b4a2b",
+    "piedra": "#9a9ea8",
+    "oro_grano": "#c8a24a",
+    "saco": "#bfae8f",
+    "trigo": "#d9b96a",
+    "hierro": "#bcbfc3",
+    "ten_sayo": "PLAYER",
+    "mascara_px2": 190,
+    "alto_px": 56,
+    "cargas": [
+      "lena",
+      "piedra",
+      "oro",
+      "comida"
+    ]
+  }
+}

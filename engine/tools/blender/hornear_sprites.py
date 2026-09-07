@@ -13,9 +13,12 @@ lectura de la direccion, no los poligonos.
 
 Dos optimizaciones que no son opcionales:
 
-  1. Solo se renderizan CINCO de las ocho direcciones (E, SE, S, SO, O). Las
-     tres restantes (NO, N, NE) se obtienen volteando horizontalmente. Ahorra
+  1. Solo se renderizan CINCO de las ocho direcciones (S, SO, O, NO, N). Las
+     tres restantes (SE, E, NE) se obtienen volteando horizontalmente. Ahorra
      el 37% del render y el 37% del atlas. Este script ya solo genera cinco.
+
+     El juego de cinco importa, y el primero que se eligio estaba mal: ver
+     el comentario de DIRECCIONES.
 
   2. Se renderiza un PASE DE MASCARA aparte: una imagen en blanco y negro
      donde las zonas tenibles con el color del jugador estan en blanco. En el
@@ -47,16 +50,36 @@ except ImportError:  # pragma: no cover - solo corre dentro de Blender
 
 # Las cinco direcciones que se renderizan. Las otras tres salen de voltear.
 # El nombre coincide con el indice de octante que usa el motor
-# (0 = este, sentido horario en pantalla).
+# (0 = este, sentido horario en pantalla): 0=E 1=SE 2=S 3=SO 4=O 5=NO 6=N 7=NE.
+#
+# El juego original era (E, SE, S, SO, O) con {5:SO, 6:S, 7:SE} volteadas, y
+# estaba mal por dos motivos, los dos del mismo error: **voltear en horizontal
+# solo cambia una direccion por su reflejo respecto al eje vertical de la
+# pantalla**, y ese reflejo empareja E con O, SE con SO y NE con NO, dejando N
+# y S como sus propios espejos.
+#
+#   - E y O eran la misma imagen, y SE y SO tambien: dos de los cinco renders
+#     no aportaban nada, el 40% del coste de horneado y de atlas tirado.
+#   - No se producia NINGUNA vista de espaldas. El mapa declaraba N como S
+#     volteada, pero el reflejo de una vista frontal es otra vista frontal.
+#     Consecuencia jugable: una unidad que camina hacia el norte mira a camara.
+#
+# Este es el juego correcto, al mismo coste, y es el que uso AoE2: se renderiza
+# media rueda -de S a N pasando por el oeste- y se voltea la otra media. N y S
+# se hornean porque son simetricas y no tienen espejo del que salir.
+#
+# Cambiar esto obliga a rehornear todo lo horneado, asi que se decide antes de
+# producir la primera unidad y no despues. La tabla ESPEJO de
+# `src/render/atlasLoader.ts` es la misma de este lado y tiene que coincidir.
 DIRECCIONES = [
-    ("e", 0, 0),
-    ("se", 45, 1),
     ("s", 90, 2),
     ("so", 135, 3),
     ("o", 180, 4),
+    ("no", 225, 5),
+    ("n", 270, 6),
 ]
 # indice_octante -> (direccion_renderizada, volteado)
-ESPEJADAS = {5: ("so", True), 6: ("s", True), 7: ("se", True)}
+ESPEJADAS = {1: ("so", True), 0: ("o", True), 7: ("no", True)}
 
 # Elevacion de la camara. AoE2 uso ~30 grados. El angulo exacto para una
 # proyeccion 2:1 pura es atan(0.5) = 26.565 grados; 30 se ve algo mas "de

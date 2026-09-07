@@ -189,9 +189,21 @@ export const enum UnitId {
 
 /**
  * El triangulo: el lancero gana a la caballeria, la caballeria gana al
- * arquero, el infante gana al lancero. Los numeros salen de una tabla de
- * combate propia, no de AoE2 (ver docs/BALANCE.md); lo que se copia es la
- * *forma* de la relacion, que es de dominio publico.
+ * arquero, el infante gana al lancero y el ballestero gana al infante. Los
+ * numeros salen de una tabla de combate propia, no de AoE2 (ver
+ * docs/BALANCE.md); lo que se copia es la *forma* de la relacion, que es de
+ * dominio publico.
+ *
+ * Los bonos no se eligen a ojo: se calibran midiendo **cuanta inferioridad
+ * numerica compra elegir bien**, que es lo unico que hace que la composicion
+ * importe en una partida. Un contador que solo gana a igualdad de numero no
+ * decide nada, porque a igualdad de numero ya decide la economia.
+ *
+ * Dos de las cuatro aristas no existian, y se descubrio porque ninguna
+ * prueba miraba mas alla del seis contra seis: el lancero perdia contra la
+ * caballeria ya a doce contra doce, y el ballestero perdia contra el infante
+ * por 0-7. Con los bonos de ahora las cuatro ganan con doce contra quince, y
+ * `test/sim.test.ts` lo comprueba arista por arista.
  */
 export const UNITS: readonly UnitDef[] = [
   {
@@ -260,7 +272,7 @@ export const UNITS: readonly UnitDef[] = [
     attack: 5,
     damageKind: DamageKind.Melee,
     bonusVs: UnitClass.Cavalry,
-    bonusAmount: 18,
+    bonusAmount: 26,
     armorMelee: 0,
     armorPierce: 0,
     range: 0,
@@ -312,7 +324,7 @@ export const UNITS: readonly UnitDef[] = [
     attack: 6,
     damageKind: DamageKind.Pierce,
     bonusVs: UnitClass.Infantry,
-    bonusAmount: 2,
+    bonusAmount: 12,
     armorMelee: 0,
     armorPierce: 0,
     range: 5,

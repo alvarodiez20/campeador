@@ -10,7 +10,7 @@ El orden es el del brief. Nada de lo de abajo se adelanta a lo de arriba.
 | 4 | Combate y el triángulo de unidades | **hecho** |
 | 5 | Niebla de guerra | **hecho** (con DEUDA-002) |
 | 6 | Escenario de Valencia 1094 jugable de principio a fin | **hecho y medido** |
-| 7 | Pipeline de arte definitivo | **desbloqueado**; herramientas listas, arte sin hacer |
+| 7 | Pipeline de arte definitivo | **desbloqueado**; herramientas y fichas listas, modelado sin empezar |
 | 8 | Parias y diplomacia | **hecho** |
 | 9 | Multijugador | no empezado (DEUDA-008) |
 
@@ -94,9 +94,20 @@ probar.
    treinta partidas por tanda, siete fallos de ritmo encontrados y corregidos,
    todos con prueba de regresión. El escenario se resuelve ahora en el 100% de
    las partidas, con reparto 67/33 y mediana de 7 minutos.
-3. Pipeline de arte (hito 7), ya desbloqueado. Las herramientas
-   están en `engine/tools/blender/` y el cargador de atlas real en
-   `src/render/atlasLoader.ts`; falta el arte.
+3. Pipeline de arte (hito 7), ya desbloqueado. Las herramientas están en
+   `engine/tools/blender/`, el cargador de atlas real en
+   `src/render/atlasLoader.ts` y las fichas de unidad en
+   [`ARTE.md`](ARTE.md), con el documento visual en `docs/arte/`. Falta el
+   modelado, y antes de la segunda unidad hay que decidir el volumen
+   (DEUDA-014).
+5. ~~Balance del triángulo (DEUDA-010).~~ **Hecho, y el resultado no es el
+   que se esperaba.** No era que los bonos fueran tímidos: era que **dos de
+   las cuatro aristas del triángulo no existían** —el lancero perdía contra la
+   caballería ya a doce contra doce, y el ballestero perdía contra el infante
+   por 0-7—. Corregido y con prueba de regresión. De paso quedó claro que el
+   banco no puede juzgar cambios de menos de quince puntos (DEUDA-013), y que
+   la IA para el cuartel esperando comida (DEUDA-012). Ver
+   [`BALANCE.md`](BALANCE.md).
 4. ~~IA que reaccione a la composición del rival (DEUDA-007).~~ **Hecha y
    medida.** Observa lo que ve —respetando la niebla—, recuerda con olvido y
    desplaza la mezcla hacia el contrario del triángulo. El hallazgo es que
