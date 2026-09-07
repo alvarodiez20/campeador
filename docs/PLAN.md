@@ -103,7 +103,7 @@ probar.
 5. ~~Balance del triángulo (DEUDA-010).~~ **Hecho, y el resultado no es el
    que se esperaba.** No era que los bonos fueran tímidos: era que **dos de
    las cuatro aristas del triángulo no existían** —el lancero perdía contra la
-   caballería ya a doce contra doce, y el ballestero perdía contra el infante
+   caballería ya a doce contra doce, y el arquero perdía contra el infante
    por 0-7—. Corregido y con prueba de regresión. De paso quedó claro que el
    banco no puede juzgar cambios de menos de quince puntos (DEUDA-013), y que
    la IA para el cuartel esperando comida (DEUDA-012). Ver

@@ -57,7 +57,7 @@ describe('la IA se adapta a lo que ve', () => {
 
   it('al ver caballeria enemiga, sube la cuota de lanceros', () => {
     const { sim, ia, correr } = mundo();
-    // El ojeador es una torre y no una unidad a proposito: un ballestero
+    // El ojeador es una torre y no una unidad a proposito: un arquero
     // solo delante de diez jinetes muere antes del segundo ciclo de IA, y
     // entonces la prueba pasaria por no haber visto nada.
     sim.spawnBuilding(0, BuildingId.Torre, 19, 19, true);
@@ -72,7 +72,7 @@ describe('la IA se adapta a lo que ve', () => {
   it('al ver arqueros enemigos, sube la cuota de caballeria', () => {
     const { sim, ia, correr } = mundo();
     sim.spawnBuilding(0, BuildingId.Torre, 19, 19, true);
-    for (let n = 0; n < 10; n++) sim.spawnUnit(1, UnitId.Ballestero, fx(21 + (n % 5)), fx(20 + Math.floor(n / 5)));
+    for (let n = 0; n < 10; n++) sim.spawnUnit(1, UnitId.Arquero, fx(21 + (n % 5)), fx(20 + Math.floor(n / 5)));
     correr(200);
     const c = ia.cuotaEfectiva();
     expect(c[UnitClass.Cavalry]).toBeGreaterThan(20);

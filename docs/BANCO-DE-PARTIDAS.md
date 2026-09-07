@@ -44,7 +44,8 @@ que no reasignaba.
   al que falta. Si hay algo que se quiere y no se puede pagar, el recurso que
   lo bloquea pesa por encima de todo.
 - **Entrenar por cuota, no por orden de lista.** Antes se recorría
-  `[lancero, infante, ballestero, caballero]` y se encolaba el primero
+  `[lancero, infante, ballestero, caballero]` —el ballestero es hoy el
+  arquero— y se encolaba el primero
   pagable; como el cuartel siempre puede pagar un lancero, nunca se llegaba a
   las caballerizas. Ahora se elige la clase más alejada de su cuota, y si la
   más necesitada no se puede pagar **se ahorra** en vez de gastar en lo barato.

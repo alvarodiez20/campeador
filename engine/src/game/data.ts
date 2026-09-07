@@ -183,13 +183,13 @@ export const enum UnitId {
   Infante = 1,
   Lancero = 2,
   Caballero = 3,
-  Ballestero = 4,
+  Arquero = 4,
   Campeador = 5,
 }
 
 /**
  * El triangulo: el lancero gana a la caballeria, la caballeria gana al
- * arquero, el infante gana al lancero y el ballestero gana al infante. Los
+ * arquero, el infante gana al lancero y el arquero gana al infante. Los
  * numeros salen de una tabla de combate propia, no de AoE2 (ver
  * docs/BALANCE.md); lo que se copia es la *forma* de la relacion, que es de
  * dominio publico.
@@ -201,7 +201,7 @@ export const enum UnitId {
  *
  * Dos de las cuatro aristas no existian, y se descubrio porque ninguna
  * prueba miraba mas alla del seis contra seis: el lancero perdia contra la
- * caballeria ya a doce contra doce, y el ballestero perdia contra el infante
+ * caballeria ya a doce contra doce, y el arquero perdia contra el infante
  * por 0-7. Con los bonos de ahora las cuatro ganan con doce contra quince, y
  * `test/sim.test.ts` lo comprueba arista por arista.
  */
@@ -311,11 +311,11 @@ export const UNITS: readonly UnitDef[] = [
     pop: 1,
   },
   {
-    id: UnitId.Ballestero,
-    key: 'ballestero',
+    id: UnitId.Arquero,
+    key: 'arquero',
     names: {
-      [FactionBloc.Cristiano]: 'Ballestero',
-      [FactionBloc.Mesnada]: 'Ballestero',
+      [FactionBloc.Cristiano]: 'Arquero',
+      [FactionBloc.Mesnada]: 'Arquero de la mesnada',
       [FactionBloc.Taifa]: 'Arquero andalusi',
       [FactionBloc.Almoravide]: 'Arquero almoravide',
     },
@@ -473,7 +473,7 @@ export const BUILDINGS: readonly BuildingDef[] = [
     vision: 6,
     isDropSite: false,
     popProvided: 0,
-    trains: [UnitId.Infante, UnitId.Lancero, UnitId.Ballestero],
+    trains: [UnitId.Infante, UnitId.Lancero, UnitId.Arquero],
     cost: { [ResourceKind.Food]: 0, [ResourceKind.Wood]: 175, [ResourceKind.Gold]: 0, [ResourceKind.Stone]: 0 },
   },
   {

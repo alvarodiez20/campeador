@@ -28,7 +28,7 @@ const PERIOD = 15;
 const MEZCLA: ReadonlyArray<{ u: UnitId; cls: UnitClass; cuota: number }> = [
   { u: UnitId.Lancero, cls: UnitClass.Spear, cuota: 30 },
   { u: UnitId.Infante, cls: UnitClass.Infantry, cuota: 25 },
-  { u: UnitId.Ballestero, cls: UnitClass.Archer, cuota: 25 },
+  { u: UnitId.Arquero, cls: UnitClass.Archer, cuota: 25 },
   { u: UnitId.Caballero, cls: UnitClass.Cavalry, cuota: 20 },
 ];
 
@@ -301,7 +301,7 @@ export class SimpleAI {
     if (this.myBuildings(BuildingId.Caballerizas).length === 0) out.push(BUILDINGS[BuildingId.Caballerizas].cost);
     // La mezcla militar objetivo: si falta oro para jinetes e infantes, que se
     // note en el reparto en vez de acabar con un ejercito de solo lanceros.
-    for (const u of [UnitId.Caballero, UnitId.Infante, UnitId.Ballestero]) out.push(UNITS[u].cost);
+    for (const u of [UnitId.Caballero, UnitId.Infante, UnitId.Arquero]) out.push(UNITS[u].cost);
     return out;
   }
 
@@ -309,7 +309,7 @@ export class SimpleAI {
    * Que entrenar. Se elige por la clase mas alejada de su cuota, no por el
    * orden de una lista.
    *
-   * La primera version recorria [cuartel: lancero, infante, ballestero;
+   * La primera version recorria [cuartel: lancero, infante, arquero;
    * caballerizas: caballero] y encolaba la primera que pudiese pagar. Como el
    * cuartel siempre puede pagar un lancero, nunca se llegaba a las
    * caballerizas: el banco de partidas daba 0,1 jinetes de media al final. Un

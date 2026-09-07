@@ -26,7 +26,7 @@ color. No hay que replicar el trazo, hay que respetar la lectura.
 |---|---|---|---|
 | Lancero | Hueste del Cid | 60 px | Escudo de cometa + pendón · 152 px² |
 | Peón de espada | Hueste del Cid | 60 px | Escudo de cometa · 121 px² |
-| Ballestero | Hueste del Cid | 57 px | Perpunte completo · 168 px² |
+| Arquero | Hueste del Cid | 57 px | Perpunte completo · 168 px² |
 | Aldeano (4 cargas) | Hueste del Cid | 56 px | Sayo completo · 190 px² |
 
 Faltan el caballero, Rodrigo Díaz y las seis en versión almorávide.
@@ -73,7 +73,7 @@ El script saca en blanco todo material cuyo nombre empiece por `jugador`
 |---|---|
 | Lancero | `jugador_escudo`, `jugador_pendon` |
 | Peón de espada | `jugador_escudo` |
-| Ballestero | `jugador_perpunte` |
+| Arquero | `jugador_perpunte` |
 | Aldeano | `jugador_sayo` |
 
 **Regla que no se puede saltar: la zona teñible se pinta plana**, sin degradado
@@ -114,29 +114,66 @@ pantalla. Las poses son extremos de interpolación, no fotogramas.
 - Punto débil conocido: en E y O el escudo se ve de canto y la unidad se queda
   casi sin zona teñible, sin pendón que lo salve.
 
-### Ballestero — 57 px
+### Arquero — 57 px
+
+**Era «ballestero» y llevaba ballesta. Ya no: ver el apartado siguiente.**
 
 - **Sin malla y sin escudo**: perpunte acolchado de bastas verticales como
   armadura única, capacete de reborde ancho **sin nasal**, caperuza de lana,
   calzas a la vista.
 - Bajo del perpunte a media pierna, más corto que la cota, para que el paso se
   lea a pesar del arma.
-- Ballesta temprana: caja corta, arco de asta, cuerda de cáñamo, nuez de hueso.
-  **Sin estribo, sin cranequín, sin torno.** Se tensa a dos manos o con gancho
-  de cinturón. Carcaj a la cadera contraria, **tres** virotes asomando.
-- Silueta: barra horizontal de 17 px a media altura. Es la unidad más
-  reconocible del roster y la que peor distingue la dirección, porque esa barra
-  tapa el giro del tronco.
-- Reparto de los quince fotogramas de atacar: **6 tensar, 4 apuntar, 5 disparo
-  y bajada**. La simulación no exige hoy un fotograma de disparo fijo: el daño
-  se aplica al llegar el `reload` a cero (`src/sim/systems/combat.ts`), sin
-  proyectil en vuelo. Si eso cambia, hay que fijar el fotograma.
-- **Duda abierta de datación.** La ballesta en 1094 es defendible —Ana Comnena
-  la describe en 1096, Letrán II la prohíbe en 1139, lo que implica uso
-  previo— pero no está documentada en la península en esa fecha. Lo documentado
-  para esta hueste es el arco y la honda. La ficha dibuja la ballesta temprana y
-  descarta la plena; la alternativa segura es sustituir la unidad por un
-  arquero. Ver [`TRATAMIENTO-HISTORICO.md`](TRATAMIENTO-HISTORICO.md).
+- Arco de guerra sencillo de tejo o de olmo, de la altura del hombro, cuerda de
+  cáñamo. Sin arco compuesto y sin recurvado pronunciado. Carcaj a la cadera
+  contraria, **tres** flechas asomando.
+- Reparto de los quince fotogramas de atacar: **6 armar y tensar, 4 apuntar,
+  5 suelta y bajada**. La simulación no exige hoy un fotograma de disparo fijo:
+  el daño se aplica al llegar el `reload` a cero
+  (`src/sim/systems/combat.ts`), sin proyectil en vuelo. Si eso cambia, hay que
+  fijar el fotograma.
+- **La silueta es el problema abierto de esta unidad**, y hay que resolverlo en
+  el diseño, no en el render. La ballesta daba una barra horizontal de 17 px a
+  media altura que no tenía ninguna otra figura del roster; el arco, tensado,
+  da una forma vertical que compite con la lanza del lancero. Palancas
+  disponibles: el arco en reposo cruzado en diagonal a la espalda, la caperuza
+  como remate de cabeza distinto del capacete de lancero y peón, y el carcaj
+  como masa a la cadera. Los criterios 1 y 3 de aceptación son los que mandan
+  aquí.
+
+## Por qué es un arquero y no un ballestero
+
+La ficha original dibujó una ballesta de mano temprana y dejó la duda abierta,
+con tres salidas: (a) arquero, (b) ballesta temprana, (c) ballesta plena. Se
+elige **(a) arquero**, y por tres motivos, por orden de peso:
+
+**1. Es lo documentado para esta hueste.** La ballesta en 1094 es defendible en
+Europa —Ana Comnena la describe en 1096, y que Letrán II la prohíba en 1139
+implica uso anterior— pero no está documentada en la península en esa fecha.
+Lo que sí lo está para la mesnada es el arco y la honda. La (c) se descarta
+sola: la ballesta plena, con estribo y torno, es del siglo XIII.
+
+**2. Una sola pieza de arte tiene que servir a los cuatro bloques.** El
+principio del pipeline es que la unidad es la misma pieza con otra máscara y
+otro corte de tocado, nunca una unidad genérica para un bando. Tres de los
+cuatro nombres ya decían arquero —`Arquero andalusi`, `Arquero almoravide`—, así
+que con ballesta la única salida era un segundo modelo o un nombre que miente.
+Y un segundo modelo son 600 imágenes más sobre las 8.000 de DEUDA-014, que es
+justo el riesgo vivo del proyecto.
+
+**3. No cuesta nada en balance.** Las estadísticas no se tocan: vida 40, ataque
+6 perforante, bono +12 contra infante, alcance 5, recarga 26. La recarga de 1,73
+segundos es lenta para un arco, pero es perfectamente defendible como tiro
+apuntado, y mantenerla deja intacta la calibración del triángulo que se acaba
+de medir. Cambiar los números por una razón de nombre habría sido rehacer el
+trabajo sin un motivo de juego.
+
+**Lo que cuesta:** la mejor silueta del roster. Está anotado arriba como el
+problema abierto de la unidad, y en
+[`TRATAMIENTO-HISTORICO.md`](TRATAMIENTO-HISTORICO.md).
+
+**El documento visual sigue dibujando la ballesta.** Como con la rueda de
+direcciones, la ficha es anterior a la decisión: quien modele tiene que leer
+este apartado, no copiar la figura.
 
 ### Aldeano — 56 px, cuatro variantes con carga
 

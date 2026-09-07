@@ -100,8 +100,8 @@ describe('combate y el triangulo', () => {
     expect(r.a).toBeGreaterThan(r.b);
   });
 
-  it('la caballeria gana al ballestero', () => {
-    const r = duelo(UnitId.Caballero, UnitId.Ballestero);
+  it('la caballeria gana al arquero', () => {
+    const r = duelo(UnitId.Caballero, UnitId.Arquero);
     expect(r.a).toBeGreaterThan(r.b);
   });
 
@@ -110,12 +110,12 @@ describe('combate y el triangulo', () => {
     expect(r.a).toBeGreaterThan(r.b);
   });
 
-  it('el ballestero gana al infante', () => {
+  it('el arquero gana al infante', () => {
     // La cuarta arista. Estaba en BALANCE.md desde el principio y era la
     // unica sin prueba; cuando por fin se midio, resulto que no existia: el
-    // ballestero perdia 0-7 a igualdad de numero. Un triangulo con una
+    // arquero perdia 0-7 a igualdad de numero. Un triangulo con una
     // arista de mentira no es un triangulo, es una jerarquia.
-    const r = duelo(UnitId.Ballestero, UnitId.Infante);
+    const r = duelo(UnitId.Arquero, UnitId.Infante);
     expect(r.a).toBeGreaterThan(r.b);
   });
 
@@ -130,16 +130,16 @@ describe('combate y el triangulo', () => {
    *
    * Esta prueba es la que caza el fallo que las de arriba dejaban pasar. Con
    * los numeros originales, dos de las cuatro aristas perdian ya a igualdad
-   * de numero: el lancero contra la caballeria por 0-1 y el ballestero
+   * de numero: el lancero contra la caballeria por 0-1 y el arquero
    * contra el infante por 0-7. Las dos pasaban el 6 contra 6 y ninguna
    * pasaba esto.
    */
   it('cada arista compra al menos un 25% de inferioridad numerica', () => {
     const aristas: [string, UnitId, UnitId][] = [
       ['lancero -> caballeria', UnitId.Lancero, UnitId.Caballero],
-      ['caballeria -> ballestero', UnitId.Caballero, UnitId.Ballestero],
+      ['caballeria -> arquero', UnitId.Caballero, UnitId.Arquero],
       ['infante -> lancero', UnitId.Infante, UnitId.Lancero],
-      ['ballestero -> infante', UnitId.Ballestero, UnitId.Infante],
+      ['arquero -> infante', UnitId.Arquero, UnitId.Infante],
     ];
     for (const [nombre, contador, contrario] of aristas) {
       const r = duelo(contador, contrario, 12, 15);
@@ -247,7 +247,7 @@ describe('determinismo', () => {
       sim.spawnBuilding(1, BuildingId.CentroUrbano, 48, 48, true);
       sim.spawnNode(ResourceKind.Wood, 18, 14, 200, true);
       for (let n = 0; n < 20; n++) {
-        sim.spawnUnit(0, n % 2 === 0 ? UnitId.Lancero : UnitId.Ballestero, fx(14 + (n % 5)), fx(16 + Math.floor(n / 5)));
+        sim.spawnUnit(0, n % 2 === 0 ? UnitId.Lancero : UnitId.Arquero, fx(14 + (n % 5)), fx(16 + Math.floor(n / 5)));
         sim.spawnUnit(1, n % 2 === 0 ? UnitId.Caballero : UnitId.Infante, fx(44 + (n % 5)), fx(46 + Math.floor(n / 5)));
       }
       return sim;
