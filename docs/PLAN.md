@@ -5,12 +5,12 @@ El orden es el del brief. Nada de lo de abajo se adelanta a lo de arriba.
 | # | Hito | Estado |
 |---|---|---|
 | 1 | Esqueleto ECS + tick fijo + render de cubos | **hecho** |
-| 2 | Pathfinding en worker; validar 500 unidades a 60 fps | **hecho** (ver abajo) |
+| 2 | Pathfinding en worker; validar 500 unidades a 60 fps | **hecho y validado en hardware real** |
 | 3 | Recolección de recursos y construcción, con marcadores | **hecho** |
 | 4 | Combate y el triángulo de unidades | **hecho** |
 | 5 | Niebla de guerra | **hecho** (con DEUDA-002) |
 | 6 | Escenario de Valencia 1094 jugable de principio a fin | **hecho y medido** |
-| 7 | Pipeline de arte definitivo | herramientas listas, arte sin hacer |
+| 7 | Pipeline de arte definitivo | **desbloqueado**; herramientas listas, arte sin hacer |
 | 8 | Parias y diplomacia | **hecho** |
 | 9 | Multijugador | no empezado (DEUDA-008) |
 
@@ -20,7 +20,7 @@ El orden es el del brief. Nada de lo de abajo se adelanta a lo de arriba.
 > estables, renderizadas como cubos de colores. **No se produce ni un solo
 > sprite bonito hasta que esto funcione.**
 
-**Lo medido, sin adornos.**
+**Cumplido.** Lo medido, sin adornos.
 
 La parte que depende de nuestro código está comprobada y sobra sitio:
 
@@ -34,23 +34,47 @@ La parte que depende de nuestro código está comprobada y sobra sitio:
 de flujo completo tras una orden masiva; en el juego eso ocurre en el worker,
 no en el hilo principal.)
 
-En el navegador, con 500 unidades: simulación **2,3 ms** por tick, render
-**4,8 ms** por frame. Suman 7 ms, lo que deja margen de sobra sobre los 16,6 ms
-que exigen 60 fps.
+En el navegador del contenedor, con 500 unidades: simulación **2,3 ms** por
+tick, render **4,8 ms** por frame. Suman 7 ms, lo que dejaba margen sobre los
+16,6 ms que exigen 60 fps — pero con la GPU emulada, así que la cifra solo
+servía para descartar que el cuello fuera nuestro código.
 
-**Lo que no se ha podido medir aquí:** los 60 fps de verdad. El entorno de
-desarrollo solo tiene rasterización por software (SwiftShader), que da 12 fps
-midiendo la GPU emulada, no nuestro código. **El criterio queda pendiente de
-una comprobación en hardware real**, y se hace así:
+**Los 60 fps, medidos en hardware real.** El 7 de septiembre de 2026, en
+un MacBook Air M4 (10 núcleos, GPU de 8 núcleos, 16 GB), Chrome 152 sobre macOS
+26.3, monitor de 144 Hz, con `npm run dev` y el panel del banco dictaminando
+solo. Cada tanda son 50 segundos de ejecución continua con la ventana en
+primer plano, descartando los 60 primeros fotogramas.
 
-```bash
-npm run dev
-# abrir http://localhost:5173/?modo=banco&n=500
-```
+| Escenario | fps mínimo | Peor tick de sim | Peor render | Veredicto |
+|---|---|---|---|---|
+| `?modo=banco&n=500` | **137** | 1,27 ms | 3,44 ms | `CRITERIO CUMPLIDO` |
+| `&n=500&combate=1` | **134** | 1,37 ms | 5,98 ms | `CRITERIO CUMPLIDO` |
+| `&n=500&obstaculos=0` | **139** | 1,38 ms | 3,59 ms | `CRITERIO CUMPLIDO` |
+| `&n=1000` | **138** | 2,70 ms | 2,89 ms | `CRITERIO CUMPLIDO` |
+| `&n=2000` | **137** | 4,56 ms | 4,16 ms | `CRITERIO CUMPLIDO` |
 
-El panel dice `CRITERIO CUMPLIDO` o `NO CUMPLE` por sí solo, con el mínimo de
-fps y el peor tick registrados. Parámetros: `n` unidades, `mapa` tamaño,
-`combate=1`, `obstaculos=0`.
+Ni un tick perdido en ninguna tanda. La comparación que importa es contra el
+presupuesto de 16,6 ms por fotograma: con 500 unidades, simulación y render
+juntos ocupan **menos de 5 ms**, y el mínimo de 137 fps está a más del doble
+del umbral de 58 que exige el criterio.
+
+**El margen es lo que decide la fase siguiente.** Con 2.000 unidades —cuatro
+veces el criterio— la cosa sigue a 137 fps: el techo no está donde íbamos a
+buscarlo. El cuello, cuando aparezca, será la simulación (4,56 ms de peor tick
+con 2.000 entidades frente a 4,16 ms de render), no el dibujado. Eso deja
+ADR-001 en pie sin discusión y **desbloquea el pipeline de arte**: no hay
+motivo para replantear hacia Three.js.
+
+Dos cosas que conviene saber para repetir la medida:
+
+- **La pestaña tiene que estar visible y en primer plano.** Chrome congela
+  `requestAnimationFrame` en pestañas ocultas u ocluidas por otra ventana: la
+  primera lectura de esta sesión dio 8 fps y tick 10 en diez segundos, y no
+  era el motor sino el navegador durmiendo. Si el panel da fps ridículos, mira
+  eso antes que el código.
+- **Hay que dejarlo correr.** El veredicto no sale hasta los 120 fotogramas, y
+  las órdenes masivas —lo que de verdad estresa el pathfinding— llegan cada
+  8 segundos.
 
 ## Alcance del vertical slice
 
@@ -63,14 +87,14 @@ probar.
 
 ## Lo siguiente, en orden
 
-1. **Comprobar el criterio de aceptación en hardware real** (arriba). Sigue
-   siendo lo único que bloquea el pipeline de arte.
+1. ~~Comprobar el criterio de aceptación en hardware real.~~ **Hecho, y
+   cumple con margen** (tabla arriba). Ya no bloquea nada.
 2. ~~Jugar Cuarte 1094 entero varias veces y anotar dónde se rompe el
    ritmo.~~ **Hecho.** Ver [`BANCO-DE-PARTIDAS.md`](BANCO-DE-PARTIDAS.md):
    treinta partidas por tanda, siete fallos de ritmo encontrados y corregidos,
    todos con prueba de regresión. El escenario se resuelve ahora en el 100% de
    las partidas, con reparto 67/33 y mediana de 7 minutos.
-3. Pipeline de arte (hito 7), en cuanto pase el punto 1. Las herramientas
+3. Pipeline de arte (hito 7), ya desbloqueado. Las herramientas
    están en `engine/tools/blender/` y el cargador de atlas real en
    `src/render/atlasLoader.ts`; falta el arte.
 4. ~~IA que reaccione a la composición del rival (DEUDA-007).~~ **Hecha y
