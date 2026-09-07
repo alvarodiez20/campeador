@@ -205,3 +205,24 @@ según la semilla.
   pareada con su intervalo, en vez de dos porcentajes sueltos; el banco ya
   empareja semillas entre manos, así que la información está, solo falta
   resumirla bien.
+
+### DEUDA-014 · El volumen de arte está sin decidir
+
+La cuenta de [`ARTE.md`](ARTE.md), ya con las fichas reales en la mano: 600
+imágenes por unidad y facción, 1.800 el aldeano por sus cuatro cargas, y **más
+de 8.000 en total** para seis unidades y dos facciones.
+
+- **Coste hoy:** ninguno. El pipeline está montado y probado, y el criterio de
+  aceptación de rendimiento pasó con margen (ver [`PLAN.md`](PLAN.md)), así que
+  nada obliga a decidir hoy.
+- **Riesgo:** decidirlo tarde. El propio script avisa de que a ese volumen
+  conviene replantear hacia 3D con `InstancedMesh`, y esa vuelta atrás es
+  barata ahora y carísima con treinta modelos hechos.
+- **Disparador:** antes de modelar la segunda unidad. La primera se hace
+  entera de principio a fin justamente para tener el dato real de cuánto cuesta
+  una; con ese dato la decisión deja de ser una estimación.
+- **Arreglo:** o recortar el alcance —menos fotogramas, menos cargas de
+  aldeano, una sola facción con la otra resuelta por máscara— o cambiar de
+  técnica. La simulación no cambiaría ni una línea: `src/render/` es lo único
+  que habría que tirar (ADR-001).
+

@@ -16,12 +16,25 @@ import type { Atlas } from './atlas';
  *     edificio/<clave>/mask
  *     terreno/<clave>
  *
- * Los octantes 5, 6 y 7 NO estan en el atlas: se obtienen volteando en
- * horizontal los octantes 3, 2 y 1. `frameConVolteo` devuelve la textura y si
- * hay que poner `scale.x = -1`.
+ * Los octantes 0, 1 y 7 (E, SE, NE) NO estan en el atlas: se obtienen
+ * volteando en horizontal los octantes 4, 3 y 5 (O, SO, NO). `frameConVolteo`
+ * devuelve la textura y si hay que poner `scale.x = -1`.
+ *
+ * Octantes: 0=E 1=SE 2=S 3=SO 4=O 5=NO 6=N 7=NE, sentido horario en pantalla.
+ *
+ * La tabla era `{ 5: 3, 6: 2, 7: 1 }` y estaba mal. Voltear en horizontal
+ * cambia una direccion por su reflejo respecto al eje vertical de la pantalla,
+ * y ese reflejo empareja E con O, SE con SO y NE con NO, dejando N y S como
+ * sus propios espejos. Declarar N como S volteada no da una vista de espaldas:
+ * el reflejo de una vista frontal es otra vista frontal, asi que una unidad
+ * que caminara hacia el norte miraba a camara. Y de paso se horneaban E y O,
+ * que son la misma imagen.
+ *
+ * Tiene que coincidir con ESPEJADAS de `tools/blender/hornear_sprites.py`, que
+ * es quien decide que cinco direcciones se hornean.
  */
 
-export const ESPEJO: Readonly<Record<number, number>> = { 5: 3, 6: 2, 7: 1 };
+export const ESPEJO: Readonly<Record<number, number>> = { 0: 4, 1: 3, 7: 5 };
 
 export async function loadAtlas(url: string): Promise<Atlas> {
   const sheet = (await Assets.load(url)) as Spritesheet;
