@@ -2,8 +2,13 @@
 Horneado de sprites isometricos desde Blender.
 
     blender modelo.blend --background --python tools/blender/hornear_sprites.py -- \
-        --salida build/sprites --nombre caballero --animaciones andar,atacar,morir,quieto \
-        --frames 15 --alto 96
+        --salida build/sprites --nombre lancero --animaciones andar,atacar,morir,quieto \
+        --frames 15 --ancho 64 --alto 84
+
+La caja no es cuadrada y no todas las unidades comparten la suya. La infanteria
+cabe en 64x84 -una casilla de ancho- y la caballeria necesita 96x104, dos
+casillas, porque el sprite invade la vecina. Las medidas por unidad estan en
+`paleta.json`, en el campo `caja`.
 
 Es el metodo que uso Age of Empires II y sigue siendo el correcto para 2D
 isometrico: se modela en 3D, se renderiza con camara ortografica desde ocho
@@ -30,9 +35,11 @@ Haz la cuenta antes de comprometerte con esto:
     1 unidad x 4 animaciones x 5 direcciones x 15 frames = 300 imagenes
     (x2 por el pase de mascara = 600 archivos por unidad)
 
-Con cinco unidades por faccion y dos facciones son 6.000 imagenes. Si ese
-volumen no es asumible, el brief lo dice claro: replantear hacia 3D con
-InstancedMesh antes de gastar un mes en arte.
+Con seis unidades por bloque, dos bloques con ficha y las cuatro cargas del
+aldeano son mas de 8.000 imagenes, y la caballeria pesa 2,4 veces mas por
+pixel de caja. Si ese volumen no es asumible, el brief lo dice claro:
+replantear hacia 3D con InstancedMesh antes de gastar un mes en arte. Es
+DEUDA-014 y esta sin decidir.
 """
 
 from __future__ import annotations
@@ -87,6 +94,16 @@ ESPEJADAS = {1: ("so", True), 0: ("o", True), 7: ("no", True)}
 # cambiarlo despues obliga a rehornear todo.
 ELEVACION_POR_DEFECTO = 30.0
 
+# Pixeles de render por unidad de mundo de Blender.
+#
+# `ortho_scale` dice cuanto mundo entra en el lado MAYOR del render, asi que
+# dejarlo fijo con cajas de tamano distinto cambiaria la escala entre unidades:
+# con la misma cifra, el caballero -caja de 104 de alto- saldria un 24 % mas
+# grande que el lancero -caja de 84- a igualdad de modelo, y un caballo que
+# empequenece a un hombre no es un problema de arte, es este parametro. Lo que
+# se mantiene constante entre cajas es esto, y `ortho_scale` se calcula.
+PIXELES_POR_UNIDAD = 96 / 2.6
+
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     if "--" in argv:
@@ -102,7 +119,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     p.add_argument("--nombre", required=True, help="Nombre de la unidad (p. ej. caballero)")
     p.add_argument("--animaciones", default="quieto", help="Acciones de Blender separadas por coma")
     p.add_argument("--frames", type=int, default=15, help="Fotogramas por animacion")
-    p.add_argument("--alto", type=int, default=96, help="Alto del render en pixeles")
+    p.add_argument("--alto", type=int, default=84, help="Alto de la caja en pixeles")
+    p.add_argument("--ancho", type=int, default=64, help="Ancho de la caja en pixeles (64 = una casilla; la caballeria pide 96)")
     p.add_argument("--elevacion", type=float, default=ELEVACION_POR_DEFECTO)
     p.add_argument("--objeto", default="", help="Nombre del objeto a rotar (por defecto, el activo)")
     p.add_argument("--solo-cuenta", action="store_true", help="No renderiza: solo dice cuantas imagenes saldrian")
@@ -114,10 +132,10 @@ def cuenta_imagenes(animaciones: list[str], frames: int) -> int:
     return len(animaciones) * len(DIRECCIONES) * frames * 2
 
 
-def preparar_camara(scene, elevacion: float, alto: int) -> None:
+def preparar_camara(scene, elevacion: float, ancho: int, alto: int) -> None:
     cam_data = bpy.data.cameras.new("CamaraIso")
     cam_data.type = "ORTHO"
-    cam_data.ortho_scale = 2.6
+    cam_data.ortho_scale = max(ancho, alto) / PIXELES_POR_UNIDAD
     cam = bpy.data.objects.new("CamaraIso", cam_data)
     scene.collection.objects.link(cam)
     scene.camera = cam
@@ -129,7 +147,7 @@ def preparar_camara(scene, elevacion: float, alto: int) -> None:
     cam.location = (0.0, -dist * math.cos(rad), dist * math.sin(rad))
     cam.rotation_euler = (math.radians(90.0) - rad, 0.0, 0.0)
 
-    scene.render.resolution_x = alto
+    scene.render.resolution_x = ancho
     scene.render.resolution_y = alto
     scene.render.resolution_percentage = 100
     scene.render.film_transparent = True
@@ -176,7 +194,7 @@ def main() -> int:
     animaciones = [a.strip() for a in args.animaciones.split(",") if a.strip()]
     total = cuenta_imagenes(animaciones, args.frames)
 
-    print(f"[hornear] unidad '{args.nombre}'")
+    print(f"[hornear] unidad '{args.nombre}', caja {args.ancho}x{args.alto}")
     print(f"[hornear] {len(animaciones)} animaciones x {len(DIRECCIONES)} direcciones "
           f"x {args.frames} frames x 2 pases = {total} imagenes")
     print("[hornear] direcciones espejadas en tiempo de ejecucion: "
@@ -193,7 +211,7 @@ def main() -> int:
         print("[hornear] no hay objeto que rotar", file=sys.stderr)
         return 1
 
-    preparar_camara(scene, args.elevacion, args.alto)
+    preparar_camara(scene, args.elevacion, args.ancho, args.alto)
     os.makedirs(args.salida, exist_ok=True)
 
     rot_original = tuple(obj.rotation_euler)

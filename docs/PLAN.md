@@ -10,7 +10,7 @@ El orden es el del brief. Nada de lo de abajo se adelanta a lo de arriba.
 | 4 | Combate y el triángulo de unidades | **hecho** |
 | 5 | Niebla de guerra | **hecho** (con DEUDA-002) |
 | 6 | Escenario de Valencia 1094 jugable de principio a fin | **hecho y medido** |
-| 7 | Pipeline de arte definitivo | **desbloqueado**; herramientas y fichas listas, modelado sin empezar |
+| 7 | Pipeline de arte definitivo | **desbloqueado**; herramientas listas y doce fichas de dos bloques entregadas, falta el bloque taifa y el modelado |
 | 8 | Parias y diplomacia | **hecho** |
 | 9 | Multijugador | no empezado (DEUDA-008) |
 
@@ -97,9 +97,12 @@ probar.
 3. Pipeline de arte (hito 7), ya desbloqueado. Las herramientas están en
    `engine/tools/blender/`, el cargador de atlas real en
    `src/render/atlasLoader.ts` y las fichas de unidad en
-   [`ARTE.md`](ARTE.md), con el documento visual en `docs/arte/`. Falta el
-   modelado, y antes de la segunda unidad hay que decidir el volumen
-   (DEUDA-014).
+   [`ARTE.md`](ARTE.md), con el documento visual en `docs/arte/`. **Las doce
+   fichas de los bloques mesnada y almorávide están entregadas**; falta el
+   bloque de las taifas —cinco unidades— y falta el modelado entero. Antes de
+   la segunda unidad hay que decidir el volumen (DEUDA-014), y con el primer
+   sprite de caballería hay que pagar DEUDA-015, que es el orden de dibujo con
+   una caja de dos casillas.
 5. ~~Balance del triángulo (DEUDA-010).~~ **Hecho, y el resultado no es el
    que se esperaba.** No era que los bonos fueran tímidos: era que **dos de
    las cuatro aristas del triángulo no existían** —el lancero perdía contra la

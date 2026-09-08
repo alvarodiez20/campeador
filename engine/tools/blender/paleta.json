@@ -1,5 +1,7 @@
 {
-  "nota": "Paleta por unidad. 'ten' = zona teñible con el color de jugador: se pinta en blanco puro en el pase de máscara y el motor la multiplica por el color del jugador. Nunca llevar degradado. La unidad 'arquero' se llamaba 'ballestero' y llevaba ballesta; ver docs/ARTE.md.",
+  "nota": "Paleta por unidad y por bloque de faccion. 'ten' = zona tenible con el color de jugador: se pinta en blanco puro en el pase de mascara y el motor la multiplica por el color del jugador. Nunca llevar degradado.",
+  "claves": "Las claves de unidad son las de UnitDef.key en engine/src/game/data.ts, no los titulos de las fichas: el pipeline nombra los fotogramas unidad/<clave>/<octante>/<animacion>/<frame>/<capa> y esa <clave> es la del motor. La ficha titulada 'Peon de espada' es infante; la de 'Rodrigo Diaz' es campeador; la de 'Ballestero' es arquero, y ya no lleva ballesta (ver docs/ARTE.md). engine/test/paleta.test.ts comprueba que los dos lados siguen coincidiendo.",
+  "medida_mascara": "Areas contadas en blanco sobre el pase de mascara con muestreo a resolucion de unidad, tomando el centro de cada bloque de la ampliacion. Contar sobre el canvas ampliado infla la cifra un 10 % por el antialias. Si se vuelve a medir, mismo criterio o los numeros no son comparables. Estos sustituyen a los de la entrega anterior, medidos con otro criterio.",
   "comun": {
     "contorno": "#241b12",
     "piel_media": "#b0805c",
@@ -7,58 +9,180 @@
     "cuero": "#5b4229",
     "astil_fresno": "#9a7a4a"
   },
-  "lancero": {
-    "malla_base": "#7c766c",
-    "malla_sombra": "#4b463e",
-    "malla_realce": "#a49a8b",
-    "capacete": "#8d8779",
-    "perpunte_lana": "#c9b795",
-    "hierro_arma": "#bcbfc3",
-    "ten_escudo": "PLAYER",
-    "ten_pendon": "PLAYER",
-    "mascara_px2": 152,
-    "alto_px": 60
-  },
-  "espada": {
-    "malla_base": "#7c766c",
-    "malla_sombra": "#4b463e",
-    "malla_realce": "#a49a8b",
-    "capacete": "#8d8779",
-    "perpunte_lana": "#c9b795",
-    "hoja_espada": "#c6c9ce",
-    "laton_guarnicion": "#8a7248",
-    "ten_escudo": "PLAYER",
-    "mascara_px2": 121,
-    "alto_px": 60
-  },
-  "aldeano": {
-    "caperuza": "#c9b795",
-    "mimbre": "#b98d4e",
-    "lena": "#6b4a2b",
-    "piedra": "#9a9ea8",
-    "oro_grano": "#c8a24a",
-    "saco": "#bfae8f",
-    "trigo": "#d9b96a",
-    "hierro": "#bcbfc3",
-    "ten_sayo": "PLAYER",
-    "mascara_px2": 190,
-    "alto_px": 56,
-    "cargas": [
-      "lena",
-      "piedra",
-      "oro",
-      "comida"
-    ]
-  },
-  "arquero": {
-    "capacete": "#8d8779",
-    "caperuza_lana": "#c9b795",
-    "costura_perpunte": "#241b12",
-    "ten_perpunte": "PLAYER",
-    "mascara_px2": 168,
-    "alto_px": 57,
-    "arco_tejo": "#8a6a48",
-    "cuerda_canamo": "#d8cbb0",
-    "hierro_punta": "#bcbfc3"
+  "bloques": {
+    "mesnada": {
+      "nota": "Hueste del Cid. El mismo arte sirve al bloque Cristiano: cambia la mascara, no la pieza.",
+      "unidades": {
+        "aldeano": {
+          "caperuza": "#c9b795",
+          "mimbre": "#b98d4e",
+          "lena": "#6b4a2b",
+          "piedra": "#9a9ea8",
+          "oro_grano": "#c8a24a",
+          "saco": "#bfae8f",
+          "trigo": "#d9b96a",
+          "hierro": "#bcbfc3",
+          "ten_sayo": "PLAYER",
+          "mascara_px2": 275,
+          "alto_px": 56,
+          "caja": "64x84",
+          "cargas": [
+            "lena",
+            "piedra",
+            "oro",
+            "comida"
+          ]
+        },
+        "infante": {
+          "malla_base": "#7c766c",
+          "malla_sombra": "#4b463e",
+          "malla_realce": "#a49a8b",
+          "capacete": "#8d8779",
+          "perpunte_lana": "#c9b795",
+          "hoja_espada": "#c6c9ce",
+          "laton_guarnicion": "#8a7248",
+          "ten_escudo": "PLAYER",
+          "mascara_px2": 181,
+          "alto_px": 60,
+          "caja": "64x84",
+          "nota": "La mascara mas pequena del roster: 28 px2 menos que el lancero pese a un escudo un 18 % mayor, porque no hay pendon que lo compense."
+        },
+        "lancero": {
+          "malla_base": "#7c766c",
+          "malla_sombra": "#4b463e",
+          "malla_realce": "#a49a8b",
+          "capacete": "#8d8779",
+          "perpunte_lana": "#c9b795",
+          "hierro_arma": "#bcbfc3",
+          "ten_escudo": "PLAYER",
+          "ten_pendon": "PLAYER",
+          "mascara_px2": 209,
+          "alto_px": 60,
+          "caja": "64x84"
+        },
+        "arquero": {
+          "capacete": "#8d8779",
+          "caperuza_lana": "#c9b795",
+          "costura_perpunte": "#241b12",
+          "arco_tejo": "#8a6a48",
+          "cuerda_canamo": "#d8cbb0",
+          "hierro_punta": "#bcbfc3",
+          "ten_perpunte": "PLAYER",
+          "mascara_px2": 214,
+          "alto_px": 57,
+          "caja": "64x84",
+          "mascara_px2_nota": "Medida sobre la figura con ballesta, que es la que sigue dibujando el documento visual. Con el arco tensado delante del cuerpo va a bajar: el arquero lamtuni, con el mismo gesto, se queda en 172 frente a los 321 y 345 de sus companeros de bloque. Hay que volver a medirla cuando se redibuje."
+        },
+        "caballero": {
+          "pelaje_castano": "#6b4a2b",
+          "crin": "#3a2a1c",
+          "capacete": "#8d8779",
+          "malla_base": "#7c766c",
+          "cuero_arreo": "#5b4229",
+          "hierro_estribo": "#bcbfc3",
+          "astil_fresno": "#9a7a4a",
+          "ten_escudo": "PLAYER",
+          "ten_pendon": "PLAYER",
+          "ten_telliz": "PLAYER",
+          "mascara_px2": 356,
+          "alto_px": 66,
+          "alto_con_lanza_px": 86,
+          "caja": "96x104",
+          "pelajes_fijos": [
+            "#6b4a2b",
+            "#8a6a4a",
+            "#ece6da",
+            "#3f3229"
+          ],
+          "nota": "El caballo no se tine: cuatro pelajes fijos por unidad. El telliz es la unica zona tenible visible desde cualquier angulo, y es lo que resuelve la vista de espaldas."
+        },
+        "campeador": {
+          "pelaje_tordo": "#ece6da",
+          "tordo_sombra": "#b9b0a2",
+          "capa_granate_fija": "#8a3a2c",
+          "malla_base": "#7c766c",
+          "capacete": "#8d8779",
+          "cuero_arreo": "#5b4229",
+          "hierro": "#bcbfc3",
+          "ten_escudo": "PLAYER",
+          "ten_sena": "PLAYER",
+          "ten_telliz": "PLAYER",
+          "mascara_px2": 414,
+          "alto_px": 66,
+          "alto_con_lanza_px": 86,
+          "caja": "96x104",
+          "nota": "La capa NO se tine: es el tell del heroe. Silueta solo un 14 % distinta de la del caballero, asi que la distincion la sostienen el valor del pelaje tordo, el tamano de la sena y el granate fijo fuera de la mascara."
+        }
+      }
+    },
+    "almoravide": {
+      "nota": "Bloque al-Murabitun. Mismo rig, misma escala, misma caja y los mismos cuatro ciclos que la mesnada: ni una animacion nueva. El litham va en lana cruda y no en indigo porque el indigo es uno de los ocho colores de jugador.",
+      "comun": {
+        "litham": "#d8d2c4",
+        "litham_sombra": "#b0a794",
+        "cuero_lamt": "#cbb48c",
+        "burnus_fijo_heroe": "#8a3a2c",
+        "montura_clara_heroe": "#ece6da"
+      },
+      "unidades": {
+        "aldeano": {
+          "ten_sayo": "PLAYER",
+          "mascara_px2": 289,
+          "alto_px": 56,
+          "caja": "64x84",
+          "cargas": [
+            "lena",
+            "piedra",
+            "oro",
+            "comida"
+          ],
+          "nota": "El mismo sayo, la misma herramienta y las mismas cuatro cargas; cambia el tocado, un pano envuelto en lugar de caperuza. No lleva litham: el velo es de los hombres de guerra sanhaya, no del que cava."
+        },
+        "infante": {
+          "ten_tunica": "PLAYER",
+          "ten_adarga": "PLAYER",
+          "mascara_px2": 345,
+          "alto_px": 61,
+          "caja": "64x84",
+          "nota": "Hoja recta, la misma que el infante cristiano. Es el par mas parecido del roster, y a proposito: el equipo de choque a pie era el mismo a los dos lados de la frontera."
+        },
+        "lancero": {
+          "ten_tunica": "PLAYER",
+          "ten_adarga": "PLAYER",
+          "mascara_px2": 321,
+          "alto_px": 70,
+          "caja": "64x84",
+          "ancho_mancha_so_px": 38,
+          "nota": "Asta de 47 px y reposo forzado a 32 grados minimos de calado: mas larga no entra en la caja. El tell frente al lancero de la mesnada es el ancho -38 px de mancha en SO frente a 34-, no el alto. El asta larga, al calarse, no sube: se tumba."
+        },
+        "arquero": {
+          "ten_tunica": "PLAYER",
+          "mascara_px2": 172,
+          "alto_px": 60,
+          "caja": "64x84",
+          "nota": "Arco compuesto de asta y tendon, tenso en vertical delante del cuerpo, y carcaj a la cadera. Es el unico del bloque que pierde mascara respecto a la mesnada, porque el arco cruza el torso."
+        },
+        "caballero": {
+          "ten_adarga": "PLAYER",
+          "ten_pendon": "PLAYER",
+          "ten_telliz": "PLAYER",
+          "mascara_px2": 428,
+          "alto_px": 66,
+          "alto_con_lanza_px": 86,
+          "caja": "96x104",
+          "nota": "Adarga, lanza larga con pendon y telliz. Sin barda, igual que el cristiano: la diferencia tactica va en los datos de unidad, no en el arte."
+        },
+        "campeador": {
+          "ten_adarga": "PLAYER",
+          "ten_sena": "PLAYER",
+          "ten_telliz": "PLAYER",
+          "mascara_px2": 482,
+          "alto_px": 66,
+          "alto_con_lanza_px": 86,
+          "caja": "96x104",
+          "nota": "Abu Bakr ibn Ibrahim al-Lamtuni, mando del ejercito que cerco Valencia en 1094. Mismo sistema de heroe que el campeador cristiano: montura clara, sena ampliada y burnus de color fijo fuera de la mascara."
+        }
+      }
+    }
   }
 }
