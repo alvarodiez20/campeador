@@ -18,7 +18,531 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
 </style>
 </helmet>
 
+
+
 <section style="padding:44px 44px 40px;display:flex;flex-direction:column;gap:18px">
+  <div style="display:flex;align-items:baseline;gap:14px;color:#c9b795;font-family:'Cinzel',Georgia,serif">
+    <span style="border:1px solid #8a7248;color:#e7c46a;font-size:13px;letter-spacing:2px;padding:3px 9px">7a</span>
+    <span style="font-size:15px;letter-spacing:3px;text-transform:uppercase">Turno 7 · Bloque almorávide · al-Murabitun · las seis unidades</span>
+  </div>
+
+  <div id="7a" style="width:1600px;background:#e9dcc0;background-image:linear-gradient(#00000006 1px,transparent 1px);background-size:100% 4px;border:1px solid #8a7248;box-shadow:0 24px 60px #0009;padding:0 0 52px">
+
+    <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;padding:36px 48px 22px;border-bottom:2px solid #8a7248;background:linear-gradient(#efe4cc,#e4d5b6)">
+      <div>
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#8a7248">Bloque de facción · las seis unidades · misma escala, mismo rig, mismo cuidado</div>
+        <h1 style="font-family:'Cinzel',Georgia,serif;font-size:44px;font-weight:700;letter-spacing:1px;margin:8px 0 4px;color:#2a1f14">al-Murabitun</h1>
+        <div style="font-size:19px;font-style:italic;color:#5c4a30">Venidos del Magreb · litham, adarga de lamt, lanza larga y tambores · Cuarte, 1094</div>
+      </div>
+      <div style="display:flex;border:1px solid #b9a681;font-family:'Cinzel',Georgia,serif">
+        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">ESCALA</div><div style="font-size:15px;color:#2a1f14">Idéntica a la hueste</div></div>
+        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">MÁSCARA</div><div style="font-size:15px;color:#2a1f14">Adarga · túnica · telliz</div></div>
+        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">DIRECCIONES</div><div style="font-size:15px;color:#2a1f14">S · SO · O · NO · N</div></div>
+        <div style="padding:9px 15px"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">RIG</div><div style="font-size:15px;color:#2a1f14">Compartido con la hueste</div></div>
+      </div>
+    </header>
+
+    <div style="padding:30px 48px 0">
+      <p style="max-width:1180px;font-size:17px;line-height:1.55;color:#4a3a26;margin:0 0 14px;text-wrap:pretty">Las seis en una hoja porque el bloque se diseña como bloque: <b>misma altura, misma caja, mismos ciclos de animación y el mismo nivel de detalle</b> que la hueste del Cid. Ninguna es una variante degradada de su equivalente cristiano, y ninguna lleva un rasgo que funcione como marca étnica o religiosa. Lo que cambia es lo que cambiaba de verdad: el tocado, la forma del escudo, la longitud de la lanza y el arma de tiro.</p>
+      <p style="max-width:1180px;font-size:17px;line-height:1.55;color:#4a3a26;margin:0 0 14px;text-wrap:pretty">La consecuencia de producción es enorme y conviene decirla: como el rig y los ciclos son los mismos, <b>el bloque entero no añade una sola animación nueva</b>. Se rehornean las mismas cuatro acciones con otras cabezas, otros escudos y otras astas.</p>
+      <div style="max-width:1180px;border-left:3px solid #a8442e;padding:2px 0 2px 16px;margin:0 0 16px;font-size:17px;line-height:1.55;color:#3c2f1e;text-wrap:pretty"><b>Un límite que salió al dibujar y conviene saber:</b> la lanza larga <b>no cabe</b> en la caja de infantería al ángulo de reposo de la hueste. Con el asta a 2,9 m y el puño donde está, no existe ningún ángulo que meta la punta dentro de 64×84: si se levanta, se sale por arriba; si se cala, se sale por el lado. La he resuelto acortándola a 47 px de asta y forzando el reposo a <b>32° mínimo de calado</b>, con lo que entra justa —un solo píxel de margen en S y en N— y sigue leyéndose más larga que la de la hueste, pero <b>a lo ancho y no a lo alto</b>: 38 px de mancha en SO frente a 34 del lancero cristiano, con la misma altura. La alternativa era darle caja propia, como a la caballería, y no merece la pena por tres píxeles.</div>
+      <p style="max-width:1180px;font-size:17px;line-height:1.55;color:#4a3a26;margin:0 0 26px;text-wrap:pretty">Y un resultado que no esperaba, medido con el mismo criterio que las otras seis fichas: <b>este bloque se lee mejor de bando que la hueste del Cid.</b> Sus dos unidades de choque a pie tienen 321 y 345 px² de máscara, frente a los 209 y 181 de sus equivalentes cristianos. No es un favor de diseño: es consecuencia directa de que visten tela teñida donde el otro bloque lleva malla, que no se puede teñir. El único que pierde es el arquero, 172 frente a 214, porque el arco compuesto cruza el torso y tapa parte de la túnica en el pase de máscara. Si en pruebas la diferencia entre bloques molesta, lo honesto es <b>subir la del bloque cristiano</b> —hay margen en el escudo—, no bajar esta.</p>
+    </div>
+
+    <div style="padding:0 48px">
+      <sc-for list="{{ murPie }}" as="m" hint-placeholder-count="4">
+        <div style="display:flex;gap:18px;align-items:flex-start;border-top:1px solid #b9a681;padding:20px 0">
+          <div style="width:296px;flex:none">
+            <div style="font-family:'Cinzel',Georgia,serif;font-size:19px;font-weight:700;color:#2a1f14">{{ m.nombre }}</div>
+            <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;letter-spacing:.5px;margin:3px 0 8px">{{ m.equiv }} · MÁSCARA {{ m.mascara }}</div>
+            <div style="font-size:16px;line-height:1.45;color:#3c2f1e">{{ m.nota }}</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-end;padding:12px 14px;background:#f6efdd;border:1px solid #cbb992;flex:none">
+            <sc-for list="{{ dirs }}" as="d" hint-placeholder-count="5">
+              <div style="text-align:center">
+                <canvas ref="{{ setCanvas }}" data-u="{{ m.u }}" data-fac="mur" data-dir="{{ d.dir }}" data-esc="1" style="display:block;width:64px;height:84px"></canvas>
+                <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#8a7248">{{ d.id }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="flex:none;background:#f6efdd;border:1px solid #cbb992">
+            <canvas ref="{{ setCanvas }}" data-u="{{ m.u }}" data-fac="mur" data-dir="so" data-esc="2.6" style="display:block;width:166px;height:218px"></canvas>
+          </div>
+          <div style="flex:none;background:#f6efdd;border:1px solid #cbb992">
+            <canvas ref="{{ setCanvas }}" data-u="{{ m.u }}" data-fac="mur" data-dir="so" data-modo="color" data-esc="2.6" style="display:block;width:166px;height:218px"></canvas>
+          </div>
+          <div style="flex:none;background:#111;border:1px solid #cbb992">
+            <canvas ref="{{ setCanvas }}" data-u="{{ m.u }}" data-fac="mur" data-dir="so" data-modo="mask" data-esc="2.6" style="display:block;width:166px;height:218px"></canvas>
+          </div>
+        </div>
+      </sc-for>
+
+      <sc-for list="{{ murCab }}" as="m" hint-placeholder-count="2">
+        <div style="display:flex;gap:18px;align-items:flex-start;border-top:1px solid #b9a681;padding:20px 0">
+          <div style="width:296px;flex:none">
+            <div style="font-family:'Cinzel',Georgia,serif;font-size:19px;font-weight:700;color:#2a1f14">{{ m.nombre }}</div>
+            <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;letter-spacing:.5px;margin:3px 0 8px">{{ m.equiv }} · MÁSCARA {{ m.mascara }}</div>
+            <div style="font-size:16px;line-height:1.45;color:#3c2f1e">{{ m.nota }}</div>
+          </div>
+          <div style="display:flex;gap:4px;align-items:flex-end;padding:10px 10px;background:#f6efdd;border:1px solid #cbb992;flex:none">
+            <sc-for list="{{ dirs }}" as="d" hint-placeholder-count="5">
+              <div style="text-align:center">
+                <canvas ref="{{ setCanvas }}" data-u="{{ m.u }}" data-fac="mur" data-dir="{{ d.dir }}" data-w="96" data-h="104" data-esc="1" style="display:block;width:96px;height:104px"></canvas>
+                <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#8a7248">{{ d.id }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="flex:none;background:#f6efdd;border:1px solid #cbb992">
+            <canvas ref="{{ setCanvas }}" data-u="{{ m.u }}" data-fac="mur" data-dir="so" data-modo="color" data-w="96" data-h="104" data-esc="1.9" style="display:block;width:182px;height:198px"></canvas>
+          </div>
+          <div style="flex:none;background:#111;border:1px solid #cbb992">
+            <canvas ref="{{ setCanvas }}" data-u="{{ m.u }}" data-fac="mur" data-dir="so" data-modo="mask" data-w="96" data-h="104" data-esc="1.9" style="display:block;width:182px;height:198px"></canvas>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;gap:24px;margin:34px 48px 0">
+      <div style="flex:1;border:1px solid #b9a681;background:#efe4cc;padding:20px 22px">
+        <h3 style="font-family:'Cinzel',Georgia,serif;font-size:17px;margin:0 0 12px;letter-spacing:1px;color:#2a1f14">Decisiones que he tomado por ti</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:1.45;color:#3c2f1e">
+          <div><b>El litham en lana cruda, no en índigo.</b> El velo que da nombre a los al-Murabitun —«los del litham»— se asocia al azul índigo, y ese es justamente uno de los ocho colores de jugador: un velo índigo haría que la unidad del jugador índigo pareciera doble de velada y la del dorado, otra cosa. Lana cruda <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">#d8d2c4</code>, que además es lo que se documenta con más frecuencia para el velo del Magreb en esta fecha. El azul se pierde y lo digo.</div>
+          <div><b>La adarga es la máscara.</b> Escudo redondo de cuero de lamt, pálido de origen, que se tiñe entero. Y resuelve mejor que el escudo de cometa un problema del bloque cristiano: un círculo se lee igual desde cualquier ángulo, así que la máscara no se hunde en las vistas de perfil.</div>
+          <div><b>Lanza larga de verdad:</b> seis píxeles más de asta que la de la hueste, con el astil cruzando más cuerpo. Es el rasgo de silueta que separa a los dos bloques a 60 px sin tocar la altura.</div>
+          <div><b>Arco compuesto en lugar de ballesta.</b> Resuelve de paso la duda de datación de la ficha 4a: aquí el tiro sí está documentado, y no es una versión peor de la ballesta, es otra arma —más cadencia, menos penetración—.</div>
+          <div><b>Sin pendón en la lanza de tropa, y sin cota de malla.</b> La máscara la llevan la túnica y la adarga, que es coherente con lo documentado —poca malla, guerra ligera— y da más superficie teñida que el bloque cristiano, no menos. El precio es que aquí no hay una banderola que salve el perfil, pero un círculo tampoco la necesita.</div>
+        </div>
+      </div>
+      <div style="flex:1;border:1px solid #b9a681;background:#efe4cc;padding:20px 22px">
+        <h3 style="font-family:'Cinzel',Georgia,serif;font-size:17px;margin:0 0 12px;letter-spacing:1px;color:#2a1f14">Descartado, y por qué</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:1.45;color:#3c2f1e">
+          <div><b>Cimitarra o sable curvo.</b> Es el tópico visual del «guerrero moro» y es falso: la espada de esta gente en 1094 es recta, y buena parte venía del mismo comercio de hojas que la cristiana. El peón lamtuní lleva la misma hoja recta que el peón de la hueste.</div>
+          <div><b>Media luna, caligrafía o cualquier símbolo religioso</b> en escudos, estandartes o ropa. Igual que no hay cruces en el bloque cristiano. El bando se lee por el color de jugador.</div>
+          <div><b>Rasgos faciales diferenciados.</b> El litham cubre la cara en las unidades de guerra, y en el aldeano la cara es la misma que en la hueste con otro tocado. El tono de piel es eje de variación de la unidad en los dos bloques, con el mismo rango.</div>
+          <div><b>Turbante enorme, ropa suelta y flotante, joyas.</b> Orientalismo de siglo XIX. Túnica de lana ceñida y velo, que es ropa de campaña en el desierto y en la huerta.</div>
+          <div><b>Elefantes, camellos y tambores gigantes.</b> Los tambores están documentados y son un rasgo real del bloque —el estruendo de los atabales almorávides aparece en las crónicas de Sagrajas—, pero como <b>unidad propia o efecto de sonido</b>, no como accesorio colgado de un peón. Queda apuntado para cuando toque el bloque de asedio y la banda sonora.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:38px 48px 0">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+        <span style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248">PALETA DEL BLOQUE</span>
+        <h2 style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;margin:0;color:#2a1f14">Lo que cambia respecto a la hueste</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
+        <sc-for list="{{ paletaM }}" as="c" hint-placeholder-count="9">
+          <div style="display:flex;gap:14px;border:1px solid #b9a681;background:#f6efdd;padding:12px 14px">
+            <div style="width:52px;height:52px;flex:none;border:1px solid #2a1f14;background:{{ c.hex }}"></div>
+            <div style="min-width:0">
+              <div style="font-family:'Cinzel',Georgia,serif;font-size:15px;font-weight:700;color:#2a1f14">{{ c.nombre }}</div>
+              <div style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#8a7248;letter-spacing:.5px">{{ c.hex }}</div>
+              <div style="font-size:15px;line-height:1.35;color:#4a3a26;margin-top:3px">{{ c.nota }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:24px;padding:34px 48px 0">
+      <div style="flex:1.4;border-top:2px solid #8a7248;padding-top:16px">
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248;margin-bottom:8px">NOTA HISTÓRICA Y TRATAMIENTO</div>
+        <p style="font-size:17px;line-height:1.55;color:#3c2f1e;margin:0 0 10px;text-wrap:pretty">Los al-Murabitun son un movimiento del Sahara occidental, de confederación sanhaya —lamtuna, gudala, masufa—, que unifica el Magreb y cruza el Estrecho en 1086 llamados por al-Mutamid de Sevilla, después de que la caída de Toledo y el sistema de parias hubieran desangrado a las taifas. Su equipo de campaña: túnica de lana ceñida, litham cubriendo el rostro, adarga redonda de cuero de antílope lamt —ligera y famosa por sí misma, hasta el punto de que «adarga» pasa al castellano—, lanza larga, jabalinas y arco. Poca malla: era caro y venían de una tradición de guerra ligera y móvil.</p>
+        <p style="font-size:17px;line-height:1.55;color:#3c2f1e;margin:0;text-wrap:pretty">En Cuarte, en octubre de 1094, el ejército que cerca Valencia lo manda <b>Abu Bakr ibn Ibrahim al-Lamtuni</b>, sobrino de Yusuf ibn Tasufin. No es una masa anónima: es un ejército de estado con mando, logística y una política propia, y llega porque las taifas lo llaman y porque el propio sistema de tributos cristiano lo hizo inevitable. Esa es la razón de que este bloque tenga sus seis fichas con el mismo detalle y sus nombres propios, y no una «unidad mora» genérica. La regla del proyecto, que está en <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">docs/TRATAMIENTO-HISTORICO.md</code>: ningún bando es el genérico.</p>
+      </div>
+      <div style="flex:1;border-top:2px solid #8a7248;padding-top:16px">
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248;margin-bottom:8px">FUENTES · Y LO QUE NO TENGO</div>
+        <div style="font-size:16px;line-height:1.45;color:#3c2f1e;display:flex;flex-direction:column;gap:9px">
+          <div><b>Hugh Kennedy</b>, <i>Muslim Spain and Portugal</i> (1996), ya en <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">docs/FUENTES.md</code>: cómo funcionaban las taifas, por qué las parias las desangraron y qué cálculo hicieron al llamar a los almorávides.</div>
+          <div><b>Ibn Alqama</b>, vía cronistas posteriores: el punto de vista valenciano sobre el cerco y sobre la ciudad.</div>
+          <div><b>Al-Bakri</b> e <b>Ibn Abi Zar</b> para el equipo y las costumbres sanhaya, incluido el litham y la adarga de lamt.</div>
+          <div><b>Historia Roderici</b> para la campaña de Cuarte desde el otro lado.</div>
+          <div style="color:#6a5540;font-style:italic">Lo que no tengo, y sostiene la parte más floja de esta hoja: <b>no hay iconografía contemporánea almorávide de figura humana</b> —el arte del periodo es epigráfico, geométrico y arquitectónico—, así que la forma de la ropa y del velo se reconstruye por descripción escrita y por comparación con la del Magreb posterior, no por imagen. Es exactamente el mismo hueco que declaré en la ficha 2a para el campesinado andalusí. Donde el bloque cristiano tiene el Beato de Silos, este tiene texto. Lo digo para que la diferencia de certeza no se convierta, por descuido, en diferencia de cuidado.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin:34px 48px 0;border:1px solid #8a7248;background:#efe4cc;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:24px">
+      <div style="font-size:17px;line-height:1.45;color:#3c2f1e"><b>Roster cerrado:</b> seis unidades de la hueste del Cid y seis de al-Murabitun, con la rueda de direcciones corregida en las doce, un solo juego de ciclos de animación y la máscara de color de jugador resuelta unidad por unidad. Lo siguiente ya no es diseño de personaje: es el bloque andalusí de las taifas, el asedio y los tambores.</div>
+      <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:2px;color:#8a7248;white-space:nowrap;text-align:right">FIN DEL ROSTER<br>DOCE FICHAS</div>
+    </div>
+
+  </div>
+</section>
+
+<section style="padding:0 44px 40px;display:flex;flex-direction:column;gap:18px">
+  <div style="display:flex;align-items:baseline;gap:14px;color:#c9b795;font-family:'Cinzel',Georgia,serif">
+    <span style="border:1px solid #8a7248;color:#e7c46a;font-size:13px;letter-spacing:2px;padding:3px 9px">6a</span>
+    <span style="font-size:15px;letter-spacing:3px;text-transform:uppercase">Turno 6 · Rodrigo Díaz · héroe · cierra la hueste</span>
+  </div>
+
+  <div id="6a" style="width:1600px;background:#e9dcc0;background-image:linear-gradient(#00000006 1px,transparent 1px);background-size:100% 4px;border:1px solid #8a7248;box-shadow:0 24px 60px #0009;padding:0 0 52px">
+
+    <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;padding:36px 48px 22px;border-bottom:2px solid #8a7248;background:linear-gradient(#efe4cc,#e4d5b6)">
+      <div>
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#8a7248">Ficha de personaje · especificación visual · no es el sprite final</div>
+        <h1 style="font-family:'Cinzel',Georgia,serif;font-size:44px;font-weight:700;letter-spacing:1px;margin:8px 0 4px;color:#2a1f14">Rodrigo Díaz</h1>
+        <div style="font-size:19px;font-style:italic;color:#5c4a30">Señor de la guerra de frontera · sin corona, sin cruz, sin caballo más grande</div>
+      </div>
+      <div style="display:flex;border:1px solid #b9a681;font-family:'Cinzel',Georgia,serif">
+        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">ALTO</div><div style="font-size:15px;color:#2a1f14">66 px · 86 con la lanza</div></div>
+        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">CAJA</div><div style="font-size:15px;color:#2a1f14">96×104 · igual que el caballero</div></div>
+        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">MÁSCARA</div><div style="font-size:15px;color:#2a1f14">414 px² · +16 %</div></div>
+        <div style="padding:9px 15px"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">SILUETA</div><div style="font-size:15px;color:#2a1f14">14 % distinta del caballero</div></div>
+      </div>
+    </header>
+
+    <div style="margin:28px 48px 0;border:2px solid #a8442e;background:#f4e2d2">
+      <div style="background:#a8442e;color:#f6efdd;font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;padding:7px 18px">LO QUE PEDISTE NO SE PUEDE CUMPLIR EN SILUETA · MEDIDO</div>
+      <div style="display:flex;gap:30px;padding:22px 24px;align-items:flex-start">
+        <div style="flex:1;min-width:0;font-size:17px;line-height:1.5;color:#3c2f1e">
+          <p style="margin:0 0 10px;text-wrap:pretty">Pides que se distinga a simple vista de un caballero cualquiera <b>sin salirse de la escala</b>. Las dos cosas a la vez no caben en la silueta: si no puede ser más alto ni más grande, lo único que queda para romper el contorno es añadirle bultos, y a 66 px un bulto de más es ruido, no jerarquía.</p>
+          <p style="margin:0 0 10px;text-wrap:pretty">Medido píxel a píxel a 1× contra la ficha del caballero: la mancha de Rodrigo tiene <b>1.288 px de tinta frente a 1.108</b>, un 16 % más de masa, y <b>cambia el 14 % del contorno en SO y el 12 % en O</b>. La caja envolvente es exactamente la misma, 36×86. Es decir: <b>en negro a contraluz, Rodrigo es un caballero con capa</b>, y poco más.</p>
+          <p style="margin:0;text-wrap:pretty">Así que la distinción la sostienen tres cosas que sí se ven a 60 px y ninguna rompe la escala: el <b>valor</b> del pelaje tordo, casi blanco, contra los cuatro pelajes oscuros de la caballería normal; la <b>seña</b>, un 50 % mayor de superficie que el pendón de tropa pero con la misma altura; y la <b>capa de color fijo</b>, que no se tiñe con el color de jugador. La regla que sale de aquí y que conviene aplicar a todos los héroes: <b>un héroe se reconoce por lo que no se tiñe.</b> Si esto no te basta en pruebas, las dos únicas salidas honestas son subir la seña por encima de la caja o darle escolta, no agrandarlo.</p>
+        </div>
+        <div style="flex:none;display:flex;gap:12px">
+          <div style="text-align:center">
+            <canvas ref="{{ setCanvas }}" data-u="rodrigo" data-dir="so" data-w="96" data-h="104" data-esc="2" style="display:block;width:192px;height:208px;background:#fbf3e6;border:1px dashed #c69a86"></canvas>
+            <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#a8442e;margin-top:4px">RODRIGO · SO ×2</div>
+          </div>
+          <div style="text-align:center">
+            <canvas ref="{{ setCanvas }}" data-u="caballero" data-dir="so" data-w="96" data-h="104" data-esc="2" style="display:block;width:192px;height:208px;background:#fbf3e6;border:1px dashed #c69a86"></canvas>
+            <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#a8442e;margin-top:4px">CABALLERO · SO ×2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:34px 48px 0">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px">
+        <span style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248">BLOQUE 1</span>
+        <h2 style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;margin:0;color:#2a1f14">Silueta en las cinco direcciones producidas</h2>
+      </div>
+      <p style="max-width:1120px;font-size:17px;line-height:1.5;color:#4a3a26;margin:0 0 26px;text-wrap:pretty">Rueda corregida, igual que el caballero. La capa es lo único que cambia el contorno, y cambia poco: cae por el lado contrario al arma, así que en el volteo pasa al otro lado del cuerpo sin que se note, porque una capa no tiene lado correcto.</p>
+      <div style="display:flex;gap:14px">
+        <sc-for list="{{ dirsCab }}" as="d" hint-placeholder-count="5">
+          <div style="width:288px;flex:none">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #b9a681;padding-bottom:4px;margin-bottom:8px">
+              <span style="font-family:'Cinzel',Georgia,serif;font-size:20px;font-weight:700;color:#2a1f14">{{ d.id }}</span>
+              <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248">{{ d.grados }}</span>
+            </div>
+            <div style="background:#f6efdd;border:1px solid #cbb992">
+              <canvas ref="{{ setCanvas }}" data-u="rodrigo" data-dir="{{ d.dir }}" data-w="96" data-h="104" data-esc="3" style="display:block;width:286px;height:310px"></canvas>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:24px;align-items:flex-start;margin-top:28px">
+        <div style="width:256px;flex:none">
+          <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:2px;color:#8a7248;border-bottom:1px solid #b9a681;padding-bottom:4px">TAMAÑO REAL</div>
+          <p style="font-size:15px;line-height:1.4;color:#4a3a26;margin:8px 0 0">A este tamaño, y en color, funciona: el caballo claro es una mancha de valor alto que ninguna otra unidad tiene.</p>
+        </div>
+        <div style="display:flex;gap:16px;align-items:flex-end;padding:18px 24px;background:#f6efdd;border:1px solid #cbb992;flex:none">
+          <sc-for list="{{ dirsCab }}" as="d" hint-placeholder-count="5">
+            <div style="text-align:center">
+              <canvas ref="{{ setCanvas }}" data-u="rodrigo" data-dir="{{ d.dir }}" data-modo="color" data-w="96" data-h="104" data-esc="1" style="display:block;width:96px;height:104px"></canvas>
+              <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248">{{ d.id }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:36px 48px 0">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+        <span style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248">BLOQUES 2 Y 3</span>
+        <h2 style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;margin:0;color:#2a1f14">Tres cuartos con paleta, y máscara</h2>
+      </div>
+      <div style="display:flex;gap:20px;align-items:flex-start">
+        <div style="flex:none;text-align:center;padding:14px 16px;background:#f6efdd;border:1px solid #cbb992">
+          <canvas ref="{{ setCanvas }}" data-u="rodrigo" data-dir="so" data-modo="color" data-w="96" data-h="104" data-esc="1" style="display:block;width:96px;height:104px"></canvas>
+          <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;margin-top:4px">66 px</div>
+        </div>
+        <div style="flex:none;background:#f6efdd;border:1px solid #cbb992">
+          <canvas ref="{{ setCanvas }}" data-u="rodrigo" data-dir="so" data-modo="color" data-w="96" data-h="104" data-esc="3" style="display:block;width:286px;height:310px"></canvas>
+          <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;padding:4px 8px">×3 · paleta aplicada</div>
+        </div>
+        <div style="flex:none;background:#111;border:1px solid #cbb992">
+          <canvas ref="{{ setCanvas }}" data-u="rodrigo" data-dir="so" data-modo="mask" data-w="96" data-h="104" data-esc="3" style="display:block;width:286px;height:310px"></canvas>
+          <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#c9b795;padding:4px 8px">×3 · pase de máscara</div>
+        </div>
+        <div style="flex:1;min-width:0;font-size:17px;line-height:1.5;color:#3c2f1e;display:flex;flex-direction:column;gap:12px">
+          <div><b>414 px² de máscara</b> frente a los 356 del caballero, medidos los dos con el mismo criterio —muestreo a resolución de unidad, sin contar el antialias del ampliado—: <b>+58 px², un 16 % más</b>. Mismas tres piezas —escudo, seña y telliz—, con la seña ampliada. La capa queda <b>fuera</b> de la máscara a propósito.</div>
+          <div><b>Por qué la capa no se tiñe.</b> Si se tiñera, Rodrigo con el jugador dorado y un caballero con el jugador dorado serían la misma mancha de color. Dejándola en granate fijo, el héroe se reconoce igual con los ocho colores, y el color de jugador sigue diciendo de quién es.</div>
+          <div><b>Y por qué eso además resuelve un problema político.</b> El mismo sprite, con el escudo y la seña teñidos con los colores de una taifa, es Rodrigo al servicio del emir de Zaragoza en 1082 mandando andalusíes contra aragoneses. Si su identidad estuviera en un emblema cristiano, ese escenario no se podría representar sin que chirriara. Está en la máscara, así que sí se puede.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:36px 48px 0">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px">
+        <span style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248">BLOQUE 4</span>
+        <h2 style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;margin:0;color:#2a1f14">Poses clave · pautas de dibujo</h2>
+      </div>
+      <p style="max-width:1120px;font-size:17px;line-height:1.5;color:#4a3a26;margin:0 0 22px;text-wrap:pretty">Mismo rig y mismos ciclos que el caballero: es la misma unidad con capa y seña, y compartir animación es media producción ahorrada. La capa se anima por deriva —va con retardo respecto al tronco—, que es lo que hace que un héroe parezca un héroe sin cambiarle la pose.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:16px">
+        <sc-for list="{{ poses }}" as="q" hint-placeholder-count="8">
+          <div style="width:236px;flex:none">
+            <div style="background:#f6efdd;border:1px solid #cbb992">
+              <canvas ref="{{ setCanvas }}" data-u="rodrigo" data-dir="so" data-pose="{{ q.id }}" data-w="136" data-h="104" data-esc="1.72" style="display:block;width:234px;height:179px"></canvas>
+            </div>
+            <div style="font-family:'Cinzel',Georgia,serif;font-size:14px;font-weight:700;color:#2a1f14;margin-top:7px">{{ q.nombreC }}</div>
+            <div style="font-size:14px;line-height:1.35;color:#4a3a26">{{ q.notaC }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:24px;margin:34px 48px 0">
+      <div style="flex:1;border:1px solid #b9a681;background:#efe4cc;padding:20px 22px">
+        <h3 style="font-family:'Cinzel',Georgia,serif;font-size:17px;margin:0 0 12px;letter-spacing:1px;color:#2a1f14">Decisiones que he tomado por ti</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:1.45;color:#3c2f1e">
+          <div><b>Pelaje tordo, casi blanco.</b> Es el tell más fuerte que cabe sin romper la escala, porque funciona por valor y no por forma. Uso <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">#ece6da</code>, que es el mismo valor que el juego de la raíz ya asigna al caballo de Rodrigo en <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">js/cid-art-units.js</code>: continuidad gratis. Aviso: el caballo blanco viene de Babieca, y Babieca es del <i>Cantar</i>, no de la <i>Historia Roderici</i>. Es una elección de producción con origen legendario, y queda dicho.</div>
+          <div><b>Capa de color fijo, fuera de la máscara.</b> Un héroe se reconoce por lo que no se tiñe.</div>
+          <div><b>Seña un 50 % mayor</b> que el pendón de tropa. Crece a lo ancho y a lo largo del astil, nunca por encima de la punta: la tinta más alta es la misma que la del caballero, 8 px de unidad, así que el alto de la caja no cambia. Es lo que permite ampliarla sin romper la escala.</div>
+          <div><b>Mismo rig, mismos ciclos, misma altura</b> que el caballero. Cero animación nueva.</div>
+        </div>
+      </div>
+      <div style="flex:1;border:1px solid #b9a681;background:#efe4cc;padding:20px 22px">
+        <h3 style="font-family:'Cinzel',Georgia,serif;font-size:17px;margin:0 0 12px;letter-spacing:1px;color:#2a1f14">Descartado, y por qué</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:1.45;color:#3c2f1e">
+          <div><b>Cruz en el escudo, en la capa o en la seña.</b> Es exactamente la iconografía con la que el franquismo construyó al Cid cruzado, y además es falsa para 1094. El bando se lee por el color de jugador.</div>
+          <div><b>Caballo más grande, armadura dorada, corona o cimera.</b> Rompen la escala y convierten al señor de la guerra en rey. No fue rey ni pretendió serlo: acabó gobernando Valencia por cuenta propia, sin ser vasallo de nadie.</div>
+          <div><b>La barba como rasgo distintivo.</b> A 66 px la barba mide dos píxeles: es un rasgo de retrato, no de sprite. Va en el retrato del panel de mando, no aquí.</div>
+          <div><b>Tizona y Colada como objetos identificables.</b> Atribución discutida y hoja posterior. Lleva la espada del peón, sin adorno.</div>
+          <div><b>Aureola, brillo o partículas.</b> Ni una: si el héroe necesita un efecto para distinguirse, es que el diseño no funciona.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:38px 48px 0">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+        <span style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248">BLOQUE 5</span>
+        <h2 style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;margin:0;color:#2a1f14">Paleta</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
+        <sc-for list="{{ paletaR }}" as="c" hint-placeholder-count="9">
+          <div style="display:flex;gap:14px;border:1px solid #b9a681;background:#f6efdd;padding:12px 14px">
+            <div style="width:52px;height:52px;flex:none;border:1px solid #2a1f14;background:{{ c.hex }}"></div>
+            <div style="min-width:0">
+              <div style="font-family:'Cinzel',Georgia,serif;font-size:15px;font-weight:700;color:#2a1f14">{{ c.nombre }}</div>
+              <div style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#8a7248;letter-spacing:.5px">{{ c.hex }}</div>
+              <div style="font-size:15px;line-height:1.35;color:#4a3a26;margin-top:3px">{{ c.nota }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:24px;padding:34px 48px 0">
+      <div style="flex:1.4;border-top:2px solid #8a7248;padding-top:16px">
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248;margin-bottom:8px">BLOQUE 6 · NOTA HISTÓRICA Y TRATAMIENTO</div>
+        <p style="font-size:17px;line-height:1.55;color:#3c2f1e;margin:0 0 10px;text-wrap:pretty">Va equipado como su propia caballería, sin una pieza mejor: cota de malla, almófar, capacete con nasal, escudo de cometa, lanza con seña. La diferencia material es la capa de lana teñida de granate, que es lo que llevaba un señor con dinero, y un caballo mejor. Nada más. En 1094 Rodrigo Díaz es un señor de la guerra de frontera que gobierna Valencia por cuenta propia, con una hueste pagada con parias y botín, y una ciudad de mayoría musulmana con su qadi, su zoco y su huerta.</p>
+        <p style="font-size:17px;line-height:1.55;color:#3c2f1e;margin:0;text-wrap:pretty">La ficha está construida para que el personaje real quepa: sirvió a Sancho II y a Alfonso VI, que lo desterró dos veces; entre 1081 y 1086 sirvió a los emires de Zaragoza al-Muqtadir y al-Mutamin mandando ejércitos andalusíes contra ejércitos cristianos, en Almenar contra Aragón y Barcelona y en Tébar contra Berenguer Ramón II; y en 1063, en Graus, combatió del lado de Zaragoza contra Aragón. Ese personaje no puede llevar una cruz cosida encima. Un sprite cuya identidad está en el color de la capa y en el tamaño de la seña, y cuyo bando está en la máscara, permite ponerlo en las dos orillas sin rehacer el arte, que es justo lo que pide <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">docs/TRATAMIENTO-HISTORICO.md</code>.</p>
+      </div>
+      <div style="flex:1;border-top:2px solid #8a7248;padding-top:16px">
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248;margin-bottom:8px">FUENTES · Y LO QUE NO TENGO</div>
+        <div style="font-size:16px;line-height:1.45;color:#3c2f1e;display:flex;flex-direction:column;gap:9px">
+          <div><b>Historia Roderici</b> (c. 1110–1125). Contemporánea y escueta: de ella salen el destierro, los años al servicio de Zaragoza y la toma de Valencia. No describe su aspecto.</div>
+          <div><b>Ibn Alqama</b>, <i>al-Bayan al-wadih</i>, en citas posteriores: el punto de vista valenciano y andalusí sobre el asedio y su gobierno de la ciudad.</div>
+          <div><b>Fletcher</b>, <i>El Cid</i> (1989), como contrapeso deliberado a <b>Menéndez Pidal</b>, <i>La España del Cid</i> (1929): el primero desmonta el mito, el segundo lo construye. Cuando discrepan, pesa Fletcher.</div>
+          <div><b>Cantar de mio Cid</b> (c. 1200), solo para lo que es: literatura. De ahí vienen Babieca, Tizona y la barba, y por eso las tres están marcadas como legendarias en esta ficha.</div>
+          <div style="color:#6a5540;font-style:italic">Lo que no tengo: ninguna descripción física contemporánea de Rodrigo Díaz. Ni una. Todo retrato es posterior y casi todo es propaganda. Por eso esta ficha no le da cara: le da un caballo claro, una capa y una seña, que son decisiones de producción declaradas y no un retrato inventado.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin:34px 48px 0;border:1px solid #8a7248;background:#efe4cc;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:24px">
+      <div style="font-size:17px;line-height:1.45;color:#3c2f1e"><b>Hueste del Cid cerrada:</b> lancero, peón de espada, ballestero, caballero, aldeano y Rodrigo. Lo que queda son las seis en versión almorávide —litham, adarga de lamt, lanza larga y tambores— y el aviso de la ficha 4a: para el aldeano andalusí no tengo iconografía, y prefiero decirlo antes de dibujar lo que se suele dibujar.</div>
+      <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:2px;color:#8a7248;white-space:nowrap;text-align:right">SIGUIENTE BLOQUE<br>AL-MURABITUN</div>
+    </div>
+
+  </div>
+</section>
+
+<section style="padding:0 44px 40px;display:flex;flex-direction:column;gap:18px">
+  <div style="display:flex;align-items:baseline;gap:14px;color:#c9b795;font-family:'Cinzel',Georgia,serif">
+    <span style="border:1px solid #8a7248;color:#e7c46a;font-size:13px;letter-spacing:2px;padding:3px 9px">5a</span>
+    <span style="font-size:15px;letter-spacing:3px;text-transform:uppercase">Turno 5 · Caballero · Hueste del Cid · ficha completa · rueda corregida</span>
+  </div>
+
+  <div id="5a" style="width:1600px;background:#e9dcc0;background-image:linear-gradient(#00000006 1px,transparent 1px);background-size:100% 4px;border:1px solid #8a7248;box-shadow:0 24px 60px #0009;padding:0 0 52px">
+
+    <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;padding:36px 48px 22px;border-bottom:2px solid #8a7248;background:linear-gradient(#efe4cc,#e4d5b6)">
+      <div>
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#8a7248">Ficha de personaje · especificación visual · no es el sprite final</div>
+        <h1 style="font-family:'Cinzel',Georgia,serif;font-size:44px;font-weight:700;letter-spacing:1px;margin:8px 0 4px;color:#2a1f14">Caballero</h1>
+        <div style="font-size:19px;font-style:italic;color:#5c4a30">Hueste del Cid · caballo y jinete, un solo cuerpo · Valencia, 1094</div>
+      </div>
+      <div style="display:flex;border:1px solid #b9a681;font-family:'Cinzel',Georgia,serif">
+        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">ALTO</div><div style="font-size:15px;color:#2a1f14">66 px · 86 con lanza</div></div>
+        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">CAJA</div><div style="font-size:15px;color:#2a1f14">96×104 · dos casillas</div></div>
+        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">MÁSCARA</div><div style="font-size:15px;color:#2a1f14">356 px² en tres piezas</div></div>
+        <div style="padding:9px 15px"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">DIRECCIONES</div><div style="font-size:15px;color:#2a1f14">S · SO · O · NO · N</div></div>
+      </div>
+    </header>
+
+    <div style="margin:28px 48px 0;border:2px solid #4a6a3a;background:#e6ecd8">
+      <div style="background:#4a6a3a;color:#f6efdd;font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;padding:7px 18px">DECISIONES QUE HE TOMADO, PORQUE ME LO PEDISTE</div>
+      <div style="display:flex;gap:28px;padding:22px 24px;font-size:17px;line-height:1.5;color:#2f3a24">
+        <div style="flex:1"><b>1 · Rueda corregida.</b> A partir de esta unidad las cinco direcciones que se producen son <b>S, SO, O, NO, N</b>, y el volteo da SE, E y NE. Ya existe vista de espaldas: la N de abajo es la grupa, no un caballo mirando a cámara. Coste de cambiarlo hoy: cero, porque no hay nada horneado. Las fichas 1a a 4a se quedan con el juego viejo para que se vea la diferencia; hay que rehacerlas antes de modelar.</div>
+        <div style="flex:1"><b>2 · Ballesta temprana</b> para el ballestero, no arquero: la duda de datación queda anotada en su ficha y asumida. <b>3 · Reparto 6/4/5</b> en los quince fotogramas del ataque de ballesta. <b>4 · La máscara del aldeano se queda solo en el sayo</b>, sin teñir la caperuza: prefiero color inconstante a un aldeano con la cabeza del color del jugador, que a 60 px parece un capirote.</div>
+      </div>
+    </div>
+
+    <div style="padding:34px 48px 0">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px">
+        <span style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248">BLOQUE 1</span>
+        <h2 style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;margin:0;color:#2a1f14">Silueta en las cinco direcciones producidas</h2>
+      </div>
+      <p style="max-width:1120px;font-size:17px;line-height:1.5;color:#4a3a26;margin:0 0 26px;text-wrap:pretty">Caballo y jinete son un solo cuerpo, como pides: un único rig, una única silueta, sin piezas separadas que puedan desincronizarse. La lectura de dirección la da el caballo, no el jinete: medido sobre estos dibujos a 1×, la mancha ocupa 44 px de ancho de perfil y 20 de frente, algo más de dos a uno. Es la unidad que mejor distingue las direcciones laterales, justo al contrario que el ballestero. Las frontales son otra historia, y está abajo.</p>
+      <div style="display:flex;gap:14px">
+        <sc-for list="{{ dirsCab }}" as="d" hint-placeholder-count="5">
+          <div style="width:288px;flex:none">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #b9a681;padding-bottom:4px;margin-bottom:8px">
+              <span style="font-family:'Cinzel',Georgia,serif;font-size:20px;font-weight:700;color:#2a1f14">{{ d.id }}</span>
+              <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248">{{ d.grados }}</span>
+            </div>
+            <div style="background:#f6efdd;border:1px solid #cbb992">
+              <canvas ref="{{ setCanvas }}" data-u="caballero" data-dir="{{ d.dir }}" data-w="96" data-h="104" data-esc="3" style="display:block;width:286px;height:310px"></canvas>
+            </div>
+            <div style="font-size:15px;line-height:1.35;color:#4a3a26;margin-top:8px">{{ d.nota }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="margin-top:26px;border:2px solid #a8442e;background:#f4e2d2;padding:18px 22px">
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a3a24;margin-bottom:8px">EL PAR DIFÍCIL · S CONTRA N, MEDIDO</div>
+        <div style="font-size:17px;line-height:1.5;color:#3c2f1e;text-wrap:pretty">Un caballo de frente y un caballo por la grupa son casi la misma mancha, y el criterio de la ficha 1a dice que si dos direcciones se confunden hay que arreglarlo en el diseño. Lo que he hecho: en <b>S</b> la cabeza cuelga entre las manos y el escudo sale por la izquierda a media altura; en <b>N</b> no hay cabeza ni escudo, la grupa es un 34 % más ancha que el pecho y la cola cae por el centro. Resultado medido píxel a píxel sobre los canvas a 1×: <b>cambia el 18 % de la mancha</b> (167 de 929 px), y la caja envolvente sigue siendo la misma, 28×86. Es una diferencia real pero pequeña, y es el par que hay que probar en juego antes de modelar. Si no basta, la salida es acentuar el balanceo de la cola en N y mantener el escudo siempre en el mismo lado de pantalla; lo que no vale es resolverlo con sombreado, porque la silueta a contraluz es lo que el jugador lee.</div>
+      </div>
+      <div style="display:flex;gap:24px;align-items:flex-start;margin-top:28px">
+        <div style="width:256px;flex:none">
+          <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:2px;color:#8a7248;border-bottom:1px solid #b9a681;padding-bottom:4px">TAMAÑO REAL</div>
+          <p style="font-size:15px;line-height:1.4;color:#4a3a26;margin:8px 0 0">66 px de caballo y jinete contra los 60 de la infantería, y 86 px de tinta contando la lanza vertical y el pendón. Los seis píxeles de diferencia con el peón son los que hacen que una carga se vea venir por encima de la línea.</p>
+        </div>
+        <div style="display:flex;gap:16px;align-items:flex-end;padding:18px 24px;background:#f6efdd;border:1px solid #cbb992;flex:none">
+          <sc-for list="{{ dirsCab }}" as="d" hint-placeholder-count="5">
+            <div style="text-align:center">
+              <canvas ref="{{ setCanvas }}" data-u="caballero" data-dir="{{ d.dir }}" data-w="96" data-h="104" data-esc="1" style="display:block;width:96px;height:104px"></canvas>
+              <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248">{{ d.id }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:36px 48px 0">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+        <span style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248">BLOQUES 2 Y 3</span>
+        <h2 style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;margin:0;color:#2a1f14">Tres cuartos con paleta, y máscara</h2>
+      </div>
+      <div style="display:flex;gap:20px;align-items:flex-start">
+        <div style="flex:none;text-align:center;padding:14px 16px;background:#f6efdd;border:1px solid #cbb992">
+          <canvas ref="{{ setCanvas }}" data-u="caballero" data-dir="so" data-modo="color" data-w="96" data-h="104" data-esc="1" style="display:block;width:96px;height:104px"></canvas>
+          <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;margin-top:4px">74 px</div>
+        </div>
+        <div style="flex:none;background:#f6efdd;border:1px solid #cbb992">
+          <canvas ref="{{ setCanvas }}" data-u="caballero" data-dir="so" data-modo="color" data-w="96" data-h="104" data-esc="3" style="display:block;width:286px;height:310px"></canvas>
+          <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;padding:4px 8px">×3 · paleta aplicada</div>
+        </div>
+        <div style="flex:none;background:#111;border:1px solid #cbb992">
+          <canvas ref="{{ setCanvas }}" data-u="caballero" data-dir="so" data-modo="mask" data-w="96" data-h="104" data-esc="3" style="display:block;width:286px;height:310px"></canvas>
+          <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#c9b795;padding:4px 8px">×3 · pase de máscara</div>
+        </div>
+        <div style="flex:1;min-width:0;font-size:17px;line-height:1.5;color:#3c2f1e;display:flex;flex-direction:column;gap:12px">
+          <div><b>Tres zonas teñibles:</b> campo del escudo, paño del pendón y <b>telliz</b> —la manta bajo la silla, que el Tapiz de Bayeux dibuja en casi todos los caballos—. Suman 356 px², la máscara más grande del roster con diferencia —el doble que un peón de espada—, y hacen falta: la caballería se ve a distancia y en movimiento, y es la unidad en la que más importa saber de quién es antes de que llegue.</div>
+          <div><b>El telliz resuelve la vista de espaldas.</b> En N el escudo desaparece detrás del jinete y el pendón queda de canto; la manta sigue ahí, sobre la grupa. Es la pieza que hace que la máscara no dependa del ángulo.</div>
+          <div><b>El caballo no se tiñe.</b> Cuatro pelajes fijos —castaño, alazán, tordo, negro— asignados por unidad, no por jugador. Un caballo del color del jugador sería índigo o dorado, y eso sí que rompe la lectura de que es un caballo.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:36px 48px 0">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px">
+        <span style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248">BLOQUE 4</span>
+        <h2 style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;margin:0;color:#2a1f14">Poses clave · pautas de dibujo</h2>
+      </div>
+      <p style="max-width:1120px;font-size:17px;line-height:1.5;color:#4a3a26;margin:0 0 22px;text-wrap:pretty">El ciclo de andar es <b>trote</b>, no paso: diagonales opuestas y un fotograma de suspensión con las cuatro manos en el aire. El ataque es la <b>carga con lanza calada</b> —lanza bajo el sobaco, no por encima del hombro—, que es el gesto que se estaba imponiendo en esta década y el que cambió la táctica de caballería. Vista SO.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:16px">
+        <sc-for list="{{ poses }}" as="q" hint-placeholder-count="8">
+          <div style="width:236px;flex:none">
+            <div style="background:#f6efdd;border:1px solid #cbb992">
+              <canvas ref="{{ setCanvas }}" data-u="caballero" data-dir="so" data-pose="{{ q.id }}" data-w="136" data-h="104" data-esc="1.72" style="display:block;width:234px;height:179px"></canvas>
+            </div>
+            <div style="font-family:'Cinzel',Georgia,serif;font-size:14px;font-weight:700;color:#2a1f14;margin-top:7px">{{ q.nombreC }}</div>
+            <div style="font-size:14px;line-height:1.35;color:#4a3a26">{{ q.notaC }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:24px;margin:34px 48px 0">
+      <div style="flex:1;border:1px solid #b9a681;background:#efe4cc;padding:20px 22px">
+        <h3 style="font-family:'Cinzel',Georgia,serif;font-size:17px;margin:0 0 12px;letter-spacing:1px;color:#2a1f14">Decisiones que he tomado por ti</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:1.45;color:#3c2f1e">
+          <div><b>Caja de 96×104, no de 64×84.</b> La mancha mide 44 px de ancho de perfil y 86 de alto con la lanza: no cabe en la caja de infantería. Son dos casillas de ancho, y el motor tiene que saberlo para el orden de profundidad: el rombo de la izquierda en las siluetas marca la casilla vecina que el sprite invade.</div>
+          <div><b>Lanza vertical en quieto y trote, calada solo en la carga.</b> En la ficha del lancero rechacé la lanza vertical porque metía 25 px sobre la cabeza y rompía la caja de 84; aquí la caja tiene 104 y la punta llega a y=10, con 10 px de margen. El mismo criterio da resultados distintos porque la caja es distinta, y así se gana la diagonal larga de la carga como gesto exclusivo del ataque.</div>
+          <div><b>Telliz teñible</b>, para que la máscara no dependa del ángulo. Es la única pieza que resuelve la vista de espaldas sin inventar nada.</div>
+          <div><b>Cuatro pelajes fijos</b> por unidad. Variedad visual gratis y ninguna interferencia con los ocho colores de jugador.</div>
+          <div><b>Muerte en dos tiempos:</b> el caballo se encabrita y luego caen los dos juntos, dentro de la casilla. Un jinete que se separa del caballo obligaría a dos siluetas y a dos rigs.</div>
+        </div>
+      </div>
+      <div style="flex:1;border:1px solid #b9a681;background:#efe4cc;padding:20px 22px">
+        <h3 style="font-family:'Cinzel',Georgia,serif;font-size:17px;margin:0 0 12px;letter-spacing:1px;color:#2a1f14">Descartado, y por qué</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:1.45;color:#3c2f1e">
+          <div><b>Barda o gualdrapa del caballo.</b> Era la zona teñible ideal —enorme, visible desde cualquier ángulo— y es siglo XIII. Aviso otra vez: el juego de la raíz ya tiene <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">barding: 1</code> en <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">paladin</code>. El telliz hace casi el mismo trabajo y sí es de esta fecha.</div>
+          <div><b>Yelmo de cara entera y cimera.</b> Siglo XIII. Capacete con nasal, igual que la infantería.</div>
+          <div><b>Estribos largos con la pierna estirada.</b> Estribo sí —está documentado y es lo que permite la lanza calada—, pero la postura de pierna recta de la estampa romántica es posterior. Rodilla ligeramente flexionada.</div>
+          <div><b>Caballo al galope en el ciclo de andar.</b> El galope se reserva para la carga. Si camina al galope, la carga no tiene a dónde subir.</div>
+          <div><b>Cruz o emblema en el escudo.</b> Igual que en toda la hueste: campo llano, sin heráldica, que además es lo que necesita la máscara.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:38px 48px 0">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+        <span style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248">BLOQUE 5</span>
+        <h2 style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;margin:0;color:#2a1f14">Paleta</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
+        <sc-for list="{{ paletaC }}" as="c" hint-placeholder-count="12">
+          <div style="display:flex;gap:14px;border:1px solid #b9a681;background:#f6efdd;padding:12px 14px">
+            <div style="width:52px;height:52px;flex:none;border:1px solid #2a1f14;background:{{ c.hex }}"></div>
+            <div style="min-width:0">
+              <div style="font-family:'Cinzel',Georgia,serif;font-size:15px;font-weight:700;color:#2a1f14">{{ c.nombre }}</div>
+              <div style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#8a7248;letter-spacing:.5px">{{ c.hex }}</div>
+              <div style="font-size:15px;line-height:1.35;color:#4a3a26;margin-top:3px">{{ c.nota }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:24px;padding:34px 48px 0">
+      <div style="flex:1.4;border-top:2px solid #8a7248;padding-top:16px">
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248;margin-bottom:8px">BLOQUE 6 · NOTA HISTÓRICA</div>
+        <p style="font-size:17px;line-height:1.55;color:#3c2f1e;margin:0 0 10px;text-wrap:pretty">El jinete va como la infantería pesada de la hueste —cota de malla a la rodilla abierta para montar, almófar, capacete con nasal, escudo de cometa— más espuelas y una lanza de dos metros y medio con pendón. El caballo lleva silla de borrenes altos, que es la que sujeta al jinete en el impacto, estribos, brida sencilla y telliz bajo la silla. Nada de armadura para el animal.</p>
+        <p style="font-size:17px;line-height:1.55;color:#3c2f1e;margin:0;text-wrap:pretty">Sobre la frontera y esta unidad concreta: la caballería de la mesnada del Cid combatió tanto para reyes cristianos como para el emir de Zaragoza, y en Almenar y en Tébar contra ejércitos cristianos. La misma pieza de arte, con otro color de escudo, es un jinete de la taifa. Lo que no se debe hacer es dar al caballero cristiano un caballo más grande o mejor equipo que a su equivalente andalusí: la caballería ligera de jinetes andalusíes era distinta en táctica, no inferior en calidad, y eso se resuelve en los datos de unidad, no en el tamaño del sprite.</p>
+      </div>
+      <div style="flex:1;border-top:2px solid #8a7248;padding-top:16px">
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248;margin-bottom:8px">FUENTES · Y LO QUE NO TENGO</div>
+        <div style="font-size:16px;line-height:1.45;color:#3c2f1e;display:flex;flex-direction:column;gap:9px">
+          <div><b>Tapiz de Bayeux</b> (c. 1077). Es la mejor fuente para silla, telliz, estribo y para la convivencia de lanza calada y lanza enarbolada. No es peninsular: se usa para el arreo, no para el corte de la ropa.</div>
+          <div><b>Beato de Silos</b>, BL Add. MS 11695 (c. 1091–1109), para el equipo del jinete.</div>
+          <div><b>Historia Roderici</b> y <b>Fletcher</b>, <i>El Cid</i> (1989): la mesnada es caballería de frontera pagada con parias y botín, no una orden militar.</div>
+          <div style="color:#6a5540;font-style:italic">Lo que no tengo: alzada documentada del caballo peninsular de guerra en 1094. He dibujado un animal de unos 1,45 m a la cruz, que es lo que dan los restos arqueológicos del periodo en Europa occidental, no el caballo de tiro de la iconografía posterior. Si el juego necesita que la caballería imponga más, se sube el sprite, pero es una licencia y queda anotada.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin:34px 48px 0;border:1px solid #8a7248;background:#efe4cc;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:24px">
+      <div style="font-size:17px;line-height:1.45;color:#3c2f1e">Queda una sola unidad de la hueste: <b>Rodrigo Díaz</b>, que tiene que distinguirse de este caballero a simple vista sin salirse de la escala ni convertirse en el héroe nacional impoluto. Después, las seis en versión almorávide.</div>
+      <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:2px;color:#8a7248;white-space:nowrap;text-align:right">SIGUIENTE<br>RODRIGO DÍAZ, EL CAMPEADOR</div>
+    </div>
+
+  </div>
+</section>
+
+<section style="padding:0 44px 40px;display:flex;flex-direction:column;gap:18px">
   <div style="display:flex;align-items:baseline;gap:14px;color:#c9b795;font-family:'Cinzel',Georgia,serif">
     <span style="border:1px solid #8a7248;color:#e7c46a;font-size:13px;letter-spacing:2px;padding:3px 9px">4a</span>
     <span style="font-size:15px;letter-spacing:3px;text-transform:uppercase">Turno 4 · Ballestero · Hueste del Cid · ficha completa</span>
@@ -35,7 +559,7 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
       <div style="display:flex;border:1px solid #b9a681;font-family:'Cinzel',Georgia,serif">
         <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">ALTO</div><div style="font-size:15px;color:#2a1f14">57 px · caja 64×84</div></div>
         <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">SILUETA</div><div style="font-size:15px;color:#2a1f14">Barra horizontal · 17 px</div></div>
-        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">MÁSCARA</div><div style="font-size:15px;color:#2a1f14">Perpunte · 168 px²</div></div>
+        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">MÁSCARA</div><div style="font-size:15px;color:#2a1f14">Perpunte · 214 px²</div></div>
         <div style="padding:9px 15px"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">SIN ARMADURA</div><div style="font-size:15px;color:#2a1f14">Ni malla ni escudo</div></div>
       </div>
     </header>
@@ -48,7 +572,7 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
           <p style="margin:0;text-wrap:pretty">Lo documentado para el tiro de esta hueste es el <b>arco</b> y la <b>honda</b>. Tres salidas, y elijo la del medio: <b>(a)</b> cambiar la unidad a arquero, que es lo seguro y te deja sin la lectura de silueta más distinta del roster; <b>(b)</b> ballesta de mano temprana, la que dibujo aquí: caja corta, arco de asta, sin estribo ni cranequín, se tensa con las dos manos o con gancho de cinturón; <b>(c)</b> ballesta plena con estribo y torno, que es cómoda y es siglo XIII. He dibujado la (b) y he descartado la (c). Dime si prefieres la (a) y la rehago.</p>
         </div>
         <div style="flex:none;text-align:center;padding:14px 18px;background:#fbf3e6;border:1px dashed #c69a86">
-          <canvas ref="{{ setCanvas }}" data-u="ballestero" data-dir="se" data-esc="3" data-pixel="1" style="display:block;width:192px;height:252px"></canvas>
+          <canvas ref="{{ setCanvas }}" data-u="ballestero" data-dir="so" data-esc="3" data-pixel="1" style="display:block;width:192px;height:252px"></canvas>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#a8442e;margin-top:4px">OPCIÓN (B) ·  SE ×3</div>
         </div>
       </div>
@@ -96,19 +620,19 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
       </div>
       <div style="display:flex;gap:20px;align-items:flex-start">
         <div style="flex:none;text-align:center;padding:14px 16px;background:#f6efdd;border:1px solid #cbb992">
-          <canvas ref="{{ setCanvas }}" data-u="ballestero" data-dir="se" data-modo="color" data-esc="1" style="display:block;width:64px;height:84px"></canvas>
+          <canvas ref="{{ setCanvas }}" data-u="ballestero" data-dir="so" data-modo="color" data-esc="1" style="display:block;width:64px;height:84px"></canvas>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;margin-top:4px">57 px</div>
         </div>
         <div style="flex:none;background:#f6efdd;border:1px solid #cbb992">
-          <canvas ref="{{ setCanvas }}" data-u="ballestero" data-dir="se" data-modo="color" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
+          <canvas ref="{{ setCanvas }}" data-u="ballestero" data-dir="so" data-modo="color" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;padding:4px 8px">×4 · paleta aplicada</div>
         </div>
         <div style="flex:none;background:#111;border:1px solid #cbb992">
-          <canvas ref="{{ setCanvas }}" data-u="ballestero" data-dir="se" data-modo="mask" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
+          <canvas ref="{{ setCanvas }}" data-u="ballestero" data-dir="so" data-modo="mask" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#c9b795;padding:4px 8px">×4 · pase de máscara</div>
         </div>
         <div style="flex:1;min-width:0;font-size:17px;line-height:1.5;color:#3c2f1e;display:flex;flex-direction:column;gap:12px">
-          <div><b>La máscara es el perpunte entero</b>, 168 px²: la más grande de la infantería, y por una razón de diseño, no de gusto. El ballestero necesita las dos manos, así que no lleva escudo y se queda sin la zona teñible del lancero y del peón. Lo que sí lleva es la prenda acolchada como armadura única, y teñirla está documentado y es barato.</div>
+          <div><b>La máscara es el perpunte entero</b>, 214 px²: la mayor de la infantería de choque, aunque solo por cinco píxeles sobre el lancero, y por una razón de diseño, no de gusto. Del roster a pie la mayor es la del aldeano, con 274. El ballestero necesita las dos manos, así que no lleva escudo y se queda sin la zona teñible del lancero y del peón. Lo que sí lleva es la prenda acolchada como armadura única, y teñirla está documentado y es barato.</div>
           <div><b>Sale ganando de lo que parecía un problema.</b> Es la unidad que mejor se lee de bando de las tres, porque el color ocupa el torso completo y no depende del ángulo. Compensa que sea la que peor distingue la dirección.</div>
           <div><b>El carcaj y los virotes se quedan fuera de la máscara.</b> Van en cuero y asta: si se tiñeran, con dorado o con índigo se fundirían con el torso y la unidad perdería el perfil de la cadera.</div>
         </div>
@@ -123,9 +647,9 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
       <p style="max-width:1080px;font-size:17px;line-height:1.5;color:#4a3a26;margin:0 0 22px;text-wrap:pretty">Aquí los quince fotogramas de «atacar» no dan para lo que dan en las otras unidades: una ballesta se tensa, se apunta y se dispara, y eso son tres gestos, no uno. El reparto que propongo es <b>6 de tensar, 4 de apuntar, 5 de disparo y bajada</b>. Si el motor necesita que el disparo caiga en un fotograma fijo, dime en cuál y reordeno; es dato de simulación, no mío.</p>
       <div style="display:flex;flex-wrap:wrap;gap:20px">
         <sc-for list="{{ poses }}" as="q" hint-placeholder-count="8">
-          <div style="width:220px;flex:none">
+          <div style="width:236px;flex:none">
             <div style="background:#f6efdd;border:1px solid #cbb992">
-              <canvas ref="{{ setCanvas }}" data-u="ballestero" data-dir="se" data-pose="{{ q.id }}" data-w="96" data-esc="2.3" style="display:block;width:220px;height:193px"></canvas>
+              <canvas ref="{{ setCanvas }}" data-u="ballestero" data-dir="so" data-pose="{{ q.id }}" data-w="124" data-h="118" data-esc="1.8" style="display:block;width:223px;height:212px"></canvas>
             </div>
             <div style="font-family:'Cinzel',Georgia,serif;font-size:14px;font-weight:700;color:#2a1f14;margin-top:7px">{{ q.nombreB }}</div>
             <div style="font-size:14px;line-height:1.35;color:#4a3a26">{{ q.notaB }}</div>
@@ -192,7 +716,7 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
     </div>
 
     <div style="margin:34px 48px 0;border:1px solid #8a7248;background:#efe4cc;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:24px">
-      <div style="font-size:17px;line-height:1.45;color:#3c2f1e">Tres cosas esperan tu respuesta: la <b>datación de la ballesta</b> (arriba), el <b>reparto de los quince fotogramas</b> del ataque, y la <b>rueda de direcciones</b> de la ficha del lancero, que sigue sin arreglar y encarece cada unidad nueva.</div>
+      <div style="font-size:17px;line-height:1.45;color:#3c2f1e">Cerrado por decisión: <b>ballesta temprana</b> con la duda de datación anotada, y <b>reparto 6/4/5</b> de los quince fotogramas del ataque. La rueda de direcciones ya está corregida en toda la serie.</div>
       <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:2px;color:#8a7248;white-space:nowrap;text-align:right">ESPERO TU OK<br>SIGUIENTE: CABALLERO</div>
     </div>
 
@@ -216,7 +740,7 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
       <div style="display:flex;border:1px solid #b9a681;font-family:'Cinzel',Georgia,serif">
         <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">ALTO</div><div style="font-size:15px;color:#2a1f14">60 px · caja 64×84</div></div>
         <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">MASA VERTICAL</div><div style="font-size:15px;color:#2a1f14">Nada sobre la cabeza</div></div>
-        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">MÁSCARA</div><div style="font-size:15px;color:#2a1f14">Escudo · 121 px²</div></div>
+        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">MÁSCARA</div><div style="font-size:15px;color:#2a1f14">Escudo · 181 px²</div></div>
         <div style="padding:9px 15px"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">ANIMACIONES</div><div style="font-size:15px;color:#2a1f14">4 × 15 · tajo, no estocada</div></div>
       </div>
     </header>
@@ -226,7 +750,7 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
         <span style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248">BLOQUE 1</span>
         <h2 style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;margin:0;color:#2a1f14">Silueta en las cinco direcciones que se producen</h2>
       </div>
-      <p style="max-width:1080px;font-size:17px;line-height:1.5;color:#4a3a26;margin:0 0 26px;text-wrap:pretty">Va equipado igual que el lancero —esa es la idea: es la misma mesnada— y la única diferencia de silueta es el arma. Es suficiente, y está medido sobre estos mismos dibujos: en SE la lanza calada sobresale 8 px por encima del capacete y la espada en guardia media no sobresale ni uno. Los 26 px que cita la ficha del lancero son el caso de la lanza vertical, que allí queda descartado. A 60 px el lancero es una diagonal larga y el peón un bulto compacto: se separan desde el primer fotograma sin inventar equipo que no llevaban.</p>
+      <p style="max-width:1080px;font-size:17px;line-height:1.5;color:#4a3a26;margin:0 0 26px;text-wrap:pretty">Va equipado igual que el lancero —esa es la idea: es la misma mesnada— y la única diferencia de silueta es el arma. Es suficiente, y está medido sobre estos mismos dibujos: en SO la lanza calada sobresale 8 px por encima del capacete y la espada en guardia media no sobresale ni uno. Los 26 px que cita la ficha del lancero son el caso de la lanza vertical, que allí queda descartado. A 60 px el lancero es una diagonal larga y el peón un bulto compacto: se separan desde el primer fotograma sin inventar equipo que no llevaban.</p>
       <div style="display:flex;gap:20px">
         <sc-for list="{{ dirs }}" as="d" hint-placeholder-count="5">
           <div style="width:256px;flex:none">
@@ -256,12 +780,12 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
         </div>
         <div style="display:flex;gap:16px;align-items:flex-end;padding:18px 22px;background:#f6efdd;border:2px solid #8a7248;flex:none">
           <div style="text-align:center">
-            <canvas ref="{{ setCanvas }}" data-u="espada" data-dir="se" data-esc="3" data-pixel="1" style="display:block;width:192px;height:252px"></canvas>
-            <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248">PEÓN · SE ×3</div>
+            <canvas ref="{{ setCanvas }}" data-u="espada" data-dir="so" data-esc="3" data-pixel="1" style="display:block;width:192px;height:252px"></canvas>
+            <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248">PEÓN · SO ×3</div>
           </div>
           <div style="text-align:center">
-            <canvas ref="{{ setCanvas }}" data-dir="se" data-esc="3" data-pixel="1" style="display:block;width:192px;height:252px"></canvas>
-            <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248">LANCERO · SE ×3</div>
+            <canvas ref="{{ setCanvas }}" data-dir="so" data-esc="3" data-pixel="1" style="display:block;width:192px;height:252px"></canvas>
+            <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248">LANCERO · SO ×3</div>
           </div>
         </div>
       </div>
@@ -274,19 +798,19 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
       </div>
       <div style="display:flex;gap:20px;align-items:flex-start">
         <div style="flex:none;text-align:center;padding:14px 16px;background:#f6efdd;border:1px solid #cbb992">
-          <canvas ref="{{ setCanvas }}" data-u="espada" data-dir="se" data-modo="color" data-esc="1" style="display:block;width:64px;height:84px"></canvas>
+          <canvas ref="{{ setCanvas }}" data-u="espada" data-dir="so" data-modo="color" data-esc="1" style="display:block;width:64px;height:84px"></canvas>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;margin-top:4px">60 px</div>
         </div>
         <div style="flex:none;background:#f6efdd;border:1px solid #cbb992">
-          <canvas ref="{{ setCanvas }}" data-u="espada" data-dir="se" data-modo="color" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
+          <canvas ref="{{ setCanvas }}" data-u="espada" data-dir="so" data-modo="color" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;padding:4px 8px">×4 · paleta aplicada</div>
         </div>
         <div style="flex:none;background:#111;border:1px solid #cbb992">
-          <canvas ref="{{ setCanvas }}" data-u="espada" data-dir="se" data-modo="mask" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
+          <canvas ref="{{ setCanvas }}" data-u="espada" data-dir="so" data-modo="mask" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#c9b795;padding:4px 8px">×4 · pase de máscara</div>
         </div>
         <div style="flex:1;min-width:0;font-size:17px;line-height:1.5;color:#3c2f1e;display:flex;flex-direction:column;gap:12px">
-          <div><b>Sin pendón, la máscara pierde 34 px².</b> El lancero tenía escudo más banderola; aquí solo hay escudo. Lo compenso agrandándolo un 18 % —de 3,9 a 4,6 px de semianchura—, que es plausible: sin lanza que manejar con las dos manos, el peón puede llevar escudo más grande. Quedan 121 px² frente a los 152 del lancero.</div>
+          <div><b>Sin pendón, la máscara se queda en 181 px² frente a los 209 del lancero: 28 menos.</b> El lancero tenía escudo más banderola; aquí solo hay escudo. Ya lo he agrandado un 18 % —de 3,9 a 4,6 px de semianchura—, que es plausible sin lanza que manejar, y aun así no llega: la banderola aportaba más de lo que puede compensar el escudo.</div>
           <div><b>Donde se rompe:</b> en E y O el escudo se ve de canto y el peón se queda casi sin zona teñible, y no tiene pendón que lo salve. Es el punto débil de la unidad y no lo puedo resolver sin añadir ropa anacrónica. Si en pruebas no se distingue el bando en perfil, la salida honesta es teñir la funda del escudo colgada al hombro, no una sobreveste.</div>
           <div><b>Espada, no espadón.</b> Hoja de 80 cm, un solo filo de lectura a esta escala, con guarnición recta y pomo de nuez. La única nota fría clara: dice dónde está el arma en el fotograma de tajo.</div>
         </div>
@@ -301,9 +825,9 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
       <p style="max-width:1080px;font-size:17px;line-height:1.5;color:#4a3a26;margin:0 0 22px;text-wrap:pretty">La diferencia de animación con el lancero está en atacar: el lancero mete estocada en línea recta y el peón tira tajo diagonal. El ciclo de andar y el de morir son los mismos, y eso se puede reutilizar tal cual en el rig.</p>
       <div style="display:flex;flex-wrap:wrap;gap:20px">
         <sc-for list="{{ poses }}" as="q" hint-placeholder-count="8">
-          <div style="width:220px;flex:none">
+          <div style="width:236px;flex:none">
             <div style="background:#f6efdd;border:1px solid #cbb992">
-              <canvas ref="{{ setCanvas }}" data-u="espada" data-dir="se" data-pose="{{ q.id }}" data-w="96" data-esc="2.3" style="display:block;width:220px;height:193px"></canvas>
+              <canvas ref="{{ setCanvas }}" data-u="espada" data-dir="so" data-pose="{{ q.id }}" data-w="124" data-h="118" data-esc="1.8" style="display:block;width:223px;height:212px"></canvas>
             </div>
             <div style="font-family:'Cinzel',Georgia,serif;font-size:14px;font-weight:700;color:#2a1f14;margin-top:7px">{{ q.nombre }}</div>
             <div style="font-size:14px;line-height:1.35;color:#4a3a26">{{ q.notaE }}</div>
@@ -371,7 +895,7 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
     </div>
 
     <div style="margin:34px 48px 0;border:1px solid #8a7248;background:#efe4cc;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:24px">
-      <div style="font-size:17px;line-height:1.45;color:#3c2f1e">Sigue en pie la incompatibilidad de la ficha del lancero: con <b>E, SE, S, SO, O</b> dos renders son redundantes y no hay vista de espaldas. Afecta a esta unidad igual que a las demás, y cuanto más tarde se cambie, más caro sale.</div>
+      <div style="font-size:17px;line-height:1.45;color:#3c2f1e">Rueda corregida también aquí: <b>S, SO, O, NO, N</b>, con SE, E y NE por volteo. La comparación con el lancero se hace en SO, que es la dirección en la que las dos unidades más se parecen.</div>
       <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:2px;color:#8a7248;white-space:nowrap;text-align:right">ESPERO TU OK<br>SIGUIENTE: BALLESTERO</div>
     </div>
 
@@ -394,7 +918,7 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
       </div>
       <div style="display:flex;border:1px solid #b9a681;font-family:'Cinzel',Georgia,serif">
         <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">ALTO</div><div style="font-size:15px;color:#2a1f14">56 px · sin carga</div></div>
-        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">MÁSCARA</div><div style="font-size:15px;color:#2a1f14">Sayo completo</div></div>
+        <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">MÁSCARA</div><div style="font-size:15px;color:#2a1f14">Sayo · 275 px²</div></div>
         <div style="padding:9px 15px;border-right:1px solid #b9a681"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">VARIANTES</div><div style="font-size:15px;color:#2a1f14">×4 carga · ×5 direcciones</div></div>
         <div style="padding:9px 15px"><div style="font-size:9px;letter-spacing:1.6px;color:#8a7248">COSTE DE ATLAS</div><div style="font-size:15px;color:#2a1f14">600 + 300 imágenes</div></div>
       </div>
@@ -441,8 +965,8 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
           <sc-for list="{{ cargas }}" as="g" hint-placeholder-count="4">
             <div style="width:284px;flex:none">
               <div style="display:flex;gap:12px;align-items:flex-end;background:#f6efdd;border:1px solid #cbb992">
-                <canvas ref="{{ setCanvas }}" data-u="aldeano" data-dir="se" data-carga="{{ g.id }}" data-esc="3" style="display:block;width:192px;height:252px"></canvas>
-                <canvas ref="{{ setCanvas }}" data-u="aldeano" data-dir="se" data-carga="{{ g.id }}" data-esc="1" style="display:block;width:64px;height:84px;margin-bottom:8px"></canvas>
+                <canvas ref="{{ setCanvas }}" data-u="aldeano" data-dir="so" data-carga="{{ g.id }}" data-esc="3" style="display:block;width:192px;height:252px"></canvas>
+                <canvas ref="{{ setCanvas }}" data-u="aldeano" data-dir="so" data-carga="{{ g.id }}" data-esc="1" style="display:block;width:64px;height:84px;margin-bottom:8px"></canvas>
               </div>
               <div style="font-family:'Cinzel',Georgia,serif;font-size:16px;font-weight:700;color:#2a1f14;margin-top:8px">{{ g.nombre }}</div>
               <div style="font-size:15px;line-height:1.35;color:#4a3a26">{{ g.nota }}</div>
@@ -459,19 +983,19 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
       </div>
       <div style="display:flex;gap:20px;align-items:flex-start">
         <div style="flex:none;text-align:center;padding:14px 16px;background:#f6efdd;border:1px solid #cbb992">
-          <canvas ref="{{ setCanvas }}" data-u="aldeano" data-dir="se" data-modo="color" data-esc="1" style="display:block;width:64px;height:84px"></canvas>
+          <canvas ref="{{ setCanvas }}" data-u="aldeano" data-dir="so" data-modo="color" data-esc="1" style="display:block;width:64px;height:84px"></canvas>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;margin-top:4px">56 px</div>
         </div>
         <div style="flex:none;background:#f6efdd;border:1px solid #cbb992">
-          <canvas ref="{{ setCanvas }}" data-u="aldeano" data-dir="se" data-modo="color" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
+          <canvas ref="{{ setCanvas }}" data-u="aldeano" data-dir="so" data-modo="color" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;padding:4px 8px">×4 · paleta aplicada</div>
         </div>
         <div style="flex:none;background:#111;border:1px solid #cbb992">
-          <canvas ref="{{ setCanvas }}" data-u="aldeano" data-dir="se" data-modo="mask" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
+          <canvas ref="{{ setCanvas }}" data-u="aldeano" data-dir="so" data-modo="mask" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#c9b795;padding:4px 8px">×4 · pase de máscara</div>
         </div>
         <div style="flex:1;min-width:0;font-size:17px;line-height:1.5;color:#3c2f1e;display:flex;flex-direction:column;gap:12px">
-          <div><b>La máscara es el sayo entero</b>, del hombro al bajo, menos el cinturón. Es la zona más ancha que tiene una unidad sin armadura y aquí sí está documentada: teñir la lana con rubia, gualda o glasto era barato y corriente. Cuadra con el motor: material de Blender llamado <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">jugador_sayo</code> y sale solo en el pase blanco.</div>
+          <div><b>La máscara es el sayo entero</b>, 275 px² del hombro al bajo, menos el cinturón: la mayor de todas las unidades a pie. Es la zona más ancha que tiene una unidad sin armadura y aquí sí está documentada: teñir la lana con rubia, gualda o glasto era barato y corriente. Cuadra con el motor: material de Blender llamado <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">jugador_sayo</code> y sale solo en el pase blanco.</div>
           <div><b>Problema que trae la carga:</b> el haz de leña y el serón de piedra tapan medio sayo por la espalda. En SE y S se ve completo; en E, O y en las tres volteadas queda a la mitad. Lo he asumido en vez de mover la máscara a la carga, porque entonces la leña dejaría de parecer leña. Si prefieres máscara constante, la alternativa es teñir también la caperuza: dilo y lo cambio.</div>
           <div><b>Sin sombreado en la ficha.</b> Los valores de realce y sombra están en la paleta para que el modelo los use; pintarlos aquí engañaría sobre lo que se ve a 60 px.</div>
         </div>
@@ -483,12 +1007,12 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
         <span style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248">BLOQUE 4</span>
         <h2 style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;margin:0;color:#2a1f14">Poses clave · pautas de dibujo</h2>
       </div>
-      <p style="max-width:1080px;font-size:17px;line-height:1.5;color:#4a3a26;margin:0 0 22px;text-wrap:pretty">El aldeano no ataca: la animación de «atacar» es el golpe de herramienta, y el motor la reutiliza para recolectar, construir y reparar (así lo hace ya <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">js/sprites.js</code>). Por eso la nombro <em>trabajar</em>. Vista SE en todas.</p>
+      <p style="max-width:1080px;font-size:17px;line-height:1.5;color:#4a3a26;margin:0 0 22px;text-wrap:pretty">El aldeano no ataca: la animación de «atacar» es el golpe de herramienta, y el motor la reutiliza para recolectar, construir y reparar (así lo hace ya <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">js/sprites.js</code>). Por eso la nombro <em>trabajar</em>. Vista SO en todas.</p>
       <div style="display:flex;flex-wrap:wrap;gap:20px">
         <sc-for list="{{ poses }}" as="q" hint-placeholder-count="8">
-          <div style="width:220px;flex:none">
+          <div style="width:236px;flex:none">
             <div style="background:#f6efdd;border:1px solid #cbb992">
-              <canvas ref="{{ setCanvas }}" data-u="aldeano" data-dir="se" data-pose="{{ q.id }}" data-w="96" data-esc="2.3" style="display:block;width:220px;height:193px"></canvas>
+              <canvas ref="{{ setCanvas }}" data-u="aldeano" data-dir="so" data-pose="{{ q.id }}" data-w="124" data-h="118" data-esc="1.8" style="display:block;width:223px;height:212px"></canvas>
             </div>
             <div style="font-family:'Cinzel',Georgia,serif;font-size:14px;font-weight:700;color:#2a1f14;margin-top:7px">{{ q.nombreA }}</div>
             <div style="font-size:14px;line-height:1.35;color:#4a3a26">{{ q.notaA }}</div>
@@ -612,31 +1136,12 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
       </div>
     </div>
 
-    <div style="margin:38px 48px 0;border:2px solid #a8442e;background:#f4e2d2">
-      <div style="background:#a8442e;color:#f6efdd;font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;padding:7px 18px">INCOMPATIBILIDAD CON EL MOTOR · DECIDE TÚ, NO YO</div>
+    <div style="margin:38px 48px 0;border:2px solid #4a6a3a;background:#e6ecd8">
+      <div style="background:#4a6a3a;color:#f6efdd;font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;padding:7px 18px">INCOMPATIBILIDAD DETECTADA AQUÍ · YA RESUELTA EN TODO EL ROSTER</div>
       <div style="display:flex;gap:34px;padding:22px 24px">
-        <div style="flex:1;min-width:0">
-          <h3 style="font-family:'Cinzel',Georgia,serif;font-size:19px;margin:0 0 8px;color:#2a1f14">Las cinco direcciones elegidas no cubren la rueda</h3>
-          <p style="font-size:17px;line-height:1.5;color:#3c2f1e;margin:0 0 10px;text-wrap:pretty">Volteando en horizontal solo se puede pasar de un lado a su reflejo respecto al eje vertical de pantalla. Con el juego <b>E, SE, S, SO, O</b> ocurren dos cosas:</p>
-          <ul style="font-size:17px;line-height:1.5;color:#3c2f1e;margin:0;padding-left:22px">
-            <li><b>O es E volteada</b> y <b>SO es SE volteada</b>. Dos de las cinco no aportan información nueva: se paga el 40 % del render por nada.</li>
-            <li><b>No existe ninguna vista de espaldas.</b> <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">ESPEJADAS</code> en <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">hornear_sprites.py</code> declara N como S volteada, pero el reflejo de una vista frontal es otra vista frontal. Un lancero que camina hacia el norte mira a cámara.</li>
-          </ul>
-          <p style="font-size:17px;line-height:1.5;color:#3c2f1e;margin:10px 0 0;text-wrap:pretty">El juego correcto —el que usó AoE2— es <b>S, SO, O, NO, N</b>; SE, E y NE salen de voltear. Mismo coste, ocho direcciones reales. Cambiarlo obliga a rehornear, así que no lo he tocado: la hoja de arriba dibuja tus cinco. A la derecha van las dos que faltarían.</p>
-        </div>
-        <div style="display:flex;gap:16px">
-          <sc-for list="{{ faltantes }}" as="d" hint-placeholder-count="2">
-            <div style="width:180px;flex:none">
-              <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #c69a86;padding-bottom:4px;margin-bottom:8px">
-                <span style="font-family:'Cinzel',Georgia,serif;font-size:18px;font-weight:700;color:#8a3a24">{{ d.id }}</span>
-                <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#a8442e">falta</span>
-              </div>
-              <div style="background:#fbf3e6;border:1px dashed #c69a86">
-                <canvas ref="{{ setCanvas }}" data-dir="{{ d.dir }}" data-esc="2.7" style="display:block;width:172px;height:226px"></canvas>
-              </div>
-              <div style="font-size:14px;line-height:1.35;color:#5c3a28;margin-top:6px">{{ d.nota }}</div>
-            </div>
-          </sc-for>
+        <div style="flex:1;min-width:0;font-size:17px;line-height:1.5;color:#2f3a24">
+          <p style="margin:0 0 10px;text-wrap:pretty">Esta ficha nació con el juego de direcciones del motor —<b>E, SE, S, SO, O</b>— y sirvió para detectar que estaba mal. Volteando en horizontal solo se pasa de una dirección a su reflejo respecto al eje vertical de pantalla, así que con ese juego <b>O era E volteada</b> y <b>SO era SE volteada</b>: dos de los cinco renders no aportaban nada, el 40 % del coste. Y peor: no existía ninguna vista de espaldas, porque <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">ESPEJADAS</code> en <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">hornear_sprites.py</code> declaraba N como S volteada, y el reflejo de una vista frontal es otra vista frontal. Un lancero que caminaba al norte miraba a cámara.</p>
+          <p style="margin:0;text-wrap:pretty">Corregido en todas las fichas: las cinco que se producen son <b>S, SO, O, NO, N</b>, y el volteo da SE, E y NE. Mismo coste, ocho direcciones reales. Hay que cambiar <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">DIRECCIONES</code> y <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">ESPEJADAS</code> en el script de horneado antes de modelar; el cambio está escrito en <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">integration.md</code>.</p>
         </div>
       </div>
     </div>
@@ -648,20 +1153,20 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
       </div>
       <div style="display:flex;gap:20px;align-items:flex-start">
         <div style="flex:none;text-align:center;padding:14px 16px;background:#f6efdd;border:1px solid #cbb992">
-          <canvas ref="{{ setCanvas }}" data-dir="se" data-modo="color" data-esc="1" style="display:block;width:64px;height:84px"></canvas>
+          <canvas ref="{{ setCanvas }}" data-dir="so" data-modo="color" data-esc="1" style="display:block;width:64px;height:84px"></canvas>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;margin-top:4px">60 px</div>
         </div>
         <div style="flex:none;background:#f6efdd;border:1px solid #cbb992">
-          <canvas ref="{{ setCanvas }}" data-dir="se" data-modo="color" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
+          <canvas ref="{{ setCanvas }}" data-dir="so" data-modo="color" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#8a7248;padding:4px 8px">×4 · paleta aplicada</div>
         </div>
         <div style="flex:none;background:#111;border:1px solid #cbb992">
-          <canvas ref="{{ setCanvas }}" data-dir="se" data-modo="mask" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
+          <canvas ref="{{ setCanvas }}" data-dir="so" data-modo="mask" data-esc="4" style="display:block;width:254px;height:333px"></canvas>
           <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#c9b795;padding:4px 8px">×4 · pase de máscara</div>
         </div>
         <div style="flex:1;min-width:0;font-size:17px;line-height:1.5;color:#3c2f1e;display:flex;flex-direction:column;gap:12px">
           <div><b>Zona teñible:</b> campo del escudo de cometa y paño del pendón. Dos materiales de Blender, <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">jugador_escudo</code> y <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">jugador_pendon</code>, para que el pase de máscara del script los coja por el prefijo.</div>
-          <div><b>Área medida:</b> el escudo ocupa unos 118 px² de los 60 px de alto en SE, y el pendón otros 34. Con índigo o granate oscuro, el escudo solo ya distingue; el pendón es lo que salva E y O, donde el escudo se ve de canto.</div>
+          <div><b>Área medida:</b> 209 px² de zona teñible en SO, escudo y pendón juntos, contados sobre el pase de máscara a resolución de unidad. Con índigo o granate oscuro el escudo solo ya distingue; el pendón es lo que salva E y O, donde el escudo se ve de canto.</div>
           <div><b>Sin degradado en la zona teñible.</b> El tinte del motor multiplica: cualquier sombra pintada ahí se oscurece dos veces y el índigo se vuelve negro. La sombra del escudo la pone la iluminación de Blender fuera de la máscara.</div>
           <div><b>Contorno propio</b> en <code style="font-family:ui-monospace,Menlo,monospace;font-size:14px">#241b12</code>, un píxel, sin antialias. Es lo que despega la unidad de la hierba y de la arena, que a 60 px es el fallo más común.</div>
         </div>
@@ -673,12 +1178,12 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
         <span style="font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:3px;color:#8a7248">BLOQUE 4</span>
         <h2 style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:700;margin:0;color:#2a1f14">Poses clave · pautas de dibujo</h2>
       </div>
-      <p style="max-width:1080px;font-size:17px;line-height:1.5;color:#4a3a26;margin:0 0 22px;text-wrap:pretty">No son fotogramas: son los extremos entre los que interpola la animación. Vista SE en todas, que es la que más se ve. Los quince fotogramas de cada ciclo salen de estos.</p>
+      <p style="max-width:1080px;font-size:17px;line-height:1.5;color:#4a3a26;margin:0 0 22px;text-wrap:pretty">No son fotogramas: son los extremos entre los que interpola la animación. Vista SO en todas, que es la que más se ve. Los quince fotogramas de cada ciclo salen de estos.</p>
       <div style="display:flex;flex-wrap:wrap;gap:20px">
         <sc-for list="{{ poses }}" as="q" hint-placeholder-count="8">
-          <div style="width:220px;flex:none">
+          <div style="width:236px;flex:none">
             <div style="background:#f6efdd;border:1px solid #cbb992">
-              <canvas ref="{{ setCanvas }}" data-dir="se" data-pose="{{ q.id }}" data-w="96" data-esc="2.3" style="display:block;width:220px;height:193px"></canvas>
+              <canvas ref="{{ setCanvas }}" data-dir="so" data-pose="{{ q.id }}" data-w="124" data-h="118" data-esc="1.8" style="display:block;width:223px;height:212px"></canvas>
             </div>
             <div style="font-family:'Cinzel',Georgia,serif;font-size:14px;font-weight:700;color:#2a1f14;margin-top:7px">{{ q.nombre }}</div>
             <div style="font-size:14px;line-height:1.35;color:#4a3a26">{{ q.nota }}</div>
@@ -750,13 +1255,13 @@ a{color:#8a5a1a}a:hover{color:#c8a24a}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;rejilla&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Silueta&quot;},&quot;tinta&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#14100c&quot;,&quot;options&quot;:[&quot;#14100c&quot;,&quot;#000000&quot;,&quot;#2a1f14&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Silueta&quot;}}">
 const CFG = {
-  e:  {k:.10, hx: 1.4, gx: 3.2, ang: 32, sx:-2.8, shw:1.7, lead: 1},
-  se: {k:.50, hx: 0.9, gx: 5.0, ang: 22, sx:-3.9, shw:3.9, lead: 1},
-  s:  {k:1.0, hx: 0.0, gx: 7.0, ang: 10, sx:-1.8, shw:5.2, lead: 0},
-  so: {k:.50, hx:-0.9, gx:-5.0, ang:-22, sx: 3.9, shw:3.9, lead:-1},
-  o:  {k:.10, hx:-1.4, gx:-3.2, ang:-32, sx: 2.8, shw:1.7, lead:-1},
-  no: {k:.55, hx:-0.9, gx:-5.0, ang:-24, sx: 2.4, shw:2.3, lead:-1, espalda:1},
-  n:  {k:.95, hx: 0.0, gx:-7.0, ang:-12, sx: 0.0, shw:0.0, lead: 0, espalda:1}
+  e:  {k:.10, hx: 1.4, gx: 3.2, ang: 32, sx:-2.8, shw:1.7, lead: 1, hk: 1},
+  se: {k:.50, hx: 0.9, gx: 5.0, ang: 22, sx:-3.9, shw:3.9, lead: 1, hk: .6},
+  s:  {k:1.0, hx: 0.0, gx: 7.0, ang: 10, sx:-1.8, shw:5.2, lead: 0, hk: .06},
+  so: {k:.50, hx:-0.9, gx:-5.0, ang:-22, sx: 3.9, shw:3.9, lead:-1, hk: .6},
+  o:  {k:.10, hx:-1.4, gx:-3.2, ang:-32, sx: 2.8, shw:1.7, lead:-1, hk: 1},
+  no: {k:.55, hx:-0.9, gx:-5.0, ang:-24, sx: 2.4, shw:2.3, lead:-1, espalda:1, hk: .6},
+  n:  {k:.95, hx: 0.0, gx:-7.0, ang:-12, sx: 0.0, shw:0.0, lead: 0, espalda:1, hk: .06}
 };
 const POSES = {
   quieto:      {sw: 48, bw: 116},
@@ -766,14 +1271,26 @@ const POSES = {
   impacto:     {ang: 80, gx: 9, gy: 39, rot: 10, lf: 7.5, lb:-4, tool:118, sw:112, bw: 90, bRot: -4},
   recuperacion:{ang: 40, gx: 3.6, gy: 43, rot: 3, lf: 3, lb:-3, sx:-5, tool: 60, sw: 44, bw: 103, bRot: 3},
   golpe:       {rot:-17, ang:-6, gx: 8, gy: 47.5, lf:-2.4, lb:-6, dy: 1, tool:-6, sw:-12, bw: 132},
-  reposo:      {rot: 84, ang: 62, gx: 10, gy: 50, lf: 0, lb: 0, tool: 62, sw: 66, bw: 96}
+  reposo:      {rot: 84, ang: 62, gx: 10, gy: 50, lf: 0, lb: 0, tool: 62, sw: 66, bw: 96, px: 27, dy: -8}
+};
+const CAB = {
+  quieto:      {la: 10, lg: 0, by: 0,   lean: 0},
+  contacto:    {la: 14, lg: 1, by: 0,   lean: 2},
+  alto:        {la: 12, lg: 2, by:-2.5, lean:-2},
+  cargando:    {la: 58, lg: 3, by:-1,   lean:-7},
+  impacto:     {la: 93, lg: 4, by:-1.5, lean: 11},
+  recuperacion:{la: 72, lg: 1, by: 0,   lean: 5},
+  golpe:       {la: 38, lg: 5, by:-3.5, lean:-19},
+  reposo:      {la: 0,  lg: 0, by: 0,   lean: 0, caido: 1}
 };
 const PAL = {
   malla:'#7c766c', mallaS:'#4b463e', mallaH:'#a49a8b', casco:'#8d8779',
   lana:'#c9b795', lino:'#dfd4bb', cuero:'#5b4229', astil:'#9a7a4a',
   hierro:'#bcbfc3', linea:'#241b12', piel:'#b0805c', ten:'#c8a24a',
   lena:'#6b4a2b', piedra:'#9a9ea8', oro:'#c8a24a', mimbre:'#b98d4e', trigo:'#d9b96a',
-  saco:'#bfae8f', cuerno:'#8a6a48', cuerda:'#d8cbb0'
+  saco:'#bfae8f', cuerno:'#8a6a48', cuerda:'#d8cbb0', crin:'#3a2a1c', pelo:'#6b4a2b',
+  capa:'#8a3a2c', tordo:'#ece6da', tordoS:'#b9b0a2',
+  litham:'#d8d2c4', lithamS:'#b0a794', burnus:'#2f3a44', lamt:'#cbb48c'
 };
 const H_BOX = 84, BY = 76;
 
@@ -792,43 +1309,49 @@ class Component extends DCLogic {
     const spec = {
       u: d.u || 'lancero',
       c: CFG[d.dir || 'se'] || CFG.se,
-      p: POSES[d.pose] || {},
+      p: d.pose && POSES[d.pose] ? Object.assign({ id: d.pose }, POSES[d.pose]) : {},
       modo: d.modo || 'sil',
       carga: d.carga || null,
-      w: parseFloat(d.w) || 64
+      w: parseFloat(d.w) || 64,
+      h: parseFloat(d.h) || 84,
+      fac: d.fac || 'cid'
     };
     const esc = parseFloat(d.esc) || 1;
     if (d.pixel) {
       const off = document.createElement('canvas');
-      off.width = spec.w; off.height = H_BOX;
+      off.width = spec.w; off.height = spec.h;
       this.dibuja(off.getContext('2d'), spec, 1);
-      el.width = Math.round(spec.w * esc); el.height = Math.round(H_BOX * esc);
+      el.width = Math.round(spec.w * esc); el.height = Math.round(spec.h * esc);
       const x = el.getContext('2d');
       x.imageSmoothingEnabled = false;
       x.clearRect(0, 0, el.width, el.height);
       x.drawImage(off, 0, 0, el.width, el.height);
       return;
     }
-    el.width = Math.round(spec.w * esc); el.height = Math.round(H_BOX * esc);
+    el.width = Math.round(spec.w * esc); el.height = Math.round(spec.h * esc);
     const x = el.getContext('2d');
     x.setTransform(esc, 0, 0, esc, 0, 0);
-    x.clearRect(0, 0, spec.w, H_BOX);
+    x.clearRect(0, 0, spec.w, spec.h);
     this.dibuja(x, spec, esc);
   }
 
   dibuja(x, spec, esc) {
-    const { u, c, p, modo, carga, w } = spec;
+    const { u, c, p, modo, carga, w, fac } = spec;
+    const mur = fac === 'mur';
     const CX = w / 2;
+    const BASE = (u === 'caballero' || u === 'rodrigo') ? spec.h - 8 : BY;
+    void mur;
     const tinta = this.props.tinta || '#14100c';
     const rejilla = this.props.rejilla !== false && modo !== 'mask';
-    if (modo === 'mask') { x.fillStyle = '#000'; x.fillRect(0, 0, w, H_BOX); }
+    if (modo === 'mask') { x.fillStyle = '#000'; x.fillRect(0, 0, w, spec.h); }
     if (rejilla) {
       x.save();
       x.strokeStyle = 'rgba(42,31,20,.30)';
       x.lineWidth = Math.max(.35, .5 / esc);
       x.setLineDash([2, 2]);
       x.beginPath();
-      x.moveTo(CX - 31, BY); x.lineTo(CX, BY - 15.5); x.lineTo(CX + 31, BY); x.lineTo(CX, BY + 7);
+      x.moveTo(CX - 31, BASE); x.lineTo(CX, BASE - 15.5); x.lineTo(CX + 31, BASE); x.lineTo(CX, BASE + 7);
+      if (u === 'caballero') { x.moveTo(CX - 63, BASE); x.lineTo(CX - 32, BASE - 15.5); x.lineTo(CX - 1, BASE); x.lineTo(CX - 32, BASE + 7); }
       x.closePath(); x.stroke();
       x.restore();
     }
@@ -862,18 +1385,23 @@ class Component extends DCLogic {
     const Hp = { P, L, E, Path, dab, col, perfila, esc, x, CX };
 
     x.save();
-    x.translate(CX, BY + (p.dy || 0));
-    x.rotate(((u === 'ballestero' && p.bRot !== undefined ? p.bRot : p.rot) || 0) * Math.PI / 180);
-    x.translate(-CX, -BY);
-    if (u === 'aldeano') this.aldeano(Hp, c, p, carga);
-    else if (u === 'ballestero') this.ballestero(Hp, c, p);
-    else this.lancero(Hp, c, p, u === 'espada' ? 'espada' : 'lanza');
+    x.translate(CX, BASE + (p.dy || 0));
+    if (p.px) x.translate(-p.px, 0);
+    let giro = (u === 'ballestero' && p.bRot !== undefined ? p.bRot : p.rot) || 0;
+    if (u === 'caballero' || u === 'rodrigo') { const qq = CAB[p.id] || CAB.quieto; giro = (qq.lean || 0) * .45; }
+    x.rotate(giro * Math.PI / 180);
+    x.translate(-CX, -BASE);
+    if (u === 'caballero' || u === 'rodrigo') { this.caballero(Hp, c, p, BASE, u === 'rodrigo', mur); x.restore(); return; }
+    if (u === 'aldeano') this.aldeano(Hp, c, p, carga, mur);
+    else if (u === 'ballestero') this.ballestero(Hp, c, p, mur);
+    else this.lancero(Hp, c, p, u === 'espada' ? 'espada' : 'lanza', mur);
     x.restore();
   }
 
-  lancero(Hp, c, p, arma) {
+  lancero(Hp, c, p, arma, mur) {
     const { P, L, E, Path, dab, perfila, esc } = Hp;
     const conEspada = arma === 'espada';
+    const TELA = mur ? 'ten' : 'malla';
     const k = c.k;
     const sh = 4.3 + 4.6 * k, wa = 3.4 + 3.0 * k, hem = 5.3 + 3.8 * k;
     const hd = 2.7 + .9 * k, hel = 3.4 + 1.1 * k, lw = 1.15 + .35 * k;
@@ -901,41 +1429,48 @@ class Component extends DCLogic {
       x.quadraticCurveTo(CX - hem * .5, 58.2, CX, 55);
       x.quadraticCurveTo(CX + hem * .5, 58.2, CX + hem, 53.5);
       x.lineTo(CX + wa + .3, 38.5);
-    }, 'malla');
+    }, TELA);
     Path((x, CX) => {
       x.moveTo(CX - wa - .2, 41); x.lineTo(CX - sh * .95, 29.8);
       x.quadraticCurveTo(CX - sh * 1.02, 27.2, CX - sh * .58, 26.4);
       x.lineTo(CX + sh * .58, 26.4);
       x.quadraticCurveTo(CX + sh * 1.02, 27.2, CX + sh * .95, 29.8);
       x.lineTo(CX + wa + .2, 41);
-    }, 'malla');
+    }, TELA);
     L([-wa - .2, 40.2], [wa + .2, 40.2], 1.7, 'cuero');
-    this.malla(Hp, c, sh, wa, hem, sd);
+    if (!mur) this.malla(Hp, c, sh, wa, hem, sd);
 
     const hombro = [-sd * sh * .8, 29.2];
     const codoE = [sx * .95 - sd * .4, 37.5];
-    L(hombro, codoE, 3.0, 'malla');
-    L(codoE, [sx * .7 + sd * 1.4, 43], 2.5, 'malla');
+    L(hombro, codoE, 3.0, TELA);
+    L(codoE, [sx * .7 + sd * 1.4, 43], 2.5, mur ? 'piel' : 'malla');
     const hombroL = [sd * sh * .78, 28.8];
     const codoL = [(hombroL[0] + gx) / 2 + sd * 1.8, (28.8 + gy) / 2 + 1.6];
-    L(hombroL, codoL, 3.1, 'malla');
-    L(codoL, [gx, gy], 2.6, 'malla');
+    L(hombroL, codoL, 3.1, TELA);
+    L(codoL, [gx, gy], 2.6, mur ? 'piel' : 'malla');
     E(gx + sd * .3, gy + .8, 1.8, 1.5, 'piel');
 
     L([-sd * wa * .85, 42], [-sd * wa * 1.75, 51.5], 1.7, 'cuero');
     L([-sd * wa * 1.05, 40.6], [-sd * wa * .55, 44], 1.5, 'hierro');
 
-    E(c.hx * .55, 23.3, hd + 1.35, 4.7, 'malla');
-    if (!c.espalda) E(c.hx + sd * .9, 21.3, hd * .86, 3.2, 'piel');
-    Path((x, CX) => {
-      x.moveTo(CX + c.hx - hel, 19.7);
-      x.quadraticCurveTo(CX + c.hx - hel * .52, 13.7, CX + c.hx, 12.3);
-      x.quadraticCurveTo(CX + c.hx + hel * .52, 13.7, CX + c.hx + hel, 19.7);
-    }, 'casco');
-    L([c.hx - hel, 19.4], [c.hx + hel, 19.4], 1.5, 'casco');
-    if (!c.espalda) P([[c.hx + sd * .5, 19], [c.hx + sd * 1.7, 19.5], [c.hx + sd * 1.2, 23.8], [c.hx + sd * .1, 23.3]], 'casco');
+    if (mur) {
+      this.litham(Hp, c, hd, sd);
+    } else {
+      E(c.hx * .55, 23.3, hd + 1.35, 4.7, 'malla');
+      if (!c.espalda) E(c.hx + sd * .9, 21.3, hd * .86, 3.2, 'piel');
+      Path((x, CX) => {
+        x.moveTo(CX + c.hx - hel, 19.7);
+        x.quadraticCurveTo(CX + c.hx - hel * .52, 13.7, CX + c.hx, 12.3);
+        x.quadraticCurveTo(CX + c.hx + hel * .52, 13.7, CX + c.hx + hel, 19.7);
+      }, 'casco');
+      L([c.hx - hel, 19.4], [c.hx + hel, 19.4], 1.5, 'casco');
+      if (!c.espalda) P([[c.hx + sd * .5, 19], [c.hx + sd * 1.7, 19.5], [c.hx + sd * 1.2, 23.8], [c.hx + sd * .1, 23.3]], 'casco');
+    }
 
-    if (shw > .6) {
+    if (mur && shw > .6) {
+      E(sx, 40, Math.max(1.5, shw * 1.3), 6.4, 'ten');
+      if (perfila && shw > 2.4) { E(sx, 40, 1.1, 1.1, 'cuero'); L([sx - shw, 40], [sx + shw, 40], .7, 'cuero'); }
+    } else if (shw > .6) {
       Path((x, CX) => {
         x.moveTo(CX + sx - shw, 30.2);
         x.quadraticCurveTo(CX + sx - shw * .92, 25.4, CX + sx, 24.6);
@@ -949,7 +1484,9 @@ class Component extends DCLogic {
       }
     }
 
-    const a = (conEspada ? (p.sw !== undefined ? p.sw : (gx >= 0 ? 48 : -48)) : ang) * Math.PI / 180;
+    let angF = ang;
+    if (mur && !conEspada && p.ang === undefined) angF = (angF >= 0 ? 1 : -1) * Math.max(Math.abs(angF), 32);
+    const a = (conEspada ? (p.sw !== undefined ? p.sw : (gx >= 0 ? 48 : -48)) : angF) * Math.PI / 180;
     const dx = Math.sin(a), dy = -Math.cos(a), px = Math.cos(a), py = Math.sin(a);
     const pt = (t) => [gx + dx * t, gy + dy * t];
     if (conEspada) {
@@ -971,8 +1508,9 @@ class Component extends DCLogic {
       }
       return;
     }
-    L(pt(-11.5), pt(36.5), 1.8, 'astil');
-    const tip = pt(42.8), q = pt(38.6), m = pt(35.8), cuello = pt(33.6);
+    const LL = mur ? 4.2 : 0;
+    L(pt(-11.5 - LL * .5), pt(36.5 + LL), 1.8, 'astil');
+    const tip = pt(42.8 + LL), q = pt(38.6 + LL), m = pt(35.8 + LL), cuello = pt(33.6 + LL);
     Path((x, CX) => {
       x.moveTo(CX + tip[0], tip[1]);
       x.quadraticCurveTo(CX + q[0] + px * 2.3, q[1] + py * 2.3, CX + m[0] + px * 1.4, m[1] + py * 1.4);
@@ -980,6 +1518,12 @@ class Component extends DCLogic {
       x.lineTo(CX + m[0] - px * 1.4, m[1] - py * 1.4);
       x.quadraticCurveTo(CX + q[0] - px * 2.3, q[1] - py * 2.3, CX + tip[0], tip[1]);
     }, 'hierro');
+    if (mur) {
+      if (perfila && esc >= 2) {
+        L([sd * sh * .35, 27.4], [sd * sh * .85, 29.4], 1.1, 'lithamS');
+      }
+      return;
+    }
     const b0 = pt(31.4), b1 = pt(23.2);
     const o0 = [b0[0] + px * sd * 9.6, b0[1] + py * sd * 9.6];
     const o1 = [b1[0] + px * sd * 8.2, b1[1] + py * sd * 8.2];
@@ -992,6 +1536,19 @@ class Component extends DCLogic {
     if (perfila && esc >= 2) {
       L([sd * sh * .35, 27.4], [sd * sh * .85, 29.4], 1.1, 'mallaH');
       L([c.hx - hel * .2, 15.4], [c.hx + hel * .45, 18.6], 1, 'mallaH');
+    }
+  }
+
+  litham(Hp, c, hd, sd, y0) {
+    const { P, E, Path, dab, perfila } = Hp;
+    const b = y0 || 0;
+    E(c.hx * .5, 22.4 + b, hd + 1.7, 4.9, 'litham');
+    E(c.hx * .4, 17.6 + b, hd + 2.1, 2.9, 'litham');
+    P([[c.hx - sd * (hd + 1), 24 + b], [c.hx - sd * (hd + 3.6), 28.4 + b],
+       [c.hx - sd * (hd + 2.2), 31.8 + b], [c.hx - sd * hd * .3, 27 + b]], 'litham');
+    if (perfila) {
+      if (!c.espalda) dab(c.hx + sd * 1.3, 21.6 + b, .8, PAL.linea);
+      P([[c.hx - hd - 1.6, 19.6 + b], [c.hx + hd + 1.6, 19.6 + b], [c.hx + hd + 1.2, 20.5 + b], [c.hx - hd - 1.2, 20.5 + b]], 'lithamS');
     }
   }
 
@@ -1012,7 +1569,7 @@ class Component extends DCLogic {
     X.globalAlpha = 1; X.restore();
   }
 
-  aldeano(Hp, c, p, carga) {
+  aldeano(Hp, c, p, carga, mur) {
     const { P, L, E, Path, dab, perfila, esc } = Hp;
     const k = c.k;
     const sh = 4.0 + 4.2 * k, wa = 3.2 + 2.8 * k, hem = 5.4 + 3.9 * k;
@@ -1081,13 +1638,21 @@ class Component extends DCLogic {
     L(hombroE, [-sd * sh * .95, 39 + top], 2.9, 'ten');
     L([-sd * sh * .95, 39 + top], [-sd * sh * .8, 45 + top], 2.3, 'piel');
 
-    E(c.hx * .5, 21.8 + top, hd + 1.5, 4.7, 'lana');
-    Path((x, CX) => {
-      x.moveTo(CX + c.hx - sd * (hd + .4), 23.5 + top);
-      x.quadraticCurveTo(CX + c.hx - sd * (hd + 3.4), 26.6 + top, CX + c.hx - sd * (hd + 2.2), 31.4 + top);
-      x.quadraticCurveTo(CX + c.hx - sd * hd * .6, 29.6 + top, CX + c.hx - sd * hd * .1, 27.6 + top);
-    }, 'lana');
-    if (!c.espalda) E(c.hx + sd * 1.2, 23 + top, hd * .8, 3.05, 'piel');
+    if (mur) {
+      E(c.hx * .5, 22.6 + top, hd + 1.2, 4.2, 'piel');
+      E(c.hx * .4, 18.6 + top, hd + 2, 3.1, 'litham');
+      P([[c.hx - sd * (hd + 1.4), 20 + top], [c.hx - sd * (hd + 3), 25.4 + top],
+         [c.hx - sd * (hd + 1.4), 27.4 + top], [c.hx - sd * hd * .4, 22.4 + top]], 'litham');
+      if (perfila && !c.espalda) dab(c.hx + sd * 1.4, 22.4 + top, .7, PAL.linea);
+    } else {
+      E(c.hx * .5, 21.8 + top, hd + 1.5, 4.7, 'lana');
+      Path((x, CX) => {
+        x.moveTo(CX + c.hx - sd * (hd + .4), 23.5 + top);
+        x.quadraticCurveTo(CX + c.hx - sd * (hd + 3.4), 26.6 + top, CX + c.hx - sd * (hd + 2.2), 31.4 + top);
+        x.quadraticCurveTo(CX + c.hx - sd * hd * .6, 29.6 + top, CX + c.hx - sd * hd * .1, 27.6 + top);
+      }, 'lana');
+      if (!c.espalda) E(c.hx + sd * 1.2, 23 + top, hd * .8, 3.05, 'piel');
+    }
 
     if (carga === 'oro' || carga === 'comida') {
       const ox = sd * (sh * .55);
@@ -1147,7 +1712,7 @@ class Component extends DCLogic {
     }
   }
 
-  ballestero(Hp, c, p) {
+  ballestero(Hp, c, p, mur) {
     const { P, L, E, Path, perfila, esc } = Hp;
     const k = c.k;
     const sh = 4.1 + 4.4 * k, wa = 3.3 + 2.9 * k, hem = 4.9 + 3.4 * k;
@@ -1206,14 +1771,18 @@ class Component extends DCLogic {
       E(qx - sd * .7, 37.6, .7, .9, 'hierro');
     }
 
-    E(c.hx * .5, 22.4, hd + 1.35, 4.6, 'lana');
-    if (!c.espalda) E(c.hx + sd * 1, 21.6, hd * .84, 3.1, 'piel');
-    Path((x, CX) => {
-      x.moveTo(CX + c.hx - hel - .6, 19.4);
-      x.quadraticCurveTo(CX + c.hx - hel * .5, 14.2, CX + c.hx, 13.4);
-      x.quadraticCurveTo(CX + c.hx + hel * .5, 14.2, CX + c.hx + hel + .6, 19.4);
-    }, 'casco');
-    L([c.hx - hel - .9, 19.2], [c.hx + hel + .9, 19.2], 1.6, 'casco');
+    if (mur) {
+      this.litham(Hp, c, hd, sd, .8);
+    } else {
+      E(c.hx * .5, 22.4, hd + 1.35, 4.6, 'lana');
+      if (!c.espalda) E(c.hx + sd * 1, 21.6, hd * .84, 3.1, 'piel');
+      Path((x, CX) => {
+        x.moveTo(CX + c.hx - hel - .6, 19.4);
+        x.quadraticCurveTo(CX + c.hx - hel * .5, 14.2, CX + c.hx, 13.4);
+        x.quadraticCurveTo(CX + c.hx + hel * .5, 14.2, CX + c.hx + hel + .6, 19.4);
+      }, 'casco');
+      L([c.hx - hel - .9, 19.2], [c.hx + hel + .9, 19.2], 1.6, 'casco');
+    }
 
     const dx = Math.sin(ba), dy = -Math.cos(ba), px = Math.cos(ba), py = Math.sin(ba);
     const pt = (t) => [gx + dx * t, gy + dy * t];
@@ -1224,6 +1793,22 @@ class Component extends DCLogic {
     L([manoI[0] - sd * 1.2, (29.6 + manoI[1]) / 2 + 1], manoI, 2.4, 'piel');
     E(gx + sd * .3, gy + .6, 1.7, 1.4, 'piel');
 
+    if (mur) {
+      const arcoX = gx + sd * 2.2;
+      Hp.x.save();
+      Hp.x.strokeStyle = PAL.linea; Hp.x.lineWidth = 3.1; Hp.x.lineCap = 'round';
+      Hp.x.beginPath();
+      Hp.x.moveTo(Hp.CX + arcoX - sd * 1.4, gy - 15.5);
+      Hp.x.quadraticCurveTo(Hp.CX + arcoX + sd * 6.6, gy - 2, Hp.CX + arcoX - sd * 1.4, gy + 11.5);
+      Hp.x.stroke();
+      Hp.x.strokeStyle = PAL.cuerno; Hp.x.lineWidth = 1.9; Hp.x.stroke();
+      Hp.x.strokeStyle = PAL.cuerda; Hp.x.lineWidth = .7;
+      Hp.x.beginPath(); Hp.x.moveTo(Hp.CX + arcoX - sd * 1.4, gy - 15.5); Hp.x.lineTo(Hp.CX + arcoX - sd * 1.4, gy + 11.5); Hp.x.stroke();
+      Hp.x.restore();
+      L([arcoX - sd * 1.4, gy - 2], [arcoX + sd * 9, gy - 3.4], 1.1, 'astil');
+      P([[arcoX + sd * 9, gy - 3.4], [arcoX + sd * 11.4, gy - 3.8], [arcoX + sd * 9.2, gy - 2.2]], 'hierro');
+      return;
+    }
     Path((x, CX) => {
       const a0 = pt(-5.5), a1 = pt(15.5);
       x.moveTo(CX + a0[0] + px * 1.5, a0[1] + py * 1.5);
@@ -1243,29 +1828,213 @@ class Component extends DCLogic {
     if (perfila) L(pt(6), pt(14), .6, 'hierro');
   }
 
+  caballero(Hp, c, p, B, hero, mur) {
+    const { P, L, E, Path, dab, perfila, esc } = Hp;
+    const PELO = hero ? 'tordo' : 'pelo', CRIN = hero ? 'tordoS' : 'crin';
+    const q = CAB[p.id] || (p.cab ? p.cab : CAB.quieto);
+    const hk = c.hk !== undefined ? c.hk : .6;
+    const sd = c.hx >= 0 ? 1 : -1;
+    const espalda = !!c.espalda;
+    const by = q.by || 0;
+    const bodyY = B - 25 + by;
+    const rx = 7.5 + 12 * hk, ry = 9.3;
+
+    if (q.caido) {
+      Path((x, CX) => { x.ellipse(CX, B - 8, 18, 6.4, 0, 0, 7); }, PELO);
+      Path((x, CX) => { x.ellipse(CX + sd * 21, B - 10, 6.2, 3.6, .3, 0, 7); }, PELO);
+      L([sd * 15, B - 12], [sd * 20, B - 11], 3.4, PELO);
+      for (const [lx, ly] of [[-11, -2], [-6, -1], [7, -2], [12, -1]]) {
+        L([lx, B - 6], [lx + sd * 6, B + ly - 4], 2.2, PELO);
+      }
+      L([-sd * 17, B - 9], [-sd * 26, B - 5], 2.4, CRIN);
+      E(-sd * 13, B - 15, 6.4, 4.2, 'malla');
+      E(-sd * 19, B - 17, 3.2, 3, 'casco');
+      Path((x, CX) => {
+        const sxp = -sd * 6, hw = 4.6;
+        x.moveTo(CX + sxp - hw, B - 20); x.quadraticCurveTo(CX + sxp, B - 24, CX + sxp + hw, B - 20);
+        x.quadraticCurveTo(CX + sxp + hw * .7, B - 12, CX + sxp, B - 6);
+        x.quadraticCurveTo(CX + sxp - hw * .7, B - 12, CX + sxp - hw, B - 20);
+      }, 'ten');
+      L([sd * 4, B - 2], [sd * 34, B - 5], 1.8, 'astil');
+      return;
+    }
+
+    const pata = (px0, fase, delante) => {
+      const lift = [0, delante ? 0 : 2.6, 3.4, delante ? 4.6 : 1.2, delante ? 1.2 : 4.2, delante ? 9 : 0][fase] || 0;
+      const swing = [0, delante ? 2.4 : -2.2, -1.6, delante ? 5.2 : -5.4, delante ? -4.4 : 5.6, delante ? 7 : -2][fase] || 0;
+      const hoofY = B - lift;
+      const kx = px0 + sd * swing * .45, ky = (bodyY + 6 + hoofY) / 2;
+      L([px0, bodyY + 5], [kx, ky], 2.9, PELO);
+      L([kx, ky], [px0 + sd * swing, hoofY - 1.4], 2.2, PELO);
+      E(px0 + sd * swing, hoofY - .8, 1.8, 1.1, 'linea');
+    };
+    const fx = sd * (2.5 + 8.5 * hk), rxx = -sd * (3.5 + 9 * hk);
+    const sep = 1.5 + 2.4 * (1 - hk);
+    const faseAlt = [0, 2, 1, 4, 3, 5][q.lg] || 0;
+    pata(rxx - sd * sep, faseAlt, false);
+    pata(fx - sd * sep, faseAlt, true);
+    pata(rxx + sd * sep, q.lg, false);
+    pata(fx + sd * sep, q.lg, true);
+
+    Path((x, CX) => { x.ellipse(CX, bodyY, rx, ry, 0, 0, 7); }, PELO);
+    if (hk < .15 && !espalda) {
+      Path((x, CX) => { x.ellipse(CX + sd * 6.4, bodyY + 3.5, 3.2, 7.4, sd * .22, 0, 7); }, PELO);
+      Path((x, CX) => { x.ellipse(CX + sd * 7.2, bodyY + 10.5, 2.5, 3.4, 0, 0, 7); }, PELO);
+      P([[sd * 4.6, bodyY - 3.4], [sd * 3.6, bodyY - 8.6], [sd * 7, bodyY - 4.6]], PELO);
+      P([[sd * 9, bodyY - 3.2], [sd * 10.4, bodyY - 8.2], [sd * 10.8, bodyY - 2.6]], PELO);
+      if (perfila) { dab(sd * 4.9, bodyY + 1, .7, PAL.linea); dab(sd * 9.4, bodyY + 1.4, .7, PAL.linea); }
+    } else if (!espalda) {
+      Path((x, CX) => {
+        x.moveTo(CX + sd * (rx * .55), bodyY - ry * .75);
+        x.lineTo(CX + sd * (4 + 12 * hk), bodyY - 15 - 6 * hk);
+        x.lineTo(CX + sd * (8 + 15 * hk), bodyY - 12 - 6 * hk);
+        x.lineTo(CX + sd * (rx * .95), bodyY + ry * .3);
+      }, PELO);
+      Path((x, CX) => { x.ellipse(CX + sd * (7 + 15.5 * hk), bodyY - 16 - 6.5 * hk, 3.4 + 3 * hk, 3.5, sd * .5, 0, 7); }, PELO);
+      P([[sd * (5 + 12 * hk), bodyY - 19 - 6.5 * hk], [sd * (5.4 + 12.6 * hk), bodyY - 23 - 6.5 * hk], [sd * (7.4 + 13.6 * hk), bodyY - 19.4 - 6.5 * hk]], PELO);
+      if (perfila) dab(sd * (9 + 17 * hk), bodyY - 17 - 6.5 * hk, .8, PAL.linea);
+      for (let i = 0; i < 5; i++) {
+        const t = i / 4;
+        L([sd * (rx * .5 + (4 + 12 * hk - rx * .5) * t), bodyY - ry * .8 - (15 + 6 * hk) * t],
+          [sd * (rx * .5 + (4 + 12 * hk - rx * .5) * t) - sd * 1.6, bodyY - ry * .8 - (15 + 6 * hk) * t + 2.2], 1.5, CRIN);
+      }
+    } else {
+      Path((x, CX) => { x.ellipse(CX, bodyY + 1.4, rx * 1.34, 8.4, 0, 0, 7); }, PELO);
+    }
+    if (espalda && hk < .15) {
+      Path((x, CX) => {
+        x.moveTo(CX - 2.6, bodyY - 2);
+        x.quadraticCurveTo(CX - 4.6, bodyY + 9, CX - 1.4, B - 5);
+        x.quadraticCurveTo(CX + 2.8, bodyY + 9, CX + 2.4, bodyY - 2);
+      }, CRIN);
+    } else {
+      Path((x, CX) => {
+        x.moveTo(CX - sd * (rx * .86), bodyY - ry * .55);
+        x.quadraticCurveTo(CX - sd * (rx * 1.2), bodyY + 5, CX - sd * (rx * 1.02), B - 6);
+        x.quadraticCurveTo(CX - sd * (rx * .82), bodyY + 5, CX - sd * (rx * .68), bodyY - ry * .45);
+      }, CRIN);
+    }
+
+    Path((x, CX) => {
+      x.moveTo(CX - sd * (rx * .52), bodyY - ry * .62); x.lineTo(CX + sd * (rx * .46), bodyY - ry * .62);
+      x.lineTo(CX + sd * (rx * .42 + 1.4), bodyY + ry * .92);
+      x.quadraticCurveTo(CX, bodyY + ry * .55, CX - sd * (rx * .48 + 1.4), bodyY + ry * .92);
+    }, 'ten');
+    Path((x, CX) => {
+      x.moveTo(CX - sd * 5.4, bodyY - ry + .6); x.lineTo(CX + sd * 5.2, bodyY - ry + .6);
+      x.lineTo(CX + sd * 4.4, bodyY - ry - 2.6); x.lineTo(CX - sd * 4.8, bodyY - ry - 2.6);
+    }, 'cuero');
+    if (!espalda) L([sd * (5 + 12 * hk), bodyY - 15 - 6 * hk], [sd * (rx * .5), bodyY - ry], 1.1, 'cuero');
+
+    const hip = bodyY - ry - 1.5, hombro = hip - 17, cab = hip - 26, top = hip - 30.5;
+    const sh = 4.4 + 3.4 * hk * 0, wa = 4.4;
+    L([-sd * 1, hip], [sd * (4 + 5 * hk), hip + 7], 3.1, mur ? 'ten' : 'malla');
+    L([sd * (4 + 5 * hk), hip + 7], [sd * (3.4 + 4.6 * hk), bodyY + ry + 1.5], 2.6, 'lino');
+    E(sd * (3.4 + 4.6 * hk), bodyY + ry + 2.6, 1.9, 1.1, 'hierro');
+    if (hero) {
+      Path((x, CX) => {
+        x.moveTo(CX - sd * 4.2, hombro - .8);
+        x.quadraticCurveTo(CX - sd * 17, hombro + 6, CX - sd * 14.5, hip + 17);
+        x.quadraticCurveTo(CX - sd * 6, hip + 9, CX + sd * 1.2, hombro + 2.4);
+      }, 'capa');
+    }
+    Path((x, CX) => {
+      x.moveTo(CX - wa - .4, hip + 2); x.lineTo(CX - 5.6, hombro + 1.6);
+      x.quadraticCurveTo(CX - 6.2, hombro - 1, CX - 3.4, hombro - 1.8);
+      x.lineTo(CX + 3.4, hombro - 1.8);
+      x.quadraticCurveTo(CX + 6.2, hombro - 1, CX + 5.6, hombro + 1.6);
+      x.lineTo(CX + wa + .4, hip + 2);
+    }, mur ? 'ten' : 'malla');
+    if (perfila && esc >= 2 && !mur) {
+      const X = Hp.x, CXo = Hp.CX;
+      X.save(); X.beginPath();
+      X.moveTo(CXo - wa - .4, hip + 2); X.lineTo(CXo - 5.6, hombro); X.lineTo(CXo + 5.6, hombro);
+      X.lineTo(CXo + wa + .4, hip + 2); X.closePath(); X.clip();
+      for (let yy = hombro; yy < hip + 2; yy += 1.8)
+        for (let xx = -6; xx < 6; xx += 1.8) dab(xx + (Math.round(yy / 1.8) % 2 ? .9 : 0), yy, .4, PAL.mallaS);
+      X.globalAlpha = .28; X.fillStyle = PAL.mallaS; X.fillRect(CXo - sd * 7, hombro - 2, 6, 24); X.globalAlpha = 1;
+      X.restore();
+    }
+    if (mur) {
+      this.litham({ P, L, E, Path, dab, perfila, x: Hp.x, CX: Hp.CX }, { hx: 0, espalda: espalda }, 3.2, sd, cab - 20.4);
+    } else {
+      E(0, cab + 2.6, 4.1, 4.4, 'malla');
+      if (!espalda) E(sd * 1.1, cab + 1.4, 3.1, 3.2, 'piel');
+      Path((x, CX) => {
+        x.moveTo(CX - 4.3, cab - 1.6);
+        x.quadraticCurveTo(CX - 2.2, top, CX, top - .6);
+        x.quadraticCurveTo(CX + 2.2, top, CX + 4.3, cab - 1.6);
+      }, 'casco');
+      L([-4.5, cab - 1.8], [4.5, cab - 1.8], 1.6, 'casco');
+      if (!espalda) P([[sd * .6, cab - 2], [sd * 2, cab - 1.4], [sd * 1.5, cab + 3], [sd * .2, cab + 2.6]], 'casco');
+    }
+
+    const la = (q.la || 96) * sd, a = la * Math.PI / 180;
+    const dx = Math.sin(a), dy = -Math.cos(a), px = Math.cos(a), py = Math.sin(a);
+    const gx = sd * 4.6, gy = hombro + 8;
+    const pt = (t) => [gx + dx * t, gy + dy * t];
+    L([sd * 5.6, hombro + 1], [gx, gy], 3.0, mur ? 'ten' : 'malla');
+    L(pt(-13), pt(38), 1.9, 'astil');
+    const tip = pt(44), qq = pt(40), m = pt(37.4);
+    Path((x, CX) => {
+      x.moveTo(CX + tip[0], tip[1]);
+      x.quadraticCurveTo(CX + qq[0] + px * 2, qq[1] + py * 2, CX + m[0] + px * 1.3, m[1] + py * 1.3);
+      x.lineTo(CX + pt(35)[0], pt(35)[1]);
+      x.lineTo(CX + m[0] - px * 1.3, m[1] - py * 1.3);
+      x.quadraticCurveTo(CX + qq[0] - px * 2, qq[1] - py * 2, CX + tip[0], tip[1]);
+    }, 'hierro');
+    const sf = hero ? 1.5 : 1;
+    const b0 = pt(hero ? 34 : 32.5), b1 = pt(hero ? 22.5 : 24.5);
+    const o0 = [b0[0] + px * 9.4 * sf, b0[1] + py * 9.4 * sf], o1 = [b1[0] + px * 8 * sf, b1[1] + py * 8 * sf];
+    const nz = [(o0[0] + o1[0]) / 2 - px * 3.4 * sf, (o0[1] + o1[1]) / 2 - py * 3.4 * sf];
+    Path((x, CX) => {
+      x.moveTo(CX + b0[0], b0[1]); x.lineTo(CX + o0[0], o0[1]);
+      x.lineTo(CX + nz[0], nz[1]); x.lineTo(CX + o1[0], o1[1]); x.lineTo(CX + b1[0], b1[1]);
+    }, 'ten');
+
+    const shw = 3.2 + 2.2 * (1 - hk), sxp = -sd * (1.4 + 1.6 * hk + 5.4 * (1 - hk) * (1 - hk));
+    if (mur) {
+      if (!espalda || hk > .3) {
+        E(sxp, hombro + 5.6, Math.max(1.8, shw * 1.25), 6.6, 'ten');
+        if (perfila && shw > 3) E(sxp, hombro + 5.6, 1.2, 1.2, 'cuero');
+      }
+      return;
+    }
+    if (!espalda || hk > .3) {
+      Path((x, CX) => {
+        x.moveTo(CX + sxp - shw, hombro + 3.4);
+        x.quadraticCurveTo(CX + sxp - shw * .9, hombro - 1, CX + sxp, hombro - 1.8);
+        x.quadraticCurveTo(CX + sxp + shw * .9, hombro - 1, CX + sxp + shw, hombro + 3.4);
+        x.quadraticCurveTo(CX + sxp + shw * .74, hip + 1, CX + sxp, hip + 8);
+        x.quadraticCurveTo(CX + sxp - shw * .74, hip + 1, CX + sxp - shw, hombro + 3.4);
+      }, 'ten');
+      if (perfila && shw > 3) E(sxp, hombro + 6.4, shw * .24, shw * .24, 'hierro');
+    }
+  }
+
   renderVals() {
     return {
       setCanvas: this.setCanvas,
       dirs: [
-        {id:'E',  dir:'e',  grados:'0°',   nota:'Perfil. Escudo de canto: solo el pendón sostiene la máscara. Astil cruzando el cuerpo.'},
-        {id:'SE', dir:'se', grados:'45°',  nota:'Tres cuartos. La mejor lectura del conjunto: escudo, cota y moharra a la vez.'},
         {id:'S',  dir:'s',  grados:'90°',  nota:'De frente. Máxima anchura y máxima máscara. Pies separados, lanza casi vertical.'},
-        {id:'SO', dir:'so', grados:'135°', nota:'Reflejo de SE. En silueta no aporta nada nuevo: ver la nota de abajo.'},
-        {id:'O',  dir:'o',  grados:'180°', nota:'Reflejo de E. Tampoco aporta. Dos de cinco renders son redundantes.'}
+        {id:'SO', dir:'so', grados:'135°', nota:'Tres cuartos. La mejor lectura del conjunto: escudo, cota y moharra a la vez.'},
+        {id:'O',  dir:'o',  grados:'180°', nota:'Perfil. Escudo de canto: solo el pendón sostiene la máscara. Astil cruzando el cuerpo.'},
+        {id:'NO', dir:'no', grados:'225°', nota:'Espaldas tres cuartos. Asoma la vaina y desaparece el nasal: se distingue de SO sin ambigüedad.'},
+        {id:'N',  dir:'n',  grados:'270°', nota:'De espaldas. Sin escudo embrazado a la vista, sin cara. La que antes no existía.'}
       ],
       faltantes: [
         {id:'NO', dir:'no', nota:'Espaldas tres cuartos. El escudo asoma por el hombro y aparece la vaina: se distingue de SO sin ambigüedad.'},
         {id:'N',  dir:'n',  nota:'De espaldas. Sin escudo, sin nasal, con vaina en diagonal. Es el que hoy no existe y hace que caminar al norte se vea de frente.'}
       ],
       poses: [
-        {id:'quieto', nombreB:'Quieto', notaB:'Ballesta destensada cruzando el cuerpo, apoyada en la mano izquierda.',       nombre:'Quieto', nombreA:'Quieto', nota:'Peso repartido, lanza calada, escudo cubriendo el pecho. Es la pose de referencia.', notaE:'Guardia media: espada baja y adelantada, escudo cubriendo el pecho.', notaA:'Peso repartido, herramienta al costado con el filo abajo.'},
-        {id:'contacto', nombreB:'Andar · contacto', notaB:'El arma no se mueve: va sujeta con las dos manos y amortigua el paso.',     nombre:'Andar · contacto', nombreA:'Andar · contacto', nota:'Talón delantero clavado, pierna trasera estirada. La lanza no se mueve: la mano la amortigua.', notaE:'Idéntico al lancero. Este ciclo se reutiliza tal cual en el rig.', notaA:'Talón clavado. La carga no rebota: el bulto va firme al hombro.'},
-        {id:'alto', nombreB:'Andar · paso alto', notaB:'Rodilla recogida. El bajo corto del perpunte es lo que permite ver el paso.',         nombre:'Andar · paso alto', nombreA:'Andar · paso alto', nota:'Cuerpo un píxel arriba, pierna trasera recogida. El único fotograma con la caja más alta.', notaE:'Igual que el lancero, pero sin astil: la caja nunca crece en este ciclo.', notaA:'Cuerpo un píxel arriba y rodilla recogida; el sayo se abre.'},
-        {id:'cargando', nombreB:'Atacar · tensar', notaB:'Tronco doblado adelante, las dos manos a la cuerda, gancho de cinturón. Seis fotogramas.',    nombre:'Atacar · carga', nombreA:'Trabajar · alzada', nota:'Lanza atrás y casi vertical, peso al pie trasero, escudo adelantado. Aquí sí sube la caja.', notaE:'Espada alzada sobre el hombro contrario, hombro cerrado, peso atrás.', notaA:'Trabajar · alzada: herramienta sobre el hombro, tronco atrás.'},
-        {id:'impacto', nombreB:'Atacar · disparo', notaB:'Arma horizontal a la altura del hombro y retroceso corto. Es el único fotograma horizontal puro.',      nombre:'Atacar · impacto', nombreA:'Trabajar · golpe', nota:'Estocada, no tajo: brazo extendido, moharra fuera de la casilla, tronco volcado adelante.', notaE:'Tajo diagonal: la hoja sale de la casilla y cruza la línea del hombro.', notaA:'Trabajar · golpe: filo al suelo, tronco volcado y rodilla flexionada.'},
-        {id:'recuperacion', nombreB:'Atacar · bajada', notaB:'El arma baja y la mano izquierda vuelve a la caja. Enlaza con el tensado siguiente.', nombre:'Atacar · recuperación', nombreA:'Trabajar · retirada', nota:'Vuelve a guardia con el escudo por delante. Es el fotograma que evita que el ciclo salte.', notaE:'La hoja vuelve por dentro y el escudo tapa el hueco que deja el tajo.', notaA:'Trabajar · retirada: la herramienta vuelve; vuelve el eje vertical.'},
-        {id:'golpe', nombreB:'Morir · golpe', notaB:'Arqueo atrás, ballesta soltada por delante. Sin sangre.',        nombre:'Morir · golpe', nombreA:'Morir · golpe', nota:'Arqueo atrás, lanza soltándose, escudo caído. Sin sangre: el impacto se lee en la silueta.', notaE:'Arqueo atrás y espada soltada. Mismo ciclo que el lancero.', notaA:'Arqueo atrás y herramienta soltada. Sin sangre.'},
-        {id:'reposo', nombreB:'Morir · reposo', notaB:'Tendido dentro de la casilla; la ballesta cae aparte y queda como resto.',       nombre:'Morir · reposo', nombreA:'Morir · reposo', nota:'Tendido, dentro de la casilla. La lanza cae aparte y se queda como resto en el suelo.', notaE:'Tendido dentro de la casilla, escudo bajo el cuerpo y espada al lado.', notaA:'Tendido dentro de la casilla; la carga se derrama al lado.'}
+        {id:'quieto', nombreC:'Quieto', notaC:'Caballo parado con una mano adelantada, lanza vertical apoyada en el estribo.', nombreB:'Quieto', notaB:'Ballesta destensada cruzando el cuerpo, apoyada en la mano izquierda.',       nombre:'Quieto', nombreA:'Quieto', nota:'Peso repartido, lanza calada, escudo cubriendo el pecho. Es la pose de referencia.', notaE:'Guardia media: espada baja y adelantada, escudo cubriendo el pecho.', notaA:'Peso repartido, herramienta al costado con el filo abajo.'},
+        {id:'contacto', nombreC:'Trote · contacto', notaC:'Diagonales opuestas: mano izquierda y pie derecho apoyados. El jinete apenas se mueve.', nombreB:'Andar · contacto', notaB:'El arma no se mueve: va sujeta con las dos manos y amortigua el paso.',     nombre:'Andar · contacto', nombreA:'Andar · contacto', nota:'Talón delantero clavado, pierna trasera estirada. La lanza no se mueve: la mano la amortigua.', notaE:'Idéntico al lancero. Este ciclo se reutiliza tal cual en el rig.', notaA:'Talón clavado. La carga no rebota: el bulto va firme al hombro.'},
+        {id:'alto', nombreC:'Trote · suspensión', notaC:'Las cuatro manos en el aire y el cuerpo 2,5 px arriba. Es el fotograma que da el ritmo.', nombreB:'Andar · paso alto', notaB:'Rodilla recogida. El bajo corto del perpunte es lo que permite ver el paso.',         nombre:'Andar · paso alto', nombreA:'Andar · paso alto', nota:'Cuerpo un píxel arriba, pierna trasera recogida. El único fotograma con la caja más alta.', notaE:'Igual que el lancero, pero sin astil: la caja nunca crece en este ciclo.', notaA:'Cuerpo un píxel arriba y rodilla recogida; el sayo se abre.'},
+        {id:'cargando', nombreC:'Cargar · lanza alzada', notaC:'Galope reunido, lanza levantada 30° y jinete inclinado adelante sobre los estribos.', nombreB:'Atacar · tensar', notaB:'Tronco doblado adelante, las dos manos a la cuerda, gancho de cinturón. Seis fotogramas.',    nombre:'Atacar · carga', nombreA:'Trabajar · alzada', nota:'Lanza atrás y casi vertical, peso al pie trasero, escudo adelantado. Aquí sí sube la caja.', notaE:'Espada alzada sobre el hombro contrario, hombro cerrado, peso atrás.', notaA:'Trabajar · alzada: herramienta sobre el hombro, tronco atrás.'},
+        {id:'impacto', nombreC:'Cargar · impacto', notaC:'Lanza calada bajo el sobaco, galope extendido, moharra fuera de la casilla. El fotograma clave.', nombreB:'Atacar · disparo', notaB:'Arma horizontal a la altura del hombro y retroceso corto. Es el único fotograma horizontal puro.',      nombre:'Atacar · impacto', nombreA:'Trabajar · golpe', nota:'Estocada, no tajo: brazo extendido, moharra fuera de la casilla, tronco volcado adelante.', notaE:'Tajo diagonal: la hoja sale de la casilla y cruza la línea del hombro.', notaA:'Trabajar · golpe: filo al suelo, tronco volcado y rodilla flexionada.'},
+        {id:'recuperacion', nombreC:'Cargar · recuperación', notaC:'La lanza vuelve arriba y el caballo se reúne. Enlaza con la carga siguiente.', nombreB:'Atacar · bajada', notaB:'El arma baja y la mano izquierda vuelve a la caja. Enlaza con el tensado siguiente.', nombre:'Atacar · recuperación', nombreA:'Trabajar · retirada', nota:'Vuelve a guardia con el escudo por delante. Es el fotograma que evita que el ciclo salte.', notaE:'La hoja vuelve por dentro y el escudo tapa el hueco que deja el tajo.', notaA:'Trabajar · retirada: la herramienta vuelve; vuelve el eje vertical.'},
+        {id:'golpe', nombreC:'Morir · golpe', notaC:'El caballo se encabrita y el jinete cae atrás. Sin sangre; el golpe se lee en el arqueo.', nombreB:'Morir · golpe', notaB:'Arqueo atrás, ballesta soltada por delante. Sin sangre.',        nombre:'Morir · golpe', nombreA:'Morir · golpe', nota:'Arqueo atrás, lanza soltándose, escudo caído. Sin sangre: el impacto se lee en la silueta.', notaE:'Arqueo atrás y espada soltada. Mismo ciclo que el lancero.', notaA:'Arqueo atrás y herramienta soltada. Sin sangre.'},
+        {id:'reposo', nombreC:'Morir · reposo', notaC:'Los dos caídos dentro de la casilla, caballo tendido y jinete al lado con el escudo debajo.', nombreB:'Morir · reposo', notaB:'Tendido dentro de la casilla; la ballesta cae aparte y queda como resto.',       nombre:'Morir · reposo', nombreA:'Morir · reposo', nota:'Tendido, dentro de la casilla. La lanza cae aparte y se queda como resto en el suelo.', notaE:'Tendido dentro de la casilla, escudo bajo el cuerpo y espada al lado.', notaA:'Tendido dentro de la casilla; la carga se derrama al lado.'}
       ],
       cargas: [
         {id:'lena',   nombre:'Leña',   nota:'Haz atado a la espalda, en diagonal: rompe la silueta hacia arriba y no se confunde con la piedra.'},
@@ -1285,10 +2054,69 @@ class Component extends DCLogic {
         {nombre:'Hierro de arma',   hex:'#bcbfc3', nota:'Moharra y pomo. El único valor claro y frío de la unidad: marca dónde está la punta.'},
         {nombre:'Contorno',         hex:'#241b12', nota:'Línea de contorno y sombra proyectada. Despega la unidad del terreno, que es lo que falla a 60 px.'},
         {nombre:'Piel (media)',     hex:'#b0805c', nota:'Valor medio del rango de variación de la unidad. Eje de variedad, nunca marca de bando.'},
-        {nombre:'Zona teñible',     hex:'#c8a24a', nota:'Campo del escudo y paño del pendón. Aquí con el dorado de ejemplo; blanco puro en el pase de máscara.'}
+        {nombre:'Zona teñible',     hex:'#c8a24a', nota:'Campo del escudo y paño del pendón, 209 px² en SO. Aquí con el dorado de ejemplo; blanco puro en el pase de máscara.'}
+      ],
+      murPie: [
+        {u:'lancero', nombre:'Lancero lamtuní', equiv:'EQUIVALE AL LANCERO', mascara:'321 px² · ALTO 70 EN LAS CINCO',
+         nota:'Lanza larga, adarga redonda y litham. Túnica de lana en vez de cota: es tropa ligera y móvil, y eso se ve en el bajo, que llega a media pierna. El asta no cabe en la caja al ángulo de reposo de la hueste, así que va calada a 32° mínimo, y eso cambia el tell: no es más alto —70 px en las cinco direcciones, contra los 71 del lancero cristiano en SO—, es más ancho. En SO su mancha ocupa 38 px de ancho frente a 34. El asta larga, al calarse, no sube: se tumba.'},
+        {u:'espada', nombre:'Peón lamtuní', equiv:'EQUIVALE AL PEÓN DE ESPADA', mascara:'345 px² · ALTO 61',
+         nota:'Hoja recta, la misma que el peón cristiano: nada de cimitarra. Guardia media, adarga cubriendo el costado. Es la unidad más parecida a su equivalente de la hueste, y a propósito: el equipo de choque a pie era el mismo a los dos lados de la frontera.'},
+        {u:'ballestero', nombre:'Arquero lamtuní', equiv:'EQUIVALE AL BALLESTERO', mascara:'172 px² · ALTO 60',
+         nota:'Arco compuesto de asta y tendón, tenso en vertical delante del cuerpo, y carcaj a la cadera. Resuelve la duda de datación de la ficha 4a: aquí el arma sí está documentada. La túnica sigue siendo la máscara, porque tirar ocupa las dos manos.'},
+        {u:'aldeano', nombre:'Aldeano', equiv:'EQUIVALE AL ALDEANO', mascara:'289 px² · ALTO 56',
+         nota:'El mismo sayo, la misma herramienta y las mismas cuatro cargas; cambia el tocado, un paño envuelto en lugar de caperuza, y nada más. No lleva litham: el velo es cosa de los hombres de guerra sanhaya, no del que cava. Es la unidad que mejor demuestra que la frontera era porosa.'}
+      ],
+      murCab: [
+        {u:'caballero', nombre:'Jinete lamtuní', equiv:'EQUIVALE AL CABALLERO', mascara:'428 px² · ALTO 66, 86 CON LA LANZA',
+         nota:'Caballo y jinete un solo cuerpo, misma caja de 96×104 y mismos ciclos. Adarga redonda, lanza larga con pendón y telliz teñible. Sin barda, igual que el cristiano. La táctica era otra —hostigar y romper, no chocar de frente—, y eso se resuelve en los datos de unidad, no haciendo el sprite más pequeño.'},
+        {u:'rodrigo', nombre:'Abu Bakr ibn Ibrahim al-Lamtuni', equiv:'HÉROE · MANDÓ EN CUARTE, 1094', mascara:'482 px² · ALTO 66, 86 CON LA LANZA',
+         nota:'Mismo sistema de héroe que Rodrigo, y por tanto misma altura y misma caja: montura clara para que destaque por valor, seña ampliada y una prenda de color fijo fuera de la máscara. Sobrino de Yusuf ibn Tasufin, al mando del ejército que cercó Valencia. Sin ningún rasgo que lo marque como enemigo: lo que dice de qué lado está es el color de jugador.'}
+      ],
+      paletaM: [
+        {nombre:'Litham · lana cruda',  hex:'#d8d2c4', nota:'El velo que da nombre al bloque. Cruda y no índigo, porque el índigo es uno de los ocho colores de jugador. Es el valor más claro de la unidad y hace de la cabeza el punto de lectura.'},
+        {nombre:'Litham, sombra',       hex:'#b0a794', nota:'Pliegue del velo y vuelta del turbante. Sin esta sombra la cabeza se convierte en una bola blanca.'},
+        {nombre:'Adarga · teñible',     hex:'#c8a24a', nota:'Cuero de lamt, pálido de origen y por eso ideal para teñir entero. Redonda: se lee igual desde cualquier ángulo, así que la máscara no se hunde en perfil como le pasa al escudo de cometa.'},
+        {nombre:'Túnica · teñible',     hex:'#c8a24a', nota:'En el arquero y el aldeano la máscara es la prenda, como en el ballestero y el aldeano de la hueste. Mismo criterio, misma pieza de Blender.'},
+        {nombre:'Cuero de lamt crudo',  hex:'#cbb48c', nota:'Para las correas y el refuerzo de la adarga, lo que queda fuera del tinte. Cálido y claro: distingue el escudo de la túnica cuando las dos van del mismo color de jugador.'},
+        {nombre:'Burnús · granate fijo',hex:'#8a3a2c', nota:'La prenda de color fijo del héroe, fuera de la máscara. Mismo valor que la capa de Rodrigo, y a propósito: los dos héroes se reconocen por el mismo mecanismo.'},
+        {nombre:'Montura clara',        hex:'#ece6da', nota:'Igual que Babieca en la 6a, y por la misma razón de producción: el valor alto es el único tell de héroe que cabe sin romper la escala.'},
+        {nombre:'Piel (media)',         hex:'#b0805c', nota:'El mismo valor y el mismo rango de variación que en la hueste. Sin excepción y sin matices: es el punto donde un roster de este tema se estropea.'},
+        {nombre:'Contorno',             hex:'#241b12', nota:'Un píxel, sin antialias, idéntico al del otro bloque. Aquí es más necesario todavía, porque el litham claro se funde con la arena.'}
+      ],
+      paletaR: [
+        {nombre:'Pelaje tordo',      hex:'#ece6da', nota:'Casi blanco. El tell principal, y funciona por valor: ninguna otra unidad tiene una mancha clara de este tamaño. Mismo valor que ya usa el juego de la raíz para su caballo.'},
+        {nombre:'Tordo, sombra',     hex:'#b9b0a2', nota:'Crin, cola y bajo del vientre. Sin esta sombra el caballo claro se convierte en una mancha plana sin volumen.'},
+        {nombre:'Capa · granate',    hex:'#8a3a2c', nota:'Lana teñida con rubia. Color fijo, FUERA de la máscara: es lo que hace que el héroe se reconozca con los ocho colores de jugador.'},
+        {nombre:'Zona teñible',      hex:'#c8a24a', nota:'Escudo, seña y telliz, 414 px². Aquí con el dorado de ejemplo. Es lo único que dice de qué bando es, y por eso puede servir en las dos orillas.'},
+        {nombre:'Malla, base',       hex:'#7c766c', nota:'La misma de toda la hueste. El héroe no lleva mejor armadura que su gente.'},
+        {nombre:'Capacete',          hex:'#8d8779', nota:'El mismo del peón y del caballero. Sin cimera, sin dorados.'},
+        {nombre:'Cuero de arreo',    hex:'#5b4229', nota:'Silla, brida y correas. Igual que el caballero.'},
+        {nombre:'Hierro',            hex:'#bcbfc3', nota:'Moharra y estribo. Sin espada visible salvo al morir.'},
+        {nombre:'Contorno',          hex:'#241b12', nota:'Un píxel, sin antialias. Con el caballo claro el contorno es más necesario todavía: sin él, el tordo se funde con la piedra y con la arena.'}
+      ],
+      dirsCab: [
+        {id:'S',  dir:'s',  grados:'90°',  nota:'De frente. 20 px de ancho: pecho, cabeza colgando entre las manos y escudo asomando a la izquierda.'},
+        {id:'SO', dir:'so', grados:'135°', nota:'Tres cuartos. La vista de referencia: caballo, telliz, escudo y lanza a la vez.'},
+        {id:'O',  dir:'o',  grados:'180°', nota:'Perfil. 44 px de ancho de mancha, la silueta mayor del roster y la que define la caja.'},
+        {id:'NO', dir:'no', grados:'225°', nota:'Espaldas tres cuartos. Se ve la grupa y la cola; el escudo empieza a esconderse.'},
+        {id:'N',  dir:'n',  grados:'270°', nota:'De espaldas, lo que antes no existía. Sin cabeza y sin escudo, con la grupa ancha y la cola: 18 % de la mancha cambia respecto a S.'}
+      ],
+      paletaC: [
+        {nombre:'Pelaje · castaño',   hex:'#6b4a2b', nota:'Pelaje por defecto. Uno de cuatro fijos por unidad, nunca por jugador: un caballo índigo no es un caballo.'},
+        {nombre:'Crin y cola',        hex:'#3a2a1c', nota:'Dos valores por debajo del pelaje. Es lo que separa el cuello del fondo en la vista de perfil.'},
+        {nombre:'Telliz · teñible',   hex:'#c8a24a', nota:'La manta bajo la silla, la única zona teñible visible desde cualquier ángulo. Es algo más de la mitad de los 356 px² de máscara.'},
+        {nombre:'Escudo · teñible',   hex:'#c8a24a', nota:'Campo llano, igual que en la infantería. Mismo material de Blender, mismo tinte.'},
+        {nombre:'Pendón · teñible',   hex:'#c8a24a', nota:'Paño de la lanza, a 86 px del suelo: es lo primero que se ve de una carga que llega, antes que el caballo.'},
+        {nombre:'Malla, base',        hex:'#7c766c', nota:'Compartida con toda la hueste. Un solo material de malla en el atlas.'},
+        {nombre:'Capacete',           hex:'#8d8779', nota:'El mismo que el peón. En una mesnada el yelmo no dice si vas a caballo.'},
+        {nombre:'Cuero de arreo',     hex:'#5b4229', nota:'Silla de borrenes, brida, cinchas y correa del escudo. La línea de la brida es lo que dice hacia dónde mira el caballo.'},
+        {nombre:'Hierro de estribo',  hex:'#bcbfc3', nota:'Estribo y moharra. Dos puntos claros y fríos, arriba y abajo, que anclan la figura.'},
+        {nombre:'Astil de fresno',    hex:'#9a7a4a', nota:'Lanza de dos metros y medio, más larga que la de infantería porque se usa calada.'},
+        {nombre:'Piel (media)',       hex:'#b0805c', nota:'Eje de variación de la unidad, nunca marca de bando.'},
+        {nombre:'Contorno',           hex:'#241b12', nota:'Un píxel, sin antialias. Con 96 px de caja el contorno es lo que impide que dos jinetes juntos se fundan.'}
       ],
       paletaB: [
-        {nombre:'Perpunte · teñible', hex:'#c8a24a', nota:'La máscara, 168 px². Lino o lana acolchada; el tinte va sobre la tela exterior y era gasto asumible.'},
+        {nombre:'Perpunte · teñible', hex:'#c8a24a', nota:'La máscara, 214 px². Lino o lana acolchada; el tinte va sobre la tela exterior y era gasto asumible.'},
         {nombre:'Costura del perpunte',hex:'#241b12', nota:'Bastas verticales cada 2,6 px en el pase de color. Es lo que impide que el torso teñido parezca un rectángulo plano.'},
         {nombre:'Capacete',          hex:'#8d8779', nota:'Hierro batido con reborde ancho y sin nasal: un tirador necesita ver. Única pieza donde se separa del lancero.'},
         {nombre:'Caperuza de lana',  hex:'#c9b795', nota:'Bajo el capacete, sin almófar de malla. Lana cruda, y deja la cara despejada.'},
@@ -1311,12 +2139,12 @@ class Component extends DCLogic {
         {nombre:'Cuero',            hex:'#5b4229', nota:'Tahalí, enarmes y calzado. Aquí el tahalí cruza el pecho y es una línea útil para separar torso de escudo.'},
         {nombre:'Contorno',         hex:'#241b12', nota:'Un píxel, sin antialias.'},
         {nombre:'Piel (media)',     hex:'#b0805c', nota:'Eje de variación de la unidad, nunca marca de bando.'},
-        {nombre:'Zona teñible',     hex:'#c8a24a', nota:'Solo el campo del escudo. 121 px² frente a los 152 del lancero: la unidad más débil de máscara de las dos.'},
+        {nombre:'Zona teñible',     hex:'#c8a24a', nota:'Solo el campo del escudo. 181 px² frente a los 209 del lancero: la máscara más pequeña del roster.'},
         {nombre:'Hoja de la espada',hex:'#c6c9ce', nota:'Un valor más claro que el hierro de la moharra: la hoja es ancha y capta más luz, y así el tajo se lee.'},
         {nombre:'Latón de guarnición',hex:'#8a7248', nota:'Pomo y guarnición. Metal cálido, poco: la única nota de riqueza que distingue al peón de espada del lancero.'}
       ],
       paletaA: [
-        {nombre:'Sayo · teñible',   hex:'#c8a24a', nota:'La máscara. Aquí con el dorado de ejemplo; blanco puro en el pase. Lana de tinte barato: rubia, gualda, glasto.'},
+        {nombre:'Sayo · teñible',   hex:'#c8a24a', nota:'La máscara, 275 px². Aquí con el dorado de ejemplo; blanco puro en el pase. Lana de tinte barato: rubia, gualda, glasto.'},
         {nombre:'Caperuza',         hex:'#c9b795', nota:'Lana sin teñir, del color del vellón. Deliberadamente clara para separarse del sayo teñido, sea cual sea el color.'},
         {nombre:'Lino',             hex:'#dfd4bb', nota:'Calzas. Mismo valor que en el lancero: la ropa interior no cambia con el oficio.'},
         {nombre:'Cuero',            hex:'#5b4229', nota:'Cinturón y calzado. El cinturón es la línea que impide que el sayo teñido se lea como un saco.'},

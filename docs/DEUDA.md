@@ -208,9 +208,14 @@ según la semilla.
 
 ### DEUDA-014 · El volumen de arte está sin decidir
 
-La cuenta de [`ARTE.md`](ARTE.md), ya con las fichas reales en la mano: 600
-imágenes por unidad y facción, 1.800 el aldeano por sus cuatro cargas, y **más
-de 8.000 en total** para seis unidades y dos facciones.
+La cuenta de [`ARTE.md`](ARTE.md), ya con las doce fichas en la mano: 600
+imágenes por unidad y bloque, 1.800 el aldeano por sus cuatro cargas, y
+**9.600 en total** para las seis unidades de los dos bloques entregados. Con
+las fichas andalusíes, que faltan, son 14.400.
+
+El número no es lo peor. Lo peor es que la caballería pesa **2,4 veces más por
+imagen** —caja de 96×104 frente a 64×84— y son cuatro de las doce unidades:
+caballero y campeador en los dos bloques.
 
 - **Coste hoy:** ninguno. El pipeline está montado y probado, y el criterio de
   aceptación de rendimiento pasó con margen (ver [`PLAN.md`](PLAN.md)), así que
@@ -226,3 +231,27 @@ de 8.000 en total** para seis unidades y dos facciones.
   técnica. La simulación no cambiaría ni una línea: `src/render/` es lo único
   que habría que tirar (ADR-001).
 
+### DEUDA-015 · La caballería ocupa dos casillas y el orden de dibujo solo mira una
+
+La ficha del caballero fija la caja de sprite en **96×104**: dos casillas de
+ancho, contra las 64×84 de la infantería. El sprite invade la casilla vecina,
+y eso choca con cómo se ordena el dibujo.
+
+`src/render/renderer.ts` ordena por `depth = tx + ty`, un escalar por entidad,
+que es la diagonal isométrica y es lo correcto **mientras cada sprite quepa en
+su casilla**. Un jinete que asoma sobre la casilla de al lado puede quedar
+dibujado debajo de algo que está delante de él, o encima de algo que está
+detrás, según de qué lado se salga.
+
+- **Coste hoy:** ninguno visible. Los marcadores de `atlas.ts` son cubos que
+  caben de sobra en su casilla, así que el fallo no se puede ver hasta que
+  haya arte de caballería horneado.
+- **Riesgo:** que se descubra con el arte hecho y se intente arreglar en el
+  arte —encogiendo el caballo— en vez de en el orden de dibujo, que es donde
+  está.
+- **Disparador:** el primer sprite de caballería en el atlas. No antes: hasta
+  entonces no hay nada que ordenar mal.
+- **Arreglo:** ordenar por la caja del sprite y no por el punto de apoyo. Lo
+  barato es dar a la caballería un `depth` con un pequeño adelanto y probarlo;
+  lo correcto, si eso no basta, es el orden topológico por solapamiento que usa
+  AoE2. La decisión se toma con el sprite delante, no ahora.
